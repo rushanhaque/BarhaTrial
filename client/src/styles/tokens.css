@@ -1,0 +1,178 @@
+/* ============================================================
+   BARHA · Design Tokens (v2)
+   Editorial Luxury with two registers:
+     · Crépuscule (dusk)  — warm noir + bone + gold   [default]
+     · Aube (dawn)        — warm ivory + espresso + gold
+   Theme-dependent values live in [data-theme] blocks; everything
+   structural (type, space, motion) is theme-independent in :root.
+   ============================================================ */
+
+:root {
+  /* ---- Typography ---- */
+  --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
+  --font-sans: 'General Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-mega: clamp(4rem, 17vw, 19rem);
+  --fs-hero: clamp(3rem, 10.5vw, 11rem);
+  --fs-display: clamp(2.5rem, 6.4vw, 5.8rem);
+  --fs-h1: clamp(2.1rem, 4.6vw, 4rem);
+  --fs-h2: clamp(1.75rem, 3.4vw, 2.9rem);
+  --fs-h3: clamp(1.3rem, 2.1vw, 1.85rem);
+  --fs-lead: clamp(1.08rem, 1.5vw, 1.4rem);
+  --fs-body: clamp(1rem, 1.05vw, 1.07rem);
+  --fs-sm: 0.86rem;
+  --fs-xs: 0.76rem;
+  --fs-label: 0.7rem;
+
+  --lh-tight: 0.96;
+  --lh-snug: 1.08;
+  --lh-body: 1.62;
+  --track-label: 0.28em;
+  --track-wide: 0.14em;
+
+  /* ---- Spatial rhythm ---- */
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --container: 1500px;
+  --container-narrow: 920px;
+  --section-y: clamp(5.5rem, 12vw, 12rem);
+  --section-y-lg: clamp(7rem, 16vw, 17rem);
+
+  /* ---- Radii ---- */
+  --r-sm: 0.7rem;
+  --r-md: 1.1rem;
+  --r-lg: 1.7rem;
+  --r-xl: 2.3rem;
+  --r-2xl: 3rem;
+  --r-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --dur-fast: 0.45s;
+  --dur: 0.7s;
+  --dur-slow: 1.05s;
+  --dur-xslow: 1.5s;
+
+  /* ---- Constants across themes ---- */
+  --ink: #020202; /* "ink" stays dark in both registers (curtain, intro) */
+  --gold-grad: linear-gradient(100deg, #7a9fb0 0%, #b2d5e5 38%, #8fb5c7 64%, #608696 100%);
+  --amber: #b2d5e5;
+  --plum: #1a2733;
+  --wine: #2b4555;
+
+  /* ---- Z-index system ---- */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-nav: 70;
+  --z-cursor: 95;
+  --z-overlay: 90;
+  --z-grain: 60;
+  --z-preloader: 100;
+  --z-drawer: 85;
+  --z-toast: 96;
+}
+
+/* ───────────────── Crépuscule · dusk (default) ───────────────── */
+[data-theme='dusk'] {
+  color-scheme: dark;
+
+  --noir: #020202;
+  --noir-1: #050505;
+  --noir-2: #0a0a0a;
+  --noir-3: #121212;
+  --noir-4: #1a1a1a;
+
+  --bone: #f5f5f5;
+  --bone-2: #e0e0e0;
+  --bone-dim: rgba(245, 245, 245, 0.66);
+  --bone-soft: rgba(245, 245, 245, 0.46);
+  --bone-faint: rgba(245, 245, 245, 0.3);
+
+  --line: rgba(245, 245, 245, 0.12);
+  --line-2: rgba(245, 245, 245, 0.2);
+  --line-strong: rgba(245, 245, 245, 0.34);
+
+  --gold: #b2d5e5;
+  --gold-soft: #d1eaf5;
+  --gold-deep: #8ab0c5;
+
+  /* filled / inverted elements (primary buttons) */
+  --inverse-bg: #b2d5e5;
+  --inverse-text: #020202;
+  --on-inverse-tint: rgba(2, 2, 2, 0.1);
+
+  /* surface fills */
+  --tint-1: rgba(178, 213, 229, 0.04);
+  --tint-2: rgba(178, 213, 229, 0.02);
+  --tint-strong: rgba(178, 213, 229, 0.08);
+
+  --glow-hairline: rgba(178, 213, 229, 0.05);
+  --glass-bg: rgba(2, 2, 2, 0.55);
+  --veil: rgba(2, 2, 2, 0.6);
+  --vignette: rgba(2, 2, 2, 0.55);
+
+  --shadow-soft: 0 30px 90px -45px rgba(0, 0, 0, 0.85);
+  --shadow-lift: 0 50px 130px -55px rgba(0, 0, 0, 0.9);
+  --inner-top: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --atmo-dusk: radial-gradient(120% 90% at 50% 0%, rgba(74, 124, 148, 0.22) 0%, rgba(2, 2, 2, 0) 55%);
+  --atmo-ember: radial-gradient(80% 60% at 80% 120%, rgba(178, 213, 229, 0.16) 0%, rgba(2, 2, 2, 0) 60%);
+  --grain-blend: overlay;
+  --grain-opacity: 0.05;
+}
+
+/* ───────────────── Aube · dawn (light) ───────────────── */
+[data-theme='aube'] {
+  color-scheme: light;
+
+  --noir: #f5fafc;
+  --noir-1: #ebf4f8;
+  --noir-2: #e1eef4;
+  --noir-3: #d7e8f0;
+  --noir-4: #cddae3;
+
+  --bone: #020202;
+  --bone-2: #1a1a1a;
+  --bone-dim: rgba(2, 2, 2, 0.72);
+  --bone-soft: rgba(2, 2, 2, 0.52);
+  --bone-faint: rgba(2, 2, 2, 0.34);
+
+  --line: rgba(2, 2, 2, 0.14);
+  --line-2: rgba(2, 2, 2, 0.22);
+  --line-strong: rgba(2, 2, 2, 0.36);
+
+  --gold: #739ead;
+  --gold-soft: #b2d5e5;
+  --gold-deep: #4a7c94;
+
+  --inverse-bg: #020202;
+  --inverse-text: #b2d5e5;
+  --on-inverse-tint: rgba(255, 255, 255, 0.14);
+
+  --tint-1: rgba(2, 2, 2, 0.045);
+  --tint-2: rgba(2, 2, 2, 0.028);
+  --tint-strong: rgba(2, 2, 2, 0.07);
+
+  --glow-hairline: rgba(2, 2, 2, 0.08);
+  --glass-bg: rgba(245, 250, 252, 0.62);
+  --veil: rgba(2, 2, 2, 0.32);
+  --vignette: rgba(2, 2, 2, 0.1);
+
+  --shadow-soft: 0 26px 70px -46px rgba(115, 158, 173, 0.32);
+  --shadow-lift: 0 44px 110px -56px rgba(115, 158, 173, 0.38);
+  --inner-top: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+
+  --atmo-dusk: radial-gradient(120% 90% at 50% 0%, rgba(178, 213, 229, 0.14) 0%, rgba(245, 250, 252, 0) 55%);
+  --atmo-ember: radial-gradient(80% 60% at 80% 120%, rgba(115, 158, 173, 0.12) 0%, rgba(245, 250, 252, 0) 60%);
+  --grain-blend: multiply;
+  --grain-opacity: 0.035;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --track-label: 0.22em;
+    --lh-tight: 1;
+  }
+}

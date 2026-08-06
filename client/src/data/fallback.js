@@ -1,0 +1,12 @@
+// Seed summaries — shown instantly, then hydrated from the API. Also a graceful
+// fallback if the server is unreachable.
+export const fallbackProducts = [
+  { index: 'P-01', slug: 'aurelia-hammered-vase', name: 'Aurelia Hammered Vase', family: 'Vase', signature: true, tagline: 'Timeless hammered brass.', priceUSD: 145, character: ['Monumental', 'Textured', 'Traditional'], year: 2018, moq: 50, chromatic: { from: '#2A2015', via: '#735832', to: '#C59A53', glow: '#E6BC6B' } },
+  { index: 'P-02', slug: 'verona-candle-stand', name: 'Verona Candle Stand', family: 'Decor', tagline: 'A study in contrasts.', priceUSD: 85, character: ['Minimalist', 'Contrasting', 'Heavy'], year: 2021, moq: 100, chromatic: { from: '#111111', via: '#2A2A2A', to: '#B39145', glow: '#D4B260' } },
+  { index: 'P-03', slug: 'solstice-wall-art', name: 'Solstice Wall Art', family: 'Wall Decor', tagline: 'Painted with fire.', priceUSD: 220, character: ['Iridescent', 'Organic', 'Statement'], year: 2022, moq: 20, chromatic: { from: '#1A0E2A', via: '#381C4F', to: '#A4583A', glow: '#D17C45' } },
+  { index: 'P-04', slug: 'marbella-planter', name: 'Marbella Planter', family: 'Garden', tagline: 'Lightweight volume.', priceUSD: 110, character: ['Modern', 'Lightweight', 'Durable'], year: 2019, moq: 150, chromatic: { from: '#F0F0F0', via: '#E0E0E0', to: '#999999', glow: '#FFFFFF' } },
+  { index: 'P-05', slug: 'regent-end-table', name: 'Regent End Table', family: 'Furniture', tagline: 'Industrial heritage.', priceUSD: 185, character: ['Industrial', 'Substantial', 'Raw'], year: 2017, moq: 10, chromatic: { from: '#1A1816', via: '#332921', to: '#5C4431', glow: '#7D5C43' } },
+  { index: 'P-06', slug: 'celeste-serving-bowl', name: 'Celeste Serving Bowl', family: 'Tableware', tagline: 'Food-safe elegance.', priceUSD: 45, character: ['Elegant', 'Contrasting', 'Functional'], year: 2023, moq: 200, chromatic: { from: '#0C1A30', via: '#1E3866', to: '#B3B3B3', glow: '#E6E6E6' } },
+  { index: 'P-07', slug: 'helios-lantern', name: 'Helios Lantern', family: 'Lighting', tagline: 'Guided by brass.', priceUSD: 165, character: ['Architectural', 'Intricate', 'Atmospheric'], year: 2016, moq: 80, chromatic: { from: '#1F1810', via: '#4C3B24', to: '#A68449', glow: '#CCAC6A' } },
+  { index: 'P-08', slug: 'zenith-bookends', name: 'Zenith Bookends', family: 'Decor', tagline: 'Weight and grace.', priceUSD: 130, character: ['Geometric', 'Heavy', 'Contemporary'], year: 2024, moq: 100, chromatic: { from: '#2A2D33', via: '#525760', to: '#A4AAB5', glow: '#C8CDD5' } },
+]

@@ -1,0 +1,17 @@
+{
+  "name": "barha-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Express maison-server for BARHA — serves the olfactory library API.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.5",
+    "cors": "^2.8.5",
+    "express": "^4.21.1"
+  }
+}

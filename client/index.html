@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="dusk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0E0C0B" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- Apply saved theme before first paint (no flash) -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('barha-theme')
+          if (!t) t = 'dusk'
+          document.documentElement.setAttribute('data-theme', t)
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute('content', t === 'aube' ? '#F4EEE2' : '#0E0C0B')
+        } catch (e) {}
+      })()
+    </script>
+
+    <title>BARHA — Haute Parfumerie · The Art of Twilight</title>
+    <meta
+      name="description"
+      content="BARHA — a niche haute parfumerie composed in Grasse. Eight extraits de parfum, built from naturals and absolutes. The art of twilight, worn close to the skin."
+    />
+    <meta property="og:title" content="BARHA — Haute Parfumerie" />
+    <meta property="og:description" content="The art of twilight. Eight compositions, composed in Grasse." />
+    <meta property="og:type" content="website" />
+
+    <!-- Type: Fraunces (variable display serif) + General Sans (grotesque) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-512.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding:4rem;font-family:Georgia,serif;color:#EFE9DD;background:#0E0C0B;min-height:100vh">
+        BARHA is an interactive experience. Please enable JavaScript to enter the maison.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

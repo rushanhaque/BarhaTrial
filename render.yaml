@@ -1,0 +1,13 @@
+# Render.com Blueprint — one Node web service that builds the client
+# and serves it (plus the API) from the Express server.
+services:
+  - type: web
+    name: barha
+    runtime: node
+    plan: free
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
