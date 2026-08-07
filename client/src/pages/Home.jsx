@@ -7,9 +7,11 @@ import { Reveal, Mask, Words } from '../components/Reveal.jsx'
 import MagneticButton from '../components/MagneticButton.jsx'
 import Marquee from '../components/Marquee.jsx'
 import HorizontalLibrary from '../components/HorizontalLibrary.jsx'
+import FoundryProcess from '../components/FoundryProcess.jsx'
 import ChromaticPlate from '../components/ChromaticPlate.jsx'
-import HeroAtmosphere from '../components/HeroAtmosphere.jsx'
+import Beams from '../components/Beams.jsx'
 import RecentlyViewed from '../components/RecentlyViewed.jsx'
+import ShinyText from '../components/ShinyText.jsx'
 import TLink from '../components/TLink.jsx'
 import { ArrowUR, ArrowDown, Drop, Star4, Quote } from '../components/Icons.jsx'
 
@@ -18,8 +20,8 @@ export default function Home({ entered }) {
   const [journal, setJournal] = useState([])
 
   useEffect(() => {
-    get('/api/products').then(setProducts).catch(() => {})
-    get('/api/journal').then((j) => setJournal(j.slice(0, 3))).catch(() => {})
+    get('/api/products').then(setProducts).catch(() => { })
+    get('/api/journal').then((j) => setJournal(j.slice(0, 3))).catch(() => { })
   }, [])
 
   const signature = products.find((p) => p.signature) || products[0]
@@ -44,6 +46,8 @@ export default function Home({ entered }) {
 
       <RecentlyViewed title="Recently viewed items" />
 
+      <FoundryProcess />
+
       <CustomManufacturingBand />
 
       {journal.length > 0 && <JournalTeaser items={journal} />}
@@ -55,9 +59,20 @@ export default function Home({ entered }) {
 function Hero({ entered }) {
   return (
     <section className={`hero hero--centered ${entered ? 'is-entered' : ''}`}>
-      <HeroAtmosphere />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+        <Beams
+          beamWidth={2}
+          beamHeight={15}
+          beamNumber={12}
+          lightColor="#85e0ff"
+          speed={2}
+          noiseIntensity={1.75}
+          scale={0.2}
+          rotation={30}
+        />
+      </div>
 
-      <div className="hero__center-wrap">
+      <div className="hero__center-wrap" style={{ position: 'relative', zIndex: 1 }}>
         <h1 className="hero__brand-title">
           Barira Handicrafts
         </h1>
@@ -74,7 +89,7 @@ function Hero({ entered }) {
 /* ──────────────────────── Manifesto + stats ─────────────────────── */
 function Manifesto() {
   return (
-    <section className="section manifesto">
+    <section className="section section--flush-top manifesto">
       <div className="container">
         <Reveal className="manifesto__eyebrow">
           <span className="eyebrow">The Factory</span>
@@ -87,8 +102,8 @@ function Manifesto() {
         />
         <div className="manifesto__row">
           <Reveal as="p" className="manifesto__body muted" delay={1}>
-            Barira Handicrafts was founded with a single coal-fired brass furnace in Moradabad. 
-            Today, every piece is still finished by hand, utilizing techniques passed down through 
+            Barira Handicrafts was founded with a single coal-fired brass furnace in Moradabad.
+            Today, every piece is still finished by hand, utilizing techniques passed down through
             generations of master artisans.
           </Reveal>
           <div className="manifesto__stats">
@@ -124,16 +139,22 @@ function Signature({ product }) {
       <div className="container signature__grid">
         <div className="signature__visual">
           <div ref={plate} className="signature__plate-wrap">
-            <ChromaticPlate chromatic={product.chromatic} ratio="4 / 5" className="signature__plate">
-              <span className="signature__plate-index">{product.index}</span>
-            </ChromaticPlate>
+            <div style={{ position: 'relative' }}>
+              <img 
+                src={product.image} 
+                alt={product.name} 
+                className="signature__img" 
+              />
+            </div>
           </div>
         </div>
 
         <div className="signature__body">
           <span className="eyebrow">Featured Product</span>
           <h2 className="signature__name">
-            <Mask block i={0}>{product.name}</Mask>
+            <Mask block i={0}>
+              <ShinyText text={product.name} speed={3} color="var(--bone)" shineColor="#85e0ff" />
+            </Mask>
           </h2>
           <Reveal as="p" className="signature__fam gold" delay={1}>
             {product.family} · Premium Handicraft
@@ -179,13 +200,13 @@ function Philosophy() {
         </div>
         <div className="philosophy__text">
           <Reveal as="p" className="lead" delay={0}>
-            Instead of simply photographing a silhouette, we assign every piece a 
-            <em> chromatic signature</em> — a single living color gradient, drawn directly from 
+            Instead of simply photographing a silhouette, we assign every piece a
+            <em> chromatic signature</em> — a single living color gradient, drawn directly from
             its thermal oxidation, patina, or polished finish.
           </Reveal>
           <Reveal as="p" className="muted philosophy__p" delay={1}>
-            It is how we ask you to understand our materials: through light and heat. 
-            The golden warmth of the Aurelia Brass. The deep iridescence of flame-oxidized Copper. 
+            It is how we ask you to understand our materials: through light and heat.
+            The golden warmth of the Aurelia Brass. The deep iridescence of flame-oxidized Copper.
             The stark, cold shadow of matte iron. The finish is the only honest portrait of the metal.
           </Reveal>
 

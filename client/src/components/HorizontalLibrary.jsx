@@ -55,6 +55,7 @@ export default function HorizontalLibrary({ items = [] }) {
       data-cursor-label="View"
     >
       <ChromaticPlate chromatic={f.chromatic} ratio="4 / 5" className="hcard__plate">
+        {f.image && <img src={f.image} alt={f.name} className="hcard__img" />}
         <span className="hcard__index">{f.index}</span>
         {f.signature && <span className="hcard__sig">Signature</span>}
       </ChromaticPlate>
