@@ -237,7 +237,7 @@
 
 .home-marquee {
   border-block: 1px solid var(--line);
-  padding-block: clamp(0.3rem, 0.8vw, 0.6rem);
+  padding-block: clamp(0.1rem, 0.4vw, 0.3rem);
   color: var(--bone);
 }
 
@@ -311,7 +311,7 @@
 .foundry-process__accordion {
   display: flex;
   width: 100%;
-  height: clamp(420px, 58vh, 620px);
+  height: clamp(520px, 68vh, 750px);
   gap: 1rem;
   padding: 0 clamp(1rem, 4vw, 4rem);
 }
@@ -335,18 +335,18 @@
 .foundry-panel__img {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max(50vw, 100%);
   height: 100%;
   object-fit: cover;
   z-index: 1;
-  transition: transform 0.7s var(--ease-spring), filter 0.7s var(--ease-smooth);
+  transition: filter 0.7s var(--ease-smooth);
   filter: grayscale(100%) sepia(100%) hue-rotate(175deg) saturate(150%) brightness(0.75);
 }
 
 .foundry-panel.is-active .foundry-panel__img {
   filter: grayscale(0%) sepia(0%) hue-rotate(0deg) saturate(100%) brightness(0.95);
-  transform: scale(1.05);
 }
 
 .foundry-panel__overlay {
@@ -621,26 +621,122 @@
 .signature__cta { margin-top: 2.4rem; }
 
 /* ====================================================================
-   HOME · Philosophy
+   HOME · Alchemy of Metal (Interactive)
    ==================================================================== */
-.philosophy__grid {
+.section.alchemy {
+  padding-block: clamp(2.5rem, 4vw, 3.5rem);
+}
+.alchemy__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.8rem;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
+}
+.alchemy__head .eyebrow {
+  margin-bottom: 0;
+}
+.alchemy__tabs {
+  display: flex;
+  gap: 2rem;
+}
+.alchemy__tab {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  padding-bottom: 0.5rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.alchemy__tab:hover {
+  color: var(--bone);
+}
+.alchemy__tab.is-active {
+  color: var(--gold);
+}
+.alchemy__tab::after {
+  content: '';
+  position: absolute;
+  bottom: -0.8rem; /* align with border-bottom of head */
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.alchemy__tab.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.alchemy__layout {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: clamp(2rem, 6vw, 6rem);
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
 }
-.philosophy__title { font-size: var(--fs-h1); line-height: 1; }
-.philosophy__head .eyebrow { margin-bottom: 1.6rem; }
-.philosophy__text .lead em { font-style: italic; color: var(--bone); }
-.philosophy__p { margin-top: 1.6rem; max-width: 50ch; }
-.philosophy__quote {
-  margin-top: 3rem;
-  padding: 2rem 2.2rem;
-  border-left: 1px solid var(--gold-deep);
-  background: linear-gradient(90deg, rgba(201, 162, 75, 0.05), transparent);
+.alchemy__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
 }
-.philosophy__quote-mark { width: 2rem; color: var(--gold); opacity: 0.5; margin-bottom: 1rem; }
-.philosophy__quote p { font-size: 1.5rem; line-height: 1.35; font-weight: 350; }
-.philosophy__quote cite { display: block; margin-top: 1.2rem; font-style: normal; font-size: var(--fs-sm); color: var(--bone-soft); }
+.alchemy__item {
+  text-align: left;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line-2);
+  transition: opacity 0.3s ease;
+  opacity: 0.5;
+}
+.alchemy__item:hover, .alchemy__item.is-active {
+  opacity: 1;
+}
+.alchemy__item-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 320;
+  line-height: 1.1;
+  color: var(--bone);
+  transition: color 0.3s ease;
+}
+.alchemy__item.is-active .alchemy__item-name {
+  color: var(--gold);
+}
+.alchemy__item-sub {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+
+.alchemy__visual {
+  position: relative;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+.alchemy__visual-inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.alchemy__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.6s ease;
+  animation: fade-in-image 0.6s ease forwards;
+}
+@keyframes fade-in-image {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
 /* ====================================================================
    HOME · Atelier band
@@ -1091,7 +1187,7 @@
 .field textarea { resize: vertical; min-height: 7rem; }
 .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--gold-deep); background: var(--tint-1); }
 .field input::placeholder, .field textarea::placeholder { color: var(--bone-soft); }
-.field select { appearance: none; cursor: none; }
+.field select { appearance: none; cursor: pointer; }
 .contact__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
 .contact__submit { margin-top: 0.8rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
 .contact__error { font-size: var(--fs-sm); color: #d98a6a; }
@@ -1130,6 +1226,7 @@
   .hero__visual { max-width: 360px; }
   .manifesto__row,
   .signature__grid,
+  .alchemy__layout,
   .philosophy__grid,
   .fragrance__main,
   .maison__manifest-grid,
@@ -1139,6 +1236,9 @@
   .fragrance__related-grid,
   .maison__people-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .signature__grid { gap: 2.5rem; }
+  
+  .alchemy__desc-mobile { display: block; }
+  .alchemy__desc-desktop { display: none; }
 }
 
 @media (max-width: 768px) {

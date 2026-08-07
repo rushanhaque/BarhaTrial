@@ -5,31 +5,31 @@ const steps = [
     id: 'mold',
     title: 'The Sand Mold',
     desc: 'Each piece begins as an impression in tightly packed, fine black sand, a technique unchanged for centuries.',
-    image: '/images/foundry_mold_1786112463927.png',
+    image: '/images/foundry_sand_mold.png',
   },
   {
     id: 'pour',
     title: 'The Pour',
     desc: 'Molten brass, superheated to 1000°C, is poured by hand into the molds, taking on its first raw form.',
-    image: '/images/custom_manufacturing_1786111894438.png',
+    image: '/images/foundry_pour.png',
   },
   {
     id: 'hammer',
     title: 'The Forging',
     desc: 'The cooled metal is meticulously hammered and shaped by master artisans to build character and strength.',
-    image: '/images/copper_kitchenware_1786111864918.png',
+    image: '/images/foundry_forging.png',
   },
   {
     id: 'polish',
     title: 'The Refinement',
     desc: 'Hours on the buffing wheel reveal the true luster of the metal, finishing the piece to mirror-like perfection.',
-    image: '/images/brass_vase_1786110030941.png',
+    image: '/images/foundry_refinement.png',
   },
   {
     id: 'patina',
     title: 'The Patina',
     desc: 'Specialized techniques and natural oxidation are applied by hand to give each piece its distinct, antique character.',
-    image: '/images/wall_art_1786110054305.png',
+    image: '/images/foundry_patina.png',
   },
 ]
 
@@ -41,8 +41,7 @@ export default function FoundryProcess() {
       <div className="container foundry-process__head">
         <span className="eyebrow">The Foundry Process</span>
         <h2 className="foundry-process__title">
-          From earth and fire, <br />
-          <span className="italic gold">to timeless form</span>.
+          From earth and fire, <span className="italic gold">to timeless form</span>.
         </h2>
       </div>
 

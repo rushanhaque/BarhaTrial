@@ -8,7 +8,6 @@ import { WardrobeProvider } from './lib/wardrobe.jsx'
 import { SearchProvider } from './lib/search.jsx'
 
 import Grain from './components/Grain.jsx'
-import Cursor from './components/Cursor.jsx'
 import Preloader from './components/Preloader.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
@@ -72,7 +71,6 @@ export default function App() {
             <WardrobeProvider>
               <SearchProvider>
                 <Grain />
-                <Cursor />
                 <ScrollProgress />
                 <Preloader onDone={() => setEntered(true)} />
                 <Navbar />

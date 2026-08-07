@@ -1,0 +1,214 @@
+.spec-wall {
+  position: relative;
+  background: var(--noir);
+  /* 600vh for 6 sections to allow scrolling */
+  height: 600vh;
+}
+
+.spec-wall__sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
+
+/* Background images that crossfade */
+.spec-wall__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Dark overlay to make text readable */
+  box-shadow: inset 0 0 0 2000px rgba(10, 10, 12, 0.7);
+}
+
+.spec-wall__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  align-items: center;
+  height: 100%;
+}
+
+.spec-wall__left {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding-right: 2rem;
+  padding-top: 4rem; /* Buffer for navbar */
+  height: auto;
+  align-self: center;
+}
+
+.spec-wall__title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+}
+
+.spec-wall__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.spec-wall__num {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vh, 3rem);
+  color: rgba(255, 255, 255, 0.15);
+  transition: color 0.4s var(--ease-smooth), transform 0.4s var(--ease-out-expo);
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spec-wall__num.is-active {
+  color: var(--bone);
+  transform: translateX(10px);
+}
+
+.spec-wall__num-line {
+  height: 1px;
+  background: var(--gold);
+  width: 0;
+  transition: width 0.4s var(--ease-out-expo);
+}
+
+.spec-wall__num.is-active .spec-wall__num-line {
+  width: 40px;
+}
+
+.spec-wall__right {
+  flex: 1;
+  padding-left: clamp(2rem, 6vw, 6rem);
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: auto;
+  align-self: center;
+}
+
+.spec-wall__panel {
+  position: absolute;
+  top: 50%;
+  left: clamp(2rem, 6vw, 6rem);
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.spec-wall__panel-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--bone);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.spec-wall__stats {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 2.5rem;
+}
+
+.spec-wall__points {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-size: 1.2rem;
+  color: var(--bone-dim);
+}
+
+.spec-wall__point {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spec-wall__point::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-deep);
+}
+
+@media (max-width: 960px) {
+  .spec-wall__content {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+  }
+  
+  .spec-wall__left {
+    flex: none;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    align-items: flex-start;
+  }
+  
+  .spec-wall__nav {
+    flex-direction: row;
+    gap: 1rem;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+  
+  .spec-wall__num {
+    font-size: 2rem;
+  }
+  
+  .spec-wall__num.is-active {
+    transform: translateY(-5px);
+  }
+  
+  .spec-wall__num-line {
+    display: none;
+  }
+  
+  .spec-wall__right {
+    flex: none;
+    padding-left: 0;
+    width: 100%;
+    height: auto;
+  }
+  
+  .spec-wall__panel {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+  
+  .spec-wall__panel-title {
+    font-size: 2.2rem;
+  }
+}

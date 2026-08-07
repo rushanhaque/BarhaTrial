@@ -733,14 +733,16 @@ html.menu-open {
   /* Prevent wrapping */
   line-height: 0.82;
   letter-spacing: -0.02em;
-  color: transparent;
+  color: var(--ink);
   -webkit-text-stroke: 1px var(--line-2);
+  paint-order: stroke fill;
   padding: clamp(1rem, 3vw, 3rem) 0;
-  transition: -webkit-text-stroke-color 0.6s, color 0.8s var(--ease-smooth);
+  transition: -webkit-text-stroke-width 0.4s var(--ease-out-expo), -webkit-text-stroke-color 0.6s, color 0.8s var(--ease-smooth);
 }
 
 .footer__wordmark:hover {
   color: rgba(201, 162, 75, 0.06);
+  -webkit-text-stroke-width: 1.8px;
   -webkit-text-stroke-color: var(--gold-deep);
 }
 

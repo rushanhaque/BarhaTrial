@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { get } from '../lib/api.js'
 import { fallbackProducts } from '../data/fallback.js'
-import { useParallax, useReveal, useCounter, useTilt } from '../lib/hooks.js'
+import { useParallax, useReveal, useCounter } from '../lib/hooks.js'
 
 import { Reveal, Mask, Words } from '../components/Reveal.jsx'
-import MagneticButton from '../components/MagneticButton.jsx'
+import WhyChooseBarira from '../components/WhyChooseBarira.jsx'
 import Marquee from '../components/Marquee.jsx'
 import HorizontalLibrary from '../components/HorizontalLibrary.jsx'
 import FoundryProcess from '../components/FoundryProcess.jsx'
@@ -57,13 +57,13 @@ export default function Home({ entered }) {
 
       {signature && <Signature product={signature} />}
 
-      <Philosophy />
+      <FoundryProcess />
+
+      <AlchemyOfMetal />
 
       <RecentlyViewed title="Recently viewed items" />
 
-      <FoundryProcess />
-
-      <CustomManufacturingBand />
+      <WhyChooseBarira />
 
       {journal.length > 0 && <JournalTeaser items={journal} />}
     </>
@@ -153,6 +153,7 @@ function Signature({ product }) {
     <section className="section signature">
       <div className="container signature__grid">
         <div className="signature__visual">
+          <span className="eyebrow" style={{ display: 'flex', marginBottom: '2.5rem' }}>Featured Product</span>
           <div ref={plate} className="signature__plate-wrap">
             <div style={{ position: 'relative' }}>
               <img
@@ -165,7 +166,6 @@ function Signature({ product }) {
         </div>
 
         <div className="signature__body">
-          <span className="eyebrow">Featured Product</span>
           <h2 className="signature__name">
             <Mask block i={0}>
               <ShinyText text={product.name} speed={3} color="var(--bone)" shineColor="#85e0ff" />
@@ -192,7 +192,12 @@ function Signature({ product }) {
           </ul>
 
           <div className="signature__cta">
-            <MagneticButton to={`/product/${product.slug}`} variant="gold" label={`View Details`} />
+            <TLink to={`/product/${product.slug}`} className="btn btn--gold btn--shine">
+              View Details
+              <div className="btn__icon">
+                <ArrowUR />
+              </div>
+            </TLink>
           </div>
         </div>
       </div>
@@ -200,78 +205,124 @@ function Signature({ product }) {
   )
 }
 
-/* ──────────────────────── Philosophy / chromatic concept ─────────────────────── */
-function Philosophy() {
-  const quoteRef = useReveal()
-  return (
-    <section className="section philosophy">
-      <div className="container philosophy__grid">
-        <div className="philosophy__head">
-          <span className="eyebrow">The Alchemy of Metal</span>
-          <h2 className="philosophy__title">
-            <Mask block i={0}>A form has no color</Mask>
-            <Mask block i={1}>until it meets the <span className="italic gold">fire</span>.</Mask>
-          </h2>
-        </div>
-        <div className="philosophy__text">
-          <Reveal as="p" className="lead" delay={0}>
-            Instead of simply photographing a silhouette, we assign every piece a
-            <em> chromatic signature</em> — a single living color gradient, drawn directly from
-            its thermal oxidation, patina, or polished finish.
-          </Reveal>
-          <Reveal as="p" className="muted philosophy__p" delay={1}>
-            It is how we ask you to understand our materials: through light and heat.
-            The golden warmth of the Aurelia Brass. The deep iridescence of flame-oxidized Copper.
-            The stark, cold shadow of matte iron. The finish is the only honest portrait of the metal.
-          </Reveal>
-
-          <blockquote className="philosophy__quote reveal" ref={quoteRef}>
-            <Quote className="philosophy__quote-mark" />
-            <p className="serif">
-              “True craftsmanship leaves a mark. Whether it's the strike of a hammer or the wash of a flame, the metal remembers.”
-            </p>
-            <cite>— Tariq Hussain, Founder</cite>
-          </blockquote>
-        </div>
-      </div>
-    </section>
-  )
+/* ──────────────────────── Alchemy of Metal ─────────────────────── */
+const ALCHEMY_DATA = {
+  material: [
+    {
+      id: 'brass',
+      name: 'BRASS',
+      subtitle: 'Warm · Golden · Substantial',
+      desc: 'Pure brass with a naturally rich golden character, chosen for its weight, warmth, and ability to develop depth over time.',
+      image: '/images/brass_macro.png'
+    },
+    {
+      id: 'copper',
+      name: 'COPPER',
+      subtitle: 'Reactive · Living · Evolving',
+      desc: 'A dynamic metal that oxidizes and ages beautifully with exposure, offering an unparalleled living finish.',
+      image: '/images/copper_macro.png'
+    },
+    {
+      id: 'cast-iron',
+      name: 'CAST IRON',
+      subtitle: 'Dense · Raw · Powerful',
+      desc: 'Forged for permanence, our cast iron pieces carry the brutalist weight and textured rawness of the foundry.',
+      image: '/images/cast_iron_macro_2.jpg'
+    }
+  ],
+  finish: [
+    {
+      id: 'polished',
+      name: 'POLISHED',
+      subtitle: 'Reflective · Clean · Luminous',
+      desc: 'Hand-buffed to a mirror shine, reflecting ambient light and highlighting the pristine surface of the metal.',
+      image: '/images/polished_macro.jpg'
+    },
+    {
+      id: 'hammered',
+      name: 'HAMMERED',
+      subtitle: 'Textured · Tactile · Handmade',
+      desc: 'Struck repeatedly by master artisans to create a faceted, textured surface that scatters light beautifully.',
+      image: '/images/hammered_macro.jpg'
+    },
+    {
+      id: 'oxidized',
+      name: 'OXIDIZED',
+      subtitle: 'Deep · Iridescent · Atmospheric',
+      desc: 'A chemical or thermal patina applied to the surface to darken the metal, creating dramatic contrast and depth.',
+      image: '/images/oxidized_macro.jpg'
+    }
+  ]
 }
 
-/* ──────────────────────── Custom Orders CTA band ─────────────────────── */
-function CustomManufacturingBand() {
-  const ref = useReveal()
+function AlchemyOfMetal() {
+  const [activeTab, setActiveTab] = useState('material')
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const activeCategory = ALCHEMY_DATA[activeTab]
+  const activeItem = activeCategory[activeIndex]
+
+  const handleTab = (tab) => {
+    setActiveTab(tab)
+    setActiveIndex(0)
+  }
+
   return (
-    <section className="section atelier-band">
+    <section className="section alchemy">
       <div className="container">
-        <BorderGlow
-          edgeSensitivity={35}
-          glowColor="195 100 65"
-          backgroundColor="rgba(15, 15, 22, 0.9)"
-          borderRadius={24}
-          glowRadius={40}
-          glowIntensity={1.3}
-          coneSpread={30}
-          animated={true}
-          colors={['#00f2fe', '#00d2ff', '#38bdf8']}
-        >
-          <div className="atelier-band__inner reveal" ref={ref}>
-            <div className="atelier-band__content">
-              <span className="eyebrow eyebrow--bare">Bespoke Production</span>
-              <h2 className="atelier-band__title">
-                Let the factory build <span className="italic gold">your</span> vision.
-              </h2>
-              <p className="lead muted">
-                Submit your materials, finishes, and design requirements for a rapid B2B prototyping consultation. No intermediaries, direct to manufacture.
-              </p>
-              <MagneticButton to="/custom-orders" variant="primary" label="Inquire for Custom Manufacturing" />
+        <div className="alchemy__head">
+          <span className="eyebrow">The Alchemy of Metal</span>
+          <div className="alchemy__tabs">
+            <button 
+              className={`alchemy__tab ${activeTab === 'material' ? 'is-active' : ''}`}
+              onClick={() => handleTab('material')}
+            >
+              MATERIAL
+            </button>
+            <button 
+              className={`alchemy__tab ${activeTab === 'finish' ? 'is-active' : ''}`}
+              onClick={() => handleTab('finish')}
+            >
+              FINISH
+            </button>
+          </div>
+        </div>
+
+        <div className="alchemy__layout">
+          <div className="alchemy__list">
+            {activeCategory.map((item, idx) => {
+              const isActive = activeIndex === idx
+              return (
+                <button 
+                  key={item.id} 
+                  className={`alchemy__item ${isActive ? 'is-active' : ''}`}
+                  onClick={() => setActiveIndex(idx)}
+                  onMouseEnter={() => setActiveIndex(idx)}
+                >
+                  <h3 className="alchemy__item-name">{item.name}</h3>
+                  <p className="alchemy__item-sub gold">{item.subtitle}</p>
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="alchemy__visual">
+            <div className="alchemy__visual-inner">
+              <img 
+                key={activeItem.id} /* force re-render for css transition */
+                src={activeItem.image} 
+                alt={activeItem.name} 
+                className="alchemy__img"
+              />
             </div>
           </div>
-        </BorderGlow>
+        </div>
       </div>
     </section>
   )
 }
+
+
 
 /* ──────────────────────── Journal teaser ─────────────────────── */
 function JournalTeaser({ items }) {

@@ -4,7 +4,8 @@ import { useScroll } from '../lib/SmoothScroll.jsx'
 import TLink from './TLink.jsx'
 import MagneticButton from './MagneticButton.jsx'
 import { Reveal, Mask } from './Reveal.jsx'
-import { ArrowUR, ArrowRight, Drop } from './Icons.jsx'
+import { ArrowUR, Drop, ArrowRight } from './Icons.jsx'
+import BorderGlow from './ui/BorderGlow.jsx'
 
 const COLS = [
   {
@@ -73,20 +74,32 @@ export default function Footer() {
           </div>
 
           <form className="footer__form" onSubmit={subscribe}>
-            <div className="footer__field">
-              <Drop className="footer__field-icon" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                aria-label="Email address"
-                required
-              />
-              <button className="footer__submit" type="submit" data-cursor aria-label="Subscribe">
-                <ArrowRight />
-              </button>
-            </div>
+            <BorderGlow
+              edgeSensitivity={30}
+              glowColor="40 80 80"
+              backgroundColor="var(--ink)"
+              borderRadius={100}
+              glowRadius={40}
+              glowIntensity={1.0}
+              coneSpread={25}
+              animated={false}
+              colors={['#00f2fe', '#00d2ff', '#38bdf8']}
+            >
+              <div className="footer__field" style={{ border: 'none' }}>
+                <Drop className="footer__field-icon" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Your email address"
+                  aria-label="Email address"
+                  required
+                />
+                <button className="footer__submit" type="submit" data-cursor aria-label="Subscribe">
+                  <ArrowRight />
+                </button>
+              </div>
+            </BorderGlow>
             <p className={`footer__status footer__status--${status.state}`}>
               {status.state === 'loading' ? 'One moment…' : status.msg || ' '}
             </p>
@@ -111,7 +124,12 @@ export default function Footer() {
           <div className="footer__col footer__col--cta">
             <span className="footer__col-title">Bespoke Production</span>
             <p className="muted">Request a bespoke manufacturing quote for your next collection.</p>
-            <MagneticButton to="/custom-orders" variant="ghost" label="Custom Manufacturing" sm />
+            <TLink to="/custom-orders" className="btn btn--ghost btn--sm btn--shine">
+              Custom Manufacturing
+              <div className="btn__icon">
+                <ArrowUR />
+              </div>
+            </TLink>
           </div>
         </div>
       </div>

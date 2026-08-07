@@ -41,13 +41,7 @@ export default function Marquee({ items = [], dir = 'normal', duration = 38, cla
                 {isGhost ? (
                   <span className="ghost-shiny-text">{it}</span>
                 ) : (
-                  <ShinyText
-                    text={it}
-                    color="#ffffff"
-                    shineColor="#00f2fe"
-                    speed={2.5}
-                    spread={120}
-                  />
+                  <span>{it}</span>
                 )}
                 <span className="dot" />
               </span>
