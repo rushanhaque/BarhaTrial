@@ -34,10 +34,10 @@ const steps = [
 ]
 
 export default function FoundryProcess() {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(null)
 
   return (
-    <section className="foundry-process section">
+    <section className="foundry-process">
       <div className="container foundry-process__head">
         <span className="eyebrow">The Foundry Process</span>
         <h2 className="foundry-process__title">
@@ -46,7 +46,7 @@ export default function FoundryProcess() {
         </h2>
       </div>
 
-      <div className="foundry-process__accordion">
+      <div className="foundry-process__accordion" onMouseLeave={() => setActive(null)}>
         {steps.map((step, idx) => {
           const isActive = active === idx
           return (

@@ -5,6 +5,15 @@
 .rw--block { display: block; }
 .page { padding-top: 0; }
 
+.home-dotted-bg {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
 /* ---------- Shared page header ---------- */
 .pagehead {
   padding-top: clamp(8.5rem, 17vh, 13rem);
@@ -43,6 +52,8 @@
    ==================================================================== */
 .hero {
   position: relative;
+  z-index: 2;
+  background: var(--noir);
   min-height: 100dvh;
   display: flex;
   align-items: center;
@@ -284,23 +295,23 @@
    HOME · Foundry Process
    ==================================================================== */
 .foundry-process {
-  padding-block: clamp(3rem, 6vh, 6rem);
+  padding-block: clamp(2.5rem, 5vh, 4rem);
 }
 
 .foundry-process__head {
-  margin-bottom: clamp(2rem, 4vh, 4rem);
+  margin-bottom: clamp(1.2rem, 2.5vh, 2rem);
 }
 
 .foundry-process__title {
   font-size: var(--fs-h2);
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   line-height: 1.04;
 }
 
 .foundry-process__accordion {
   display: flex;
   width: 100%;
-  height: clamp(500px, 70vh, 800px);
+  height: clamp(420px, 58vh, 620px);
   gap: 1rem;
   padding: 0 clamp(1rem, 4vw, 4rem);
 }
@@ -423,28 +434,38 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(2rem, 4vh, 3.5rem);
-  padding-block: clamp(5rem, 10vh, 7rem);
+  gap: clamp(1rem, 2.5vh, 2rem);
+  padding-block: clamp(2rem, 4vh, 3.5rem);
 }
 .hlib__title {
   font-size: var(--fs-h2);
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   line-height: 1.04;
 }
 .hlib__viewport { overflow: hidden; }
 .hlib__track {
   display: flex;
-  gap: clamp(1.5rem, 2.5vw, 2.8rem);
-  padding-inline: var(--gutter);
+  gap: clamp(1.2rem, 2vw, 2.2rem);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   width: max-content;
   will-change: transform;
 }
 .hcard {
-  width: clamp(250px, 28vw, 380px);
+  width: calc((var(--vp-width, 100vw) - var(--gutter) - (2 * clamp(1.2rem, 2vw, 2.2rem))) / 3 - 1px);
   flex-shrink: 0;
   display: block;
 }
-.hcard__plate { position: relative; }
+
+@media (max-width: 880px) {
+  .hcard {
+    width: clamp(240px, 75vw, 320px);
+  }
+}
+.hcard__plate {
+  position: relative;
+  max-height: clamp(200px, 38vh, 360px);
+}
 
 .hcard__img {
   position: absolute;
@@ -483,7 +504,7 @@
   border-radius: var(--r-pill);
   padding: 0.25rem 0.7rem;
 }
-.hcard__meta { padding-top: 1.2rem; }
+.hcard__meta { padding-top: 0.8rem; }
 .hcard__family,
 .fcard__family-tag {
   font-size: var(--fs-label);
@@ -491,13 +512,13 @@
   letter-spacing: var(--track-wide);
   color: var(--gold);
 }
-.hcard__name { font-size: 1.8rem; margin: 0.4rem 0 0.3rem; }
+.hcard__name { font-size: clamp(1.3rem, 1.5vw, 1.6rem); margin: 0.2rem 0 0.2rem; }
 .hcard__tag { font-size: var(--fs-sm); display: block; }
 .hcard__cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.9rem;
+  margin-top: 0.5rem;
   font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: var(--track-wide);

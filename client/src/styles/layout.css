@@ -292,7 +292,22 @@
 }
 .marquee__item--ghost {
   color: transparent;
-  -webkit-text-stroke: 1px var(--line-strong);
+}
+.ghost-shiny-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+  animation: strokeShimmer 3.2s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes strokeShimmer {
+  0%, 100% {
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.75);
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  50% {
+    -webkit-text-stroke-color: #00f2fe;
+    filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.9));
+  }
 }
 @keyframes marquee {
   to {

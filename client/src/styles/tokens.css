@@ -34,8 +34,8 @@
   --gutter: clamp(1.25rem, 5vw, 5rem);
   --container: 1500px;
   --container-narrow: 920px;
-  --section-y: clamp(5.5rem, 12vw, 12rem);
-  --section-y-lg: clamp(7rem, 16vw, 17rem);
+  --section-y: clamp(3.2rem, 6vw, 5.5rem);
+  --section-y-lg: clamp(4rem, 8vw, 7rem);
 
   /* ---- Radii ---- */
   --r-sm: 0.7rem;
@@ -56,7 +56,8 @@
   --dur-xslow: 1.5s;
 
   /* ---- Constants across themes ---- */
-  --ink: #020202; /* "ink" stays dark in both registers (curtain, intro) */
+  --ink: #020202;
+  /* "ink" stays dark in both registers (curtain, intro) */
   --gold-grad: linear-gradient(100deg, #7a9fb0 0%, #b2d5e5 38%, #8fb5c7 64%, #608696 100%);
   --amber: #b2d5e5;
   --plum: #1a2733;

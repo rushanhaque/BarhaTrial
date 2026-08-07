@@ -15,6 +15,9 @@ import ShinyText from '../components/ShinyText.jsx'
 import TLink from '../components/TLink.jsx'
 import { ArrowUR, ArrowDown, Drop, Star4, Quote } from '../components/Icons.jsx'
 
+import { DottedGlowBackground } from '../components/ui/dotted-glow-background.jsx'
+import BorderGlow from '../components/ui/BorderGlow.jsx'
+
 export default function Home({ entered }) {
   const [products, setProducts] = useState(fallbackProducts)
   const [journal, setJournal] = useState([])
@@ -28,6 +31,18 @@ export default function Home({ entered }) {
 
   return (
     <>
+      <DottedGlowBackground
+        className="home-dotted-bg"
+        gap={18}
+        radius={1.4}
+        color="rgba(56, 189, 248, 0.22)"
+        glowColor="rgba(0, 242, 254, 0.35)"
+        opacity={0.32}
+        speedMin={0.3}
+        speedMax={1.0}
+        speedScale={1}
+      />
+
       <Hero entered={entered} />
 
       <Marquee
@@ -140,10 +155,10 @@ function Signature({ product }) {
         <div className="signature__visual">
           <div ref={plate} className="signature__plate-wrap">
             <div style={{ position: 'relative' }}>
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="signature__img" 
+              <img
+                src={product.image}
+                alt={product.name}
+                className="signature__img"
               />
             </div>
           </div>
@@ -229,19 +244,30 @@ function CustomManufacturingBand() {
   return (
     <section className="section atelier-band">
       <div className="container">
-        <div className="atelier-band__inner reveal" ref={ref}>
-          <div className="atelier-band__glow" aria-hidden="true" />
-          <div className="atelier-band__content">
-            <span className="eyebrow eyebrow--bare">Bespoke Production</span>
-            <h2 className="atelier-band__title">
-              Let the factory build <span className="italic gold">your</span> vision.
-            </h2>
-            <p className="lead muted">
-              Submit your materials, finishes, and design requirements for a rapid B2B prototyping consultation. No intermediaries, direct to manufacture.
-            </p>
-            <MagneticButton to="/custom-orders" variant="primary" label="Inquire for Custom Manufacturing" />
+        <BorderGlow
+          edgeSensitivity={35}
+          glowColor="195 100 65"
+          backgroundColor="rgba(15, 15, 22, 0.9)"
+          borderRadius={24}
+          glowRadius={40}
+          glowIntensity={1.3}
+          coneSpread={30}
+          animated={true}
+          colors={['#00f2fe', '#00d2ff', '#38bdf8']}
+        >
+          <div className="atelier-band__inner reveal" ref={ref}>
+            <div className="atelier-band__content">
+              <span className="eyebrow eyebrow--bare">Bespoke Production</span>
+              <h2 className="atelier-band__title">
+                Let the factory build <span className="italic gold">your</span> vision.
+              </h2>
+              <p className="lead muted">
+                Submit your materials, finishes, and design requirements for a rapid B2B prototyping consultation. No intermediaries, direct to manufacture.
+              </p>
+              <MagneticButton to="/custom-orders" variant="primary" label="Inquire for Custom Manufacturing" />
+            </div>
           </div>
-        </div>
+        </BorderGlow>
       </div>
     </section>
   )

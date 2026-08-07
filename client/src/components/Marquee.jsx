@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { useVelocity } from '../lib/hooks.js'
+import ShinyText from './ShinyText.jsx'
 
 /**
  * Infinite marquee that skews with scroll velocity for a kinetic, hand-built feel.
@@ -33,12 +34,25 @@ export default function Marquee({ items = [], dir = 'normal', duration = 38, cla
     <div className={`marquee ${className}`}>
       <div className="marquee__sk" ref={skRef}>
         <div className="marquee__track" style={{ '--marq-dur': `${duration}s`, '--marq-dir': dir }}>
-          {seq.map((it, i) => (
-            <span className={`marquee__item ${i % 2 ? 'marquee__item--ghost' : ''}`} key={i}>
-              {it}
-              <span className="dot" />
-            </span>
-          ))}
+          {seq.map((it, i) => {
+            const isGhost = i % 2 !== 0
+            return (
+              <span className={`marquee__item ${isGhost ? 'marquee__item--ghost' : ''}`} key={i}>
+                {isGhost ? (
+                  <span className="ghost-shiny-text">{it}</span>
+                ) : (
+                  <ShinyText
+                    text={it}
+                    color="#ffffff"
+                    shineColor="#00f2fe"
+                    speed={2.5}
+                    spread={120}
+                  />
+                )}
+                <span className="dot" />
+              </span>
+            )
+          })}
         </div>
       </div>
     </div>

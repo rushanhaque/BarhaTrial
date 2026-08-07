@@ -23,8 +23,10 @@ export default function HorizontalLibrary({ items = [] }) {
       const sec = sectionRef.current
       const track = trackRef.current
       if (!sec || !track) return
+      const vpWidth = sec.clientWidth || window.innerWidth
+      sec.style.setProperty('--vp-width', `${vpWidth}px`)
       m.current.total = Math.max(1, sec.offsetHeight - window.innerHeight)
-      m.current.move = Math.max(0, track.scrollWidth - window.innerWidth * 0.92)
+      m.current.move = Math.max(0, track.scrollWidth - vpWidth)
     }
     const onScroll = () => {
       const sec = sectionRef.current
@@ -54,7 +56,7 @@ export default function HorizontalLibrary({ items = [] }) {
       className="hcard"
       data-cursor-label="View"
     >
-      <ChromaticPlate chromatic={f.chromatic} ratio="4 / 5" className="hcard__plate">
+      <ChromaticPlate chromatic={f.chromatic} ratio="4 / 3.4" className="hcard__plate">
         {f.image && <img src={f.image} alt={f.name} className="hcard__img" />}
         <span className="hcard__index">{f.index}</span>
         {f.signature && <span className="hcard__sig">Signature</span>}
@@ -84,7 +86,7 @@ export default function HorizontalLibrary({ items = [] }) {
     )
   }
 
-  const height = `${120 + items.length * 24}vh`
+  const height = `${80 + items.length * 15}vh`
   return (
     <section className="hlib" ref={sectionRef} style={{ height }}>
       <div className="hlib__sticky">
