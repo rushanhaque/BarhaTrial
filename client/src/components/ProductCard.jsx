@@ -7,7 +7,7 @@ import { useToast } from '../lib/toast.jsx'
 import { useTilt } from '../lib/hooks.js'
 import { ArrowUR, Heart, HeartFill, Bag } from './Icons.jsx'
 
-export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = true, laserColor = '#00D2FF', index = 0 }) {
+export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false, laserColor = '#3b5f78', index = 0 }) {
   const w = useWardrobe()
   const toast = useToast()
   const tilt = useTilt(5)

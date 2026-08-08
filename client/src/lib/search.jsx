@@ -11,7 +11,7 @@ export const useSearch = () => useContext(SearchContext)
 
 const PAGES = [
   { type: 'page', label: 'The Catalogue', to: '/catalogue', hint: 'All products' },
-  { type: 'page', label: 'The Factory', to: '/about', hint: 'Our story' },
+  { type: 'page', label: 'Heritage', to: '/about', hint: 'Our story' },
   { type: 'page', label: 'Custom Orders', to: '/custom-orders', hint: 'Bespoke manufacturing' },
   { type: 'page', label: 'Trade Fairs', to: '/trade-fairs', hint: 'Meet us' },
   { type: 'page', label: 'The Blog', to: '/blog', hint: 'Editorial' },

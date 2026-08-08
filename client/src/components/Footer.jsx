@@ -18,7 +18,7 @@ const COLS = [
     ],
   },
   {
-    title: 'The Factory',
+    title: 'Heritage',
     links: [
       { label: 'About Us', to: '/about' },
       { label: 'Custom Orders', to: '/custom-orders' },
@@ -83,7 +83,7 @@ export default function Footer() {
               glowIntensity={1.0}
               coneSpread={25}
               animated={false}
-              colors={['#00f2fe', '#00d2ff', '#38bdf8']}
+              colors={['#4a6b84', '#3b586e', '#2b4456']}
             >
               <div className="footer__field" style={{ border: 'none' }}>
                 <Drop className="footer__field-icon" />
@@ -140,7 +140,7 @@ export default function Footer() {
         data-cursor-label="To the top"
         aria-label="Back to top"
       >
-        BARHA
+        BARIRA HANDICRAFTS
       </button>
 
       <div className="container">

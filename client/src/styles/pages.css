@@ -20,6 +20,15 @@
 }
 
 /* ---------- Shared page header ---------- */
+.section-heading-unified {
+  font-family: var(--font-display) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.035em !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  margin-inline: auto !important;
+}
+
 .pagehead {
   padding-top: clamp(8.5rem, 17vh, 13rem);
   padding-bottom: clamp(2rem, 4vw, 3.5rem);
@@ -333,54 +342,144 @@
 }
 
 /* ====================================================================
-   HOME · Manifesto + stats
+   HOME · Heritage Section (Full Screen Video Background)
    ==================================================================== */
+.heritage-section {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: clamp(2rem, 5vh, 4rem);
+  box-sizing: border-box;
+  overflow: hidden;
+  background: transparent;
+}
+
+.heritage__video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.heritage__video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.85) contrast(1.05);
+}
+
+.heritage__overlay {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.heritage__container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.heritage__top {
+  width: 100%;
+}
+
+.heritage__bottom {
+  width: 100%;
+  margin-top: auto;
+}
+
 .manifesto {
-  padding-top: 70px;
-  padding-bottom: clamp(1rem, 2vw, 2rem);
+  padding-block: clamp(2rem, 4vh, 4rem);
 }
 
 .manifesto__eyebrow {
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 .manifesto__statement {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3.2vw, 2.8rem);
+  font-size: clamp(1.6rem, 3.4vw, 3rem);
   font-weight: 330;
-  line-height: 1.16;
+  line-height: 1.15;
   letter-spacing: -0.015em;
-  max-width: 28ch;
+  max-width: 44ch;
+  margin-top: 0.6rem;
 }
 
 .manifesto__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 6vw, 6rem);
-  margin-top: clamp(1.2rem, 2.5vw, 2rem);
+  gap: clamp(2rem, 5vw, 5rem);
+  margin-top: clamp(1.2rem, 2.8vh, 2.2rem);
   align-items: start;
 }
 
+.manifesto__row--oneliner {
+  display: block;
+  margin-top: clamp(2rem, 4.5vh, 3.5rem);
+}
+
 .manifesto__body {
-  max-width: 42ch;
+  max-width: 44ch;
   font-size: var(--fs-lead);
-  line-height: 1.6;
+  line-height: var(--lh-body);
 }
 
 .manifesto__stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.manifesto__stats--4col {
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.5rem, 3.5vw, 4rem);
+  width: 100%;
 }
 
 .stat {
   border-top: 1px solid var(--line);
-  padding-top: 1.1rem;
+  padding-top: 1.6rem;
+}
+
+.heritage-section .stat {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding-top: 1.2rem;
+}
+
+.heritage-section .stat__value {
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+}
+
+.heritage-section .stat__label {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  color: var(--bone);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: clamp(0.72rem, 0.9vw, 0.84rem);
+  margin-top: 0.6rem;
+  display: block;
 }
 
 .stat__value {
   display: block;
-  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-size: clamp(2.6rem, 4.5vw, 3.8rem);
   font-weight: 340;
   color: var(--bone);
   line-height: 1;
@@ -389,9 +488,9 @@
 
 .stat__label {
   display: block;
-  margin-top: 0.6rem;
+  margin-top: 0.8rem;
   font-size: var(--fs-xs);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   color: var(--bone-soft);
 }
 
@@ -399,24 +498,24 @@
    HOME · Foundry Process
    ==================================================================== */
 .foundry-process {
-  padding-block: clamp(2.5rem, 5vh, 4rem);
+  padding-block: var(--section-y-lg);
 }
 
 .foundry-process__head {
-  margin-bottom: clamp(1.2rem, 2.5vh, 2rem);
+  margin-bottom: clamp(2.5rem, 5vh, 4rem);
 }
 
 .foundry-process__title {
   font-size: var(--fs-h2);
-  margin-top: 0.5rem;
-  line-height: 1.04;
+  margin-top: 0.75rem;
+  line-height: 1.05;
 }
 
 .foundry-process__accordion {
   display: flex;
   width: 100%;
-  height: clamp(520px, 68vh, 750px);
-  gap: 1rem;
+  height: clamp(600px, 75vh, 850px);
+  gap: 1.5rem;
   padding: 0 clamp(1rem, 4vw, 4rem);
 }
 
@@ -528,41 +627,247 @@
 }
 
 /* ====================================================================
-   HOME · Horizontal Library
+   HOME · Collections Zoom Section (GSAP-like Scroll Trigger)
    ==================================================================== */
-.hlib {
+.czoom-section {
   position: relative;
+  width: 100%;
+  height: 280vh;
+  background: var(--noir, #020202);
 }
 
-.hlib__sticky {
+.czoom-sticky {
   position: sticky;
   top: 0;
-  height: 100dvh;
+  height: 100vh;
+  width: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: clamp(1rem, 2.5vh, 2rem);
-  padding-block: clamp(2rem, 4vh, 3.5rem);
 }
 
-.hlib__title {
-  font-size: var(--fs-h2);
-  margin-top: 0.5rem;
-  line-height: 1.04;
+.czoom-head {
+  position: absolute;
+  top: clamp(2rem, 5vh, 4rem);
+  z-index: 10;
+  text-align: center;
+  transition: opacity 0.3s ease;
 }
 
-.hlib__viewport {
-  overflow: hidden;
+.czoom-foot {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  z-index: 10;
+  text-align: center;
+  transition: opacity 0.3s ease;
 }
 
-.hlib__track {
+.czoom-container {
+  position: relative;
+  width: min(82.8vw, 1152px);
+  height: min(87.4vh, 828px);
   display: flex;
-  gap: clamp(1.2rem, 2vw, 2.2rem);
-  padding-left: var(--gutter);
-  padding-right: var(--gutter);
-  width: max-content;
+  align-items: center;
+  justify-content: center;
+}
+
+.czoom-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.czoom-hero-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(12px, 1.5vw, 20px);
+  overflow: hidden;
+  background: #0d131a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85);
+  transform-origin: center center;
   will-change: transform;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.czoom-hero-card:hover {
+  border-color: rgba(178, 213, 229, 0.4);
+  box-shadow: 0 40px 110px rgba(0, 0, 0, 0.95);
+}
+
+.czoom-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.55) contrast(1.1);
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+.czoom-hero-card:hover .czoom-hero-img {
+  transform: scale(1.04);
+  filter: brightness(0.7) contrast(1.15);
+}
+
+.czoom-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(2, 2, 2, 0.2) 0%, rgba(2, 2, 2, 0.85) 100%);
+}
+
+.czoom-hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 1rem;
+  color: var(--bone);
+  width: 92%;
+  max-width: 92%;
+  margin: 0 auto;
+  pointer-events: auto;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.czoom-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  line-height: 1.1;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--bone);
+  white-space: normal;
+  word-break: keep-all;
+}
+
+.czoom-hero-sub {
+  font-size: clamp(0.68rem, 0.9vw, 0.82rem);
+  color: var(--bone-dim, rgba(245, 245, 245, 0.75));
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.3;
+}
+
+.czoom-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(10px, 1vw, 16px);
+  overflow: hidden;
+  background: #0a0e14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  transform-origin: center center;
+  will-change: transform, opacity;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(0.75rem, 1.2vw, 1.25rem);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.czoom-card:hover {
+  border-color: rgba(178, 213, 229, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.czoom-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.65) saturate(0.95);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+.czoom-card:hover .czoom-card-img {
+  transform: scale(1.08);
+  filter: brightness(0.85) saturate(1.1);
+}
+
+.czoom-card-meta {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  backdrop-filter: none;
+  padding: 0;
+  border: none;
+}
+
+.czoom-card-name {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(0.95rem, 1.35vw, 1.3rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+}
+
+.czoom-card-tag {
+  font-size: clamp(0.65rem, 0.8vw, 0.78rem);
+  color: var(--gold, #b2d5e5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+/* Fallback flat grid for mobile */
+.czoom-flat-section {
+  padding-block: 4rem;
+}
+.czoom-flat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.czoom-flat-card {
+  position: relative;
+  height: 220px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  text-decoration: none;
+}
+.czoom-flat-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+.czoom-flat-meta {
+  position: relative;
+  z-index: 2;
+  background: rgba(10, 14, 20, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
 }
 
 .hcard {
@@ -729,17 +1034,27 @@
 /* ====================================================================
    HOME · Signature spotlight
    ==================================================================== */
+.section.signature {
+  padding-block: var(--section-y-lg);
+}
+
 .signature__grid {
   display: grid;
-  grid-template-columns: 0.65fr 1fr;
-  gap: clamp(2rem, 6vw, 6rem);
+  grid-template-columns: 0.8fr 1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: stretch;
+}
+
+.signature__visual {
+  display: flex;
   align-items: center;
+  height: 100%;
 }
 
 .signature__plate-wrap {
   will-change: transform;
-  max-width: 450px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 460px;
 }
 
 .signature__img {
@@ -748,21 +1063,31 @@
   object-fit: cover;
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-lift);
+  display: block;
+}
+
+.signature__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding-block: 0.25rem;
 }
 
 .signature__plate-index {
   position: absolute;
-  top: 1.2rem;
-  left: 1.3rem;
+  top: 1.4rem;
+  left: 1.5rem;
   z-index: 2;
   font-size: var(--fs-xs);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.85);
 }
 
 .signature__name {
-  font-size: var(--fs-display);
-  margin: 0.6rem 0 0;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  margin: 0;
+  line-height: 1.05;
 }
 
 .signature__fam {
@@ -773,19 +1098,20 @@
 }
 
 .signature__lede {
-  margin-top: 1.6rem;
-  max-width: 46ch;
+  margin-top: 1.25rem;
+  max-width: 48ch;
+  line-height: var(--lh-body);
 }
 
 .signature__notes {
-  margin-top: 2.4rem;
+  margin-top: 1.5rem;
   border-top: 1px solid var(--line);
 }
 
 .signature__note {
   display: flex;
-  gap: 1.5rem;
-  padding: 1rem 0;
+  gap: 2rem;
+  padding: 0.9rem 0;
   border-bottom: 1px solid var(--line);
   align-items: baseline;
 }
@@ -796,25 +1122,25 @@
   letter-spacing: var(--track-wide);
   color: var(--gold);
   width: max-content;
-  min-width: 10rem;
+  min-width: 11rem;
   flex-shrink: 0;
 }
 
 .signature__note-v {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--bone);
 }
 
 .signature__cta {
-  margin-top: 2.4rem;
+  margin-top: 1.5rem;
 }
 
 /* ====================================================================
    HOME · Alchemy of Metal (Interactive)
    ==================================================================== */
 .section.alchemy {
-  padding-block: clamp(2.5rem, 4vw, 3.5rem);
+  padding-block: var(--section-y-lg);
 }
 
 .alchemy__head {
@@ -822,8 +1148,8 @@
   justify-content: space-between;
   align-items: flex-end;
   border-bottom: 1px solid var(--line);
-  padding-bottom: 0.8rem;
-  margin-bottom: clamp(1rem, 2vw, 2rem);
+  padding-bottom: 1.2rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .alchemy__head .eyebrow {
@@ -832,7 +1158,7 @@
 
 .alchemy__tabs {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .alchemy__tab {
@@ -841,7 +1167,7 @@
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--bone-dim);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.6rem;
   position: relative;
   transition: color 0.3s ease;
 }
@@ -857,7 +1183,7 @@
 .alchemy__tab::after {
   content: '';
   position: absolute;
-  bottom: -0.8rem;
+  bottom: -1.2rem;
   /* align with border-bottom of head */
   left: 0;
   width: 100%;
@@ -875,20 +1201,21 @@
 
 .alchemy__layout {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: clamp(1.5rem, 3vw, 3rem);
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: center;
 }
 
 .alchemy__list {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2.25rem;
 }
 
 .alchemy__item {
   text-align: left;
-  padding: 0.75rem 0;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--line-2);
   transition: opacity 0.3s ease;
   opacity: 0.5;
@@ -2420,8 +2747,195 @@
   }
 }
 
-@media (max-width: 480px) {
-  .manifesto__stats {
-    grid-template-columns: 1fr;
-  }
+/* ====================================================================
+   HOME · Materials & Finishes Horizontal Sideways Scroll Section
+   ==================================================================== */
+.materials-hsection {
+  position: relative;
+  height: 300vh;
+  background: var(--bg);
+}
+
+.materials-hsection__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-block: clamp(2rem, 4vh, 3.5rem);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.materials-hsection__head {
+  margin-top: clamp(3.5rem, 7vh, 6rem);
+  margin-bottom: clamp(0.5rem, 1.5vh, 1.2rem);
+}
+
+.materials-hsection__title {
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  margin-top: 0.5rem;
+  line-height: 1.08;
+}
+
+.materials-hsection__viewport {
+  width: 100%;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.materials-hsection__track {
+  display: flex;
+  gap: clamp(1.8rem, 3vw, 3rem);
+  padding-inline: max(5vw, calc((100vw - var(--container)) / 2 + var(--gutter)));
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* Perfect 4:5 Ratio Full Photo Metal Card */
+.mcard-plate {
+  flex: 0 0 clamp(267px, 25.7vw, 368px);
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: clamp(16px, 1.5vw, 24px);
+  overflow: hidden;
+  background: #0d0d0d;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: box-shadow 0.5s ease, border-color 0.5s ease;
+}
+
+.mcard-plate:hover {
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(178, 213, 229, 0.35);
+  border-color: rgba(178, 213, 229, 0.6);
+}
+
+/* Base Photo Layer */
+.mcard-plate__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mcard-plate__img--base {
+  filter: brightness(0.85) contrast(1.05) grayscale(25%);
+  transition: filter 0.6s ease;
+}
+
+.mcard-plate:hover .mcard-plate__img--base {
+  filter: brightness(0.95) contrast(1.1);
+}
+
+/* Molten Diagonal Wipe Layer */
+.mcard-plate__wipe-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  transition: clip-path 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+}
+
+.mcard-plate:hover .mcard-plate__wipe-layer {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.mcard-plate__img--vivid {
+  filter: brightness(1.15) contrast(1.25) saturate(1.3);
+  transform: scale(1.06);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mcard-plate:hover .mcard-plate__img--vivid {
+  transform: scale(1.12);
+}
+
+/* Precision L-Bracket Corner Frame */
+.mcard-plate__frame {
+  position: absolute;
+  inset: 1rem;
+  border-radius: calc(clamp(16px, 1.5vw, 24px) - 0.5rem);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.94);
+  border: 1px solid rgba(178, 213, 229, 0.6);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mcard-plate:hover .mcard-plate__frame {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mcard-plate__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    transparent 45%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Caption Typography Overlay */
+.mcard-plate__caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  z-index: 4;
+}
+
+.mcard-plate__num {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+  color: var(--gold, #b2d5e5);
+  letter-spacing: 0.14em;
+  opacity: 0.85;
+}
+
+.mcard-plate__name-wrap {
+  position: relative;
+}
+
+.mcard-plate__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 2.4rem);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+.mcard-plate__name--stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.85);
+  paint-order: stroke fill;
+}
+
+.mcard-plate__name--fill {
+  position: absolute;
+  inset: 0;
+  color: var(--gold, #b2d5e5);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.55s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mcard-plate:hover .mcard-plate__name--fill {
+  clip-path: inset(0 0 0 0);
+  letter-spacing: 0.05em;
 }

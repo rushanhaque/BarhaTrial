@@ -9,8 +9,8 @@ export default function RecentlyViewed({ exclude, title = 'Recently viewed' }) {
   return (
     <section className="section recent">
       <div className="container">
-        <div className="recent__head">
-          <span className="eyebrow">{title}</span>
+        <div className="recent__head" style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <span className="eyebrow gold" style={{ letterSpacing: '0.12em', fontWeight: 700 }}>RECENTLY VIEWED ITEMS</span>
         </div>
         <div className="recent__strip">
           {items.map((f, i) => (

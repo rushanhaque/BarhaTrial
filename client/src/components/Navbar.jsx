@@ -8,7 +8,7 @@ import { Magnetic } from './MagneticButton.jsx'
 import { ArrowUR, Search, Bag } from './Icons.jsx'
 
 const LINKS = [
-  { i: '01', label: 'The Factory', to: '/about' },
+  { i: '01', label: 'Heritage', to: '/about' },
   { i: '02', label: 'The Catalogue', to: '/catalogue' },
   { i: '03', label: 'Custom Orders', to: '/custom-orders' },
   { i: '04', label: 'Trade Fairs', to: '/trade-fairs' },
@@ -27,12 +27,29 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!scroll?.subscribe) return
-    return scroll.subscribe(({ scroll: y, direction }) => {
+    return scroll.subscribe(({ scroll: y }) => {
       setScrolled(y > 40)
       if (open) return setHidden(false)
-      setHidden(false)
+
+      const heritageEl = document.querySelector('.heritage-section')
+      const collectionsEl = document.querySelector('.czoom-section, .czoom-flat-section')
+
+      let inHeritage = false
+      let inCollections = false
+
+      if (heritageEl) {
+        const rect = heritageEl.getBoundingClientRect()
+        inHeritage = rect.top <= 100 && rect.bottom >= 80
+      }
+
+      if (collectionsEl) {
+        const rect = collectionsEl.getBoundingClientRect()
+        inCollections = rect.top <= 100 && rect.bottom >= 80
+      }
+
+      setHidden(inHeritage || inCollections)
     })
-  }, [scroll, open])
+  }, [scroll, open, location.pathname])
 
   useEffect(() => {
     if (open) {
@@ -104,7 +121,7 @@ export default function Navbar() {
         <div className="menu__veil" onClick={() => setOpen(false)} />
         <div className="menu__panel">
           <div className="menu__nav">
-            <span className="menu__caption eyebrow">Navigate the Factory</span>
+            <span className="menu__caption eyebrow">Navigate the Heritage</span>
             <ul className="menu__list">
               {LINKS.map((l, idx) => (
                 <li key={l.to} className="menu__item" style={{ '--i': idx }}>

@@ -2,111 +2,151 @@ import { useEffect, useMemo, useState } from 'react'
 import { get } from '../lib/api.js'
 import { fallbackProducts } from '../data/fallback.js'
 import { Reveal, Mask } from '../components/Reveal.jsx'
-import ProductCard from '../components/ProductCard.jsx'
-import LaserFlow from '../components/LaserFlow.jsx'
+import DriftWall from '../components/DriftWall.jsx'
 import Marquee from '../components/Marquee.jsx'
-import { Grid, Rows } from '../components/Icons.jsx'
+import TLink from '../components/TLink.jsx'
+import { ArrowUR } from '../components/Icons.jsx'
 
-const FILTERS = [
-  { key: 'all', label: 'All', match: () => true },
-  { key: 'vase', label: 'Vases & Planters', match: (p) => /vase|planter/i.test(p.family) },
-  { key: 'decor', label: 'Decor', match: (p) => /decor/i.test(p.family) },
-  { key: 'furniture', label: 'Furniture', match: (p) => /furniture/i.test(p.family) },
-  { key: 'tableware', label: 'Tableware', match: (p) => /tableware/i.test(p.family) },
-  { key: 'lighting', label: 'Lighting', match: (p) => /lighting/i.test(p.family) },
+const CATEGORIES = [
+  { key: 'all', label: 'All Catalogue', match: () => true },
+  { key: 'vase', label: 'Vases & Vessels', match: (p) => /vase|planter/i.test(p.family) },
+  { key: 'decor', label: 'Architectural Decor', match: (p) => /decor/i.test(p.family) },
+  { key: 'furniture', label: 'Cast Furniture', match: (p) => /furniture/i.test(p.family) },
+  { key: 'tableware', label: 'Tableware & Trays', match: (p) => /tableware/i.test(p.family) },
+  { key: 'lighting', label: 'Brass Lighting', match: (p) => /lighting/i.test(p.family) },
 ]
 
-const SORTS = {
-  featured: { label: 'Featured', fn: null },
-  newest: { label: 'Newest', fn: (a, b) => (b.year || 0) - (a.year || 0) },
-  'price-asc': { label: 'Price (Est.) · low to high', fn: (a, b) => a.priceUSD - b.priceUSD },
-  'price-desc': { label: 'Price (Est.) · high to low', fn: (a, b) => b.priceUSD - a.priceUSD },
-  moq: { label: 'Highest MOQ', fn: (a, b) => (b.moq || 0) - (a.moq || 0) },
-}
+// Sample placeholder IDs for picsum images as requested
+const PICSUM_IDS = [1015, 1025, 1039, 1043, 1044, 1050, 1062, 1069, 1074, 1080, 1084, 106, 110, 133, 164, 175, 180, 190, 200, 215]
 
 export default function Catalogue() {
-  const [items, setItems] = useState(fallbackProducts)
-  const [active, setActive] = useState('all')
-  const [sort, setSort] = useState('featured')
-  const [view, setView] = useState('grid')
+  const [products, setProducts] = useState(fallbackProducts)
+  const [activeCategory, setActiveCategory] = useState('all')
+  const [usePlaceholders, setUsePlaceholders] = useState(true)
+  const [columns, setColumns] = useState(5)
+  const [speed, setSpeed] = useState(42)
+  const [pauseOnHover, setPauseOnHover] = useState(false)
+  const [grayscale, setGrayscale] = useState(false)
+  const [direction, setDirection] = useState('up')
+  const [viewMode, setViewMode] = useState('wall') // 'wall' | 'grid'
 
   useEffect(() => {
-    get('/api/products').then(setItems).catch(() => {})
+    get('/api/products')
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setProducts(data)
+        }
+      })
+      .catch(() => {})
   }, [])
 
-  const filter = FILTERS.find((f) => f.key === active) || FILTERS[0]
-  const shown = useMemo(() => {
-    const arr = items.filter(filter.match)
-    const fn = SORTS[sort]?.fn
-    return fn ? [...arr].sort(fn) : arr
-  }, [items, filter, sort])
+  const currentCategory = CATEGORIES.find((c) => c.key === activeCategory) || CATEGORIES[0]
+
+  const filteredProducts = useMemo(() => {
+    return products.filter(currentCategory.match)
+  }, [products, currentCategory])
+
+  // Build DriftWall items with placeholders as requested or product details
+  const wallItems = useMemo(() => {
+    const sourceList = filteredProducts.length > 0 ? filteredProducts : products
+
+    // Ensure we have enough tiles for a rich drifting wall (duplicate list if short)
+    let list = [...sourceList]
+    while (list.length < 25) {
+      list = [...list, ...sourceList]
+    }
+
+    return list.map((p, idx) => {
+      const picId = PICSUM_IDS[idx % PICSUM_IDS.length]
+      const imageUrl = usePlaceholders
+        ? `https://picsum.photos/id/${picId}/600/400`
+        : p.image || `https://picsum.photos/id/${picId}/600/400`
+
+      return {
+        image: imageUrl,
+        title: `${p.name} — ${p.family || 'Barira'}`,
+        href: `/product/${p.slug}`,
+        id: `${p.slug}-${idx}`,
+        rawProduct: p
+      }
+    })
+  }, [filteredProducts, products, usePlaceholders])
 
   return (
-    <div className="page page-collections">
-      <header className="section pagehead pagehead--laser">
-        <div className="pagehead__laser-container">
-          <LaserFlow
-            color="#00D2FF"
-            horizontalBeamOffset={0.12}
-            verticalBeamOffset={0.0}
-            horizontalSizing={0.85}
-            verticalSizing={2.2}
-            wispDensity={1.2}
-            wispSpeed={15.0}
-            wispIntensity={5.0}
-            fogIntensity={0.55}
-          />
-        </div>
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <Reveal className="pagehead__eyebrow"><span className="eyebrow electric-candy-blue">The Export Catalogue</span></Reveal>
-          <h1 className="pagehead__title">
-            <Mask block i={0}>Premium</Mask>
-            <Mask block i={1}><span className="italic electric-candy-blue">handicrafts</span>.</Mask>
-          </h1>
-          <Reveal as="p" className="lead pagehead__lede" delay={2}>
-            Each piece is cast, hammered, and finished by hand in Moradabad. Read them as material —
-            the factory assigns every product a single living hue, drawn from its oxidation or polish.
-          </Reveal>
+    <div className="page page-catalogue">
+      {/* ────────────────── Header Section ────────────────── */}
+      <header className="section pagehead pagehead--catalogue" style={{ paddingBottom: '3rem' }}>
+        <div className="container">
+          <div>
+            <Reveal className="pagehead__eyebrow">
+              <span className="eyebrow gold">Interactive Catalogue</span>
+            </Reveal>
+            <h1 className="pagehead__title" style={{ marginTop: '0.75rem' }}>
+              <Mask block i={0}>The Drifting</Mask>{' '}
+              <Mask block i={1}>
+                <span className="italic gold">Handicraft Wall</span>.
+              </Mask>
+            </h1>
+          </div>
         </div>
       </header>
 
-      <div className="container">
-        <div className="collections__bar">
-          <div className="collections__filters">
-            {FILTERS.map((f) => (
-              <button key={f.key} className={`chip ${active === f.key ? 'is-active' : ''}`} onClick={() => setActive(f.key)} data-cursor>
-                {f.label}
-              </button>
+      {/* ────────────────── Main Catalogue Body ────────────────── */}
+      {viewMode === 'wall' ? (
+        <section className="catalogue-wall-section" style={{ position: 'relative', width: '100%', height: 'calc(130vh - 200px)', minHeight: '850px', background: 'transparent' }}>
+          <DriftWall
+            items={wallItems}
+            columns={columns}
+            tileWidth={286}
+            tileHeight={190}
+            gap={24}
+            radius={14}
+            tilt={14}
+            turn={-12}
+            perspective={1200}
+            depth={100}
+            speed={speed}
+            direction={direction}
+            variance={0.45}
+            parallax={0.65}
+            pauseOnHover={pauseOnHover}
+            lift={94}
+            fade={0}
+            dim={1}
+            grayscale={grayscale}
+            overlayColor="transparent"
+          />
+        </section>
+      ) : (
+        <div className="container" style={{ paddingBlock: '3rem' }}>
+          <div className="collections__grid">
+            {filteredProducts.map((p, i) => (
+              <div key={p.slug} className="hcard" style={{ width: '100%', marginBottom: '1.5rem' }}>
+                <TLink to={`/product/${p.slug}`} className="hcard__plate" style={{ display: 'block', borderRadius: '12px', overflow: 'hidden', height: '260px' }}>
+                  <img
+                    src={usePlaceholders ? `https://picsum.photos/id/${PICSUM_IDS[i % PICSUM_IDS.length]}/600/400` : (p.image || `https://picsum.photos/id/${PICSUM_IDS[i % PICSUM_IDS.length]}/600/400`)}
+                    alt={p.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </TLink>
+                <div style={{ marginTop: '0.75rem' }}>
+                  <span className="muted" style={{ fontSize: '0.8rem' }}>{p.family}</span>
+                  <h3 className="serif" style={{ fontSize: '1.2rem', margin: '0.2rem 0' }}>{p.name}</h3>
+                  <p className="lead" style={{ fontSize: '0.9rem', color: 'var(--gold)' }}>${p.priceUSD} USD</p>
+                  <TLink to={`/product/${p.slug}`} className="ulink" style={{ fontSize: '0.85rem', marginTop: '0.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                    View Product <ArrowUR />
+                  </TLink>
+                </div>
+              </div>
             ))}
           </div>
-          <div className="collections__controls">
-            <select className="collections__select" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
-              {Object.entries(SORTS).map(([k, v]) => (
-                <option key={k} value={k}>{v.label}</option>
-              ))}
-            </select>
-            <div className="collections__view" role="group" aria-label="View">
-              <button className={view === 'grid' ? 'is-active' : ''} onClick={() => setView('grid')} aria-label="Grid view" data-cursor><Grid /></button>
-              <button className={view === 'list' ? 'is-active' : ''} onClick={() => setView('list')} aria-label="List view" data-cursor><Rows /></button>
-            </div>
-            <span className="collections__count muted">
-              {String(shown.length).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
-            </span>
-          </div>
         </div>
+      )}
 
-        <div className={`collections__grid ${view === 'list' ? 'is-list' : ''}`}>
-          {shown.map((p, i) => (
-            <Reveal key={p.slug} className={`collections__cell ${i % 2 ? 'is-offset' : ''}`} delay={i % 3}>
-              <ProductCard p={p} index={i} />
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
+      {/* Marquee Footer */}
       <Marquee
         className="collections__marquee"
-        items={['Solid Brass & Copper', 'Wholesale Exports', 'Moradabad, India', 'Uncompromising Quality']}
+        items={['Moradabad Casting', 'Solid Metals', 'Custom Export Fabrication', '3D Drifting Wall', 'Hand Hammered Brass']}
         dir="reverse"
         duration={48}
       />

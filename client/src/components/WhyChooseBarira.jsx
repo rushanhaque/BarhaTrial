@@ -91,7 +91,7 @@ export default function WhyChooseBarira() {
 
         <div className="spec-wall__content">
           <div className="spec-wall__left">
-            <h3 className="spec-wall__title">Why Barira</h3>
+            <h3 className="spec-wall__title section-heading-unified">WHY BARIRA</h3>
             <div className="spec-wall__nav">
               {PROOFS.map((proof, i) => (
                 <div 

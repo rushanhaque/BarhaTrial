@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { get } from '../lib/api.js'
 import { fallbackProducts } from '../data/fallback.js'
 import { useParallax, useReveal, useCounter } from '../lib/hooks.js'
@@ -7,43 +7,28 @@ import { Reveal, Mask, Words } from '../components/Reveal.jsx'
 import WhyChooseBarira from '../components/WhyChooseBarira.jsx'
 import Marquee from '../components/Marquee.jsx'
 import HorizontalLibrary from '../components/HorizontalLibrary.jsx'
-import FoundryProcess from '../components/FoundryProcess.jsx'
 import ChromaticPlate from '../components/ChromaticPlate.jsx'
-import Beams from '../components/Beams.jsx'
 import RecentlyViewed from '../components/RecentlyViewed.jsx'
+import DriftWall from '../components/DriftWall.jsx'
+import MaskedHeading from '../components/MaskedHeading.jsx'
+import MaterialsAndFinishes from '../components/MaterialsAndFinishes.jsx'
 import ShinyText from '../components/ShinyText.jsx'
 import TLink from '../components/TLink.jsx'
 import { ArrowUR, ArrowDown, Drop, Star4, Quote } from '../components/Icons.jsx'
-
-import { DottedGlowBackground } from '../components/ui/dotted-glow-background.jsx'
-import BorderGlow from '../components/ui/BorderGlow.jsx'
-
 export default function Home({ entered }) {
   const [products, setProducts] = useState(fallbackProducts)
-  const [journal, setJournal] = useState([])
 
   useEffect(() => {
     get('/api/products').then(setProducts).catch(() => { })
-    get('/api/journal').then((j) => setJournal(j.slice(0, 3))).catch(() => { })
   }, [])
 
   const signature = products.find((p) => p.signature) || products[0]
 
   return (
     <>
-      <DottedGlowBackground
-        className="home-dotted-bg"
-        gap={18}
-        radius={1.4}
-        color="rgba(56, 189, 248, 0.22)"
-        glowColor="rgba(0, 242, 254, 0.35)"
-        opacity={0.32}
-        speedMin={0.3}
-        speedMax={1.0}
-        speedScale={1}
-      />
-
       <Hero entered={entered} />
+
+      <HorizontalLibrary items={products} />
 
       <Marquee
         className="home-marquee"
@@ -51,21 +36,17 @@ export default function Home({ entered }) {
         duration={42}
       />
 
-      <Manifesto />
-
-      <HorizontalLibrary items={products} />
-
       {signature && <Signature product={signature} />}
 
-      <FoundryProcess />
+      <Heritage />
 
-      <AlchemyOfMetal />
+      <HomeCatalogueSection products={products} />
 
       <RecentlyViewed title="Recently viewed items" />
 
-      <WhyChooseBarira />
+      <MaterialsAndFinishes />
 
-      {journal.length > 0 && <JournalTeaser items={journal} />}
+      <WhyChooseBarira />
     </>
   )
 }
@@ -74,19 +55,6 @@ export default function Home({ entered }) {
 function Hero({ entered }) {
   return (
     <section className={`hero hero--centered ${entered ? 'is-entered' : ''}`}>
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
-        <Beams
-          beamWidth={2}
-          beamHeight={15}
-          beamNumber={12}
-          lightColor="#85e0ff"
-          speed={2}
-          noiseIntensity={1.75}
-          scale={0.2}
-          rotation={30}
-        />
-      </div>
-
       <div className="hero__center-wrap" style={{ position: 'relative', zIndex: 1 }}>
         <h1 className="hero__brand-title">
           Barira Handicrafts
@@ -101,31 +69,51 @@ function Hero({ entered }) {
   )
 }
 
-/* ──────────────────────── Manifesto + stats ─────────────────────── */
-function Manifesto() {
+/* ──────────────────────── Heritage + stats ─────────────────────── */
+function Heritage() {
   return (
-    <section className="section section--flush-top manifesto">
-      <div className="container">
-        <Reveal className="manifesto__eyebrow">
-          <span className="eyebrow">The Factory</span>
-        </Reveal>
-        <Words
-          as="h2"
-          className="manifesto__statement"
-          text="We do not compromise on mass. We manufacture for the decades that follow — using pure metals and traditional casting techniques where a product finally proves its worth."
-          stagger={1}
+    <section className="section heritage-section manifesto">
+      {/* Background Video (with fallback poster overlay) */}
+      <div className="heritage__video-wrap">
+        <video
+          className="heritage__video-bg"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/images/brass_vase.png"
+          src="/videos/heritage_bg.mp4"
         />
-        <div className="manifesto__row">
-          <Reveal as="p" className="manifesto__body muted" delay={1}>
-            Barira Handicrafts was founded with a single coal-fired brass furnace in Moradabad.
-            Today, every piece is still finished by hand, utilizing techniques passed down through
-            generations of master artisans.
-          </Reveal>
-          <div className="manifesto__stats">
-            <StatBlock value="1982" label="Factory Established" />
-            <StatBlock target={45} prefix="+" label="Export Countries" />
-            <StatBlock target={200} prefix="over " label="Master Artisans" />
-            <StatBlock target={100} suffix="%" label="Quality Inspected" />
+        <div className="heritage__overlay" />
+      </div>
+
+      <div className="container heritage__container">
+        <div className="heritage__top">
+          <MaskedHeading
+            text="THE HERITAGE"
+            mediaType="video"
+            src="/videos/heritage_bg.mp4"
+            poster="/images/brass_vase.png"
+            fillScale={1.35}
+            parallax={32}
+            brightness={1.05}
+            saturation={1.0}
+            reveal="wipe"
+            trigger="view"
+            textScale={0.092}
+            weight={900}
+            tracking={0.035}
+            lineHeight={1.0}
+            align="center"
+          />
+        </div>
+
+        <div className="heritage__bottom">
+          <div className="manifesto__stats manifesto__stats--4col">
+            <StatBlock value="1982" label="HERITAGE ESTABLISHED" align="left" />
+            <StatBlock target={45} prefix="+" label="EXPORT COUNTRIES" align="left" />
+            <StatBlock target={200} prefix="OVER " label="MASTER ARTISANS" align="left" />
+            <StatBlock target={100} suffix="%" label="QUALITY INSPECTED" align="right" />
           </div>
         </div>
       </div>
@@ -133,15 +121,30 @@ function Manifesto() {
   )
 }
 
-function StatBlock({ value, target, prefix = '', suffix = '', label }) {
+function StatBlock({ value, target, prefix = '', suffix = '', label, align = 'left' }) {
   const [ref, n] = useCounter(target || 0)
   const reveal = useReveal()
+  const valStr = target ? `${prefix}${n}${suffix}` : value
+
   return (
-    <div className="stat reveal" ref={reveal}>
-      <span className="stat__value serif" ref={target ? ref : null}>
-        {target ? `${prefix}${n}${suffix}` : value}
-      </span>
-      <span className="stat__label">{label}</span>
+    <div className={`stat reveal stat--align-${align}`} ref={reveal} style={{ textAlign: align }}>
+      <MaskedHeading
+        text={valStr}
+        mediaType="video"
+        src="/videos/heritage_bg.mp4"
+        poster="/images/brass_vase.png"
+        fillScale={1.3}
+        parallax={18}
+        brightness={1.05}
+        saturation={1.0}
+        textScale={0.16}
+        weight={900}
+        tracking={0.01}
+        lineHeight={1.0}
+        align={align}
+        reveal="none"
+      />
+      <span className="stat__label" ref={target ? ref : null}>{label}</span>
     </div>
   )
 }
@@ -151,169 +154,62 @@ function Signature({ product }) {
   const plate = useParallax(-0.05)
   return (
     <section className="section signature">
-      <div className="container signature__grid">
-        <div className="signature__visual">
-          <span className="eyebrow" style={{ display: 'flex', marginBottom: '2.5rem' }}>Featured Product</span>
-          <div ref={plate} className="signature__plate-wrap">
-            <div style={{ position: 'relative' }}>
-              <img
-                src={product.image}
-                alt={product.name}
-                className="signature__img"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="signature__body">
-          <h2 className="signature__name">
-            <Mask block i={0}>
-              <ShinyText text={product.name} speed={3} color="var(--bone)" shineColor="#85e0ff" />
-            </Mask>
+      <div className="container">
+        {/* Section Heading */}
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)' }}>
+            FEATURED PRODUCT
           </h2>
-          <Reveal as="p" className="signature__fam gold" delay={1}>
-            {product.family} · Premium Handicraft
-          </Reveal>
-          <Reveal as="p" className="lead signature__lede" delay={2}>
-            {product.tagline} {product.blurb}
-          </Reveal>
+        </div>
 
-          <ul className="signature__notes">
-            {[
-              { k: 'Primary Material', v: 'Solid Brass Sheet' },
-              { k: 'Manufacturing', v: 'Hand Hammered' },
-              { k: 'Finish', v: 'Antique Unlacquered' },
-            ].map((row, i) => (
-              <Reveal as="li" key={row.k} className="signature__note" delay={i}>
-                <span className="signature__note-k">{row.k}</span>
-                <span className="signature__note-v">{row.v}</span>
-              </Reveal>
-            ))}
-          </ul>
-
-          <div className="signature__cta">
-            <TLink to={`/product/${product.slug}`} className="btn btn--gold btn--shine">
-              View Details
-              <div className="btn__icon">
-                <ArrowUR />
+        <div className="signature__grid">
+          <div className="signature__visual">
+            <div ref={plate} className="signature__plate-wrap">
+              <div style={{ position: 'relative' }}>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="signature__img"
+                />
               </div>
-            </TLink>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ──────────────────────── Alchemy of Metal ─────────────────────── */
-const ALCHEMY_DATA = {
-  material: [
-    {
-      id: 'brass',
-      name: 'BRASS',
-      subtitle: 'Warm · Golden · Substantial',
-      desc: 'Pure brass with a naturally rich golden character, chosen for its weight, warmth, and ability to develop depth over time.',
-      image: '/images/brass_macro.png'
-    },
-    {
-      id: 'copper',
-      name: 'COPPER',
-      subtitle: 'Reactive · Living · Evolving',
-      desc: 'A dynamic metal that oxidizes and ages beautifully with exposure, offering an unparalleled living finish.',
-      image: '/images/copper_macro.png'
-    },
-    {
-      id: 'cast-iron',
-      name: 'CAST IRON',
-      subtitle: 'Dense · Raw · Powerful',
-      desc: 'Forged for permanence, our cast iron pieces carry the brutalist weight and textured rawness of the foundry.',
-      image: '/images/cast_iron_macro_2.jpg'
-    }
-  ],
-  finish: [
-    {
-      id: 'polished',
-      name: 'POLISHED',
-      subtitle: 'Reflective · Clean · Luminous',
-      desc: 'Hand-buffed to a mirror shine, reflecting ambient light and highlighting the pristine surface of the metal.',
-      image: '/images/polished_macro.jpg'
-    },
-    {
-      id: 'hammered',
-      name: 'HAMMERED',
-      subtitle: 'Textured · Tactile · Handmade',
-      desc: 'Struck repeatedly by master artisans to create a faceted, textured surface that scatters light beautifully.',
-      image: '/images/hammered_macro.jpg'
-    },
-    {
-      id: 'oxidized',
-      name: 'OXIDIZED',
-      subtitle: 'Deep · Iridescent · Atmospheric',
-      desc: 'A chemical or thermal patina applied to the surface to darken the metal, creating dramatic contrast and depth.',
-      image: '/images/oxidized_macro.jpg'
-    }
-  ]
-}
-
-function AlchemyOfMetal() {
-  const [activeTab, setActiveTab] = useState('material')
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const activeCategory = ALCHEMY_DATA[activeTab]
-  const activeItem = activeCategory[activeIndex]
-
-  const handleTab = (tab) => {
-    setActiveTab(tab)
-    setActiveIndex(0)
-  }
-
-  return (
-    <section className="section alchemy">
-      <div className="container">
-        <div className="alchemy__head">
-          <span className="eyebrow">The Alchemy of Metal</span>
-          <div className="alchemy__tabs">
-            <button 
-              className={`alchemy__tab ${activeTab === 'material' ? 'is-active' : ''}`}
-              onClick={() => handleTab('material')}
-            >
-              MATERIAL
-            </button>
-            <button 
-              className={`alchemy__tab ${activeTab === 'finish' ? 'is-active' : ''}`}
-              onClick={() => handleTab('finish')}
-            >
-              FINISH
-            </button>
-          </div>
-        </div>
-
-        <div className="alchemy__layout">
-          <div className="alchemy__list">
-            {activeCategory.map((item, idx) => {
-              const isActive = activeIndex === idx
-              return (
-                <button 
-                  key={item.id} 
-                  className={`alchemy__item ${isActive ? 'is-active' : ''}`}
-                  onClick={() => setActiveIndex(idx)}
-                  onMouseEnter={() => setActiveIndex(idx)}
-                >
-                  <h3 className="alchemy__item-name">{item.name}</h3>
-                  <p className="alchemy__item-sub gold">{item.subtitle}</p>
-                </button>
-              )
-            })}
+            </div>
           </div>
 
-          <div className="alchemy__visual">
-            <div className="alchemy__visual-inner">
-              <img 
-                key={activeItem.id} /* force re-render for css transition */
-                src={activeItem.image} 
-                alt={activeItem.name} 
-                className="alchemy__img"
-              />
+          <div className="signature__body">
+            <div className="signature__body-top">
+              <h3 className="signature__name">
+                <Mask block i={0}>
+                  <ShinyText text={product.name} speed={3} color="var(--bone)" shineColor="#b2d5e5" />
+                </Mask>
+              </h3>
+              <Reveal as="p" className="signature__fam gold" delay={1}>
+                {product.family} · Premium Handicraft
+              </Reveal>
+              <Reveal as="p" className="lead signature__lede" delay={2}>
+                {product.tagline} {product.blurb}
+              </Reveal>
+            </div>
+
+            <ul className="signature__notes">
+              {[
+                { k: 'Primary Material', v: 'Solid Brass Sheet' },
+                { k: 'Manufacturing', v: 'Hand Hammered' },
+                { k: 'Finish', v: 'Antique Unlacquered' },
+              ].map((row, i) => (
+                <Reveal as="li" key={row.k} className="signature__note" delay={i}>
+                  <span className="signature__note-k">{row.k}</span>
+                  <span className="signature__note-v">{row.v}</span>
+                </Reveal>
+              ))}
+            </ul>
+
+            <div className="signature__cta">
+              <TLink to={`/product/${product.slug}`} className="btn btn--gold btn--shine">
+                View Details
+                <div className="btn__icon">
+                  <ArrowUR />
+                </div>
+              </TLink>
             </div>
           </div>
         </div>
@@ -324,41 +220,65 @@ function AlchemyOfMetal() {
 
 
 
-/* ──────────────────────── Journal teaser ─────────────────────── */
-function JournalTeaser({ items }) {
+
+
+/* ──────────────────────── Interactive Catalogue Section ─────────────────────── */
+const PICSUM_IDS = [1015, 1025, 1039, 1043, 1044, 1050, 1062, 1069, 1074, 1080, 1084, 106, 110, 133, 164, 175, 180, 190, 200, 215]
+
+function HomeCatalogueSection({ products }) {
+  const wallItems = useMemo(() => {
+    const sourceList = products.length > 0 ? products : fallbackProducts
+
+    let list = [...sourceList]
+    while (list.length < 25) {
+      list = [...list, ...sourceList]
+    }
+
+    return list.map((p, idx) => {
+      const picId = PICSUM_IDS[idx % PICSUM_IDS.length]
+      return {
+        image: `https://picsum.photos/id/${picId}/600/400`,
+        title: `${p.name} — ${p.family || 'Barira'}`,
+        href: `/product/${p.slug}`,
+        id: `${p.slug}-${idx}`,
+        rawProduct: p
+      }
+    })
+  }, [products])
+
   return (
-    <section className="section journal-teaser">
-      <div className="container">
-        <div className="journal-teaser__head">
-          <span className="eyebrow">The Blog</span>
-          <TLink to="/blog" className="journal-teaser__all ulink">
-            All articles <ArrowUR />
-          </TLink>
+    <section className="section home-catalogue-section" style={{ paddingTop: '6rem', paddingBottom: '2rem' }}>
+      <div className="container" style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
+        <div>
+          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)' }}>
+            OUR BEST SELLERS
+          </h2>
         </div>
-        <div className="journal-teaser__list">
-          {items.map((a, i) => (
-            <Reveal
-              as={TLink}
-              key={a.slug}
-              to="/blog"
-              className="jrow"
-              delay={i}
-              data-cursor-label="Read"
-            >
-              <span className="jrow__index">{String(i + 1).padStart(2, '0')}</span>
-              <span className="jrow__kicker" style={{ color: a.accent }}>
-                {a.kicker}
-              </span>
-              <span className="jrow__title serif">{a.title}</span>
-              <span className="jrow__meta muted">
-                {a.readingTime} · {a.author}
-              </span>
-              <span className="jrow__arrow">
-                <ArrowUR />
-              </span>
-            </Reveal>
-          ))}
-        </div>
+      </div>
+
+      <div style={{ position: 'relative', width: '100%', height: 'calc(110vh - 150px)', minHeight: '750px', background: 'transparent' }}>
+        <DriftWall
+          items={wallItems}
+          columns={5}
+          tileWidth={286}
+          tileHeight={190}
+          gap={24}
+          radius={14}
+          tilt={14}
+          turn={-12}
+          perspective={1200}
+          depth={100}
+          speed={42}
+          direction="up"
+          variance={0.45}
+          parallax={0.65}
+          pauseOnHover={false}
+          lift={94}
+          fade={0}
+          dim={1}
+          grayscale={false}
+          overlayColor="transparent"
+        />
       </div>
     </section>
   )

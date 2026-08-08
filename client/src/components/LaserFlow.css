@@ -47,15 +47,12 @@
   height: calc(clamp(12rem, 16vw, 16rem) - clamp(0rem, 8vw, 6rem) - 2rem);
 }
 
-/* Hover Border Glow in Electric Metallic Candy Blue */
+/* Hover Border in Soft Slate */
 .laser-flow-card:hover {
-  border-color: #00D2FF !important;
-  box-shadow:
-    0 0 20px rgba(0, 210, 255, 0.7),
-    0 0 40px rgba(0, 180, 255, 0.4),
-    inset 0 0 15px rgba(0, 210, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6) !important;
   transform: translateY(-5px);
-  background: rgba(12, 20, 35, 0.85);
+  background: var(--noir-2);
 }
 
 .laser-flow-card:hover .fcard__laser-top {
@@ -68,16 +65,15 @@
   z-index: 2;
 }
 
-/* Electric Metallic Candy Blue Accent Utilities */
+/* Muted Slate Accent Utilities */
 .electric-candy-blue {
-  color: #00D2FF !important;
-  text-shadow: 0 0 12px rgba(0, 210, 255, 0.6), 0 0 24px rgba(0, 180, 255, 0.4);
+  color: var(--bone) !important;
 }
 
 .pagehead--laser {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.15) 0%, transparent 70%);
+  background: none;
 }
 
 .pagehead__laser-container {

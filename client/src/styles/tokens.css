@@ -12,37 +12,37 @@
   --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
   --font-sans: 'General Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --fs-mega: clamp(4rem, 17vw, 19rem);
-  --fs-hero: clamp(3rem, 10.5vw, 11rem);
-  --fs-display: clamp(2.5rem, 6.4vw, 5.8rem);
-  --fs-h1: clamp(2.1rem, 4.6vw, 4rem);
-  --fs-h2: clamp(1.75rem, 3.4vw, 2.9rem);
-  --fs-h3: clamp(1.3rem, 2.1vw, 1.85rem);
-  --fs-lead: clamp(1.08rem, 1.5vw, 1.4rem);
-  --fs-body: clamp(1rem, 1.05vw, 1.07rem);
-  --fs-sm: 0.86rem;
-  --fs-xs: 0.76rem;
-  --fs-label: 0.7rem;
+  --fs-mega: clamp(4.5rem, 18vw, 20rem);
+  --fs-hero: clamp(3.2rem, 10vw, 11rem);
+  --fs-display: clamp(2.6rem, 6.2vw, 5.8rem);
+  --fs-h1: clamp(2.2rem, 4.5vw, 4rem);
+  --fs-h2: clamp(1.75rem, 3.5vw, 3rem);
+  --fs-h3: clamp(1.35rem, 2.2vw, 1.95rem);
+  --fs-lead: clamp(1.1rem, 1.5vw, 1.38rem);
+  --fs-body: clamp(1rem, 1.05vw, 1.1rem);
+  --fs-sm: 0.88rem;
+  --fs-xs: 0.78rem;
+  --fs-label: 0.74rem;
 
-  --lh-tight: 0.96;
-  --lh-snug: 1.08;
-  --lh-body: 1.62;
-  --track-label: 0.28em;
-  --track-wide: 0.14em;
+  --lh-tight: 1.02;
+  --lh-snug: 1.12;
+  --lh-body: 1.75;
+  --track-label: 0.26em;
+  --track-wide: 0.15em;
 
-  /* ---- Spatial rhythm ---- */
-  --gutter: clamp(1.25rem, 5vw, 5rem);
-  --container: 1500px;
-  --container-narrow: 920px;
-  --section-y: clamp(3.2rem, 6vw, 5.5rem);
-  --section-y-lg: clamp(4rem, 8vw, 7rem);
+  /* ---- Airy & Open Spatial Rhythm (Architectural Masterpiece) ---- */
+  --gutter: clamp(2rem, 6vw, 6.5rem);
+  --container: 1560px;
+  --container-narrow: 1040px;
+  --section-y: clamp(7rem, 13vh, 12rem);
+  --section-y-lg: clamp(9.5rem, 18vh, 16rem);
 
   /* ---- Radii ---- */
-  --r-sm: 0.7rem;
-  --r-md: 1.1rem;
-  --r-lg: 1.7rem;
-  --r-xl: 2.3rem;
-  --r-2xl: 3rem;
+  --r-sm: 0.5rem;
+  --r-md: 0.85rem;
+  --r-lg: 1.25rem;
+  --r-xl: 1.75rem;
+  --r-2xl: 2.25rem;
   --r-pill: 999px;
 
   /* ---- Motion ---- */
