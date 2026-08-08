@@ -169,9 +169,14 @@ if (fs.existsSync(dist)) {
   })
 }
 
-app.listen(PORT, () => {
-  console.log('')
-  console.log('   BARIRA HANDICRAFTS — server')
-  console.log(`   listening · http://localhost:${PORT}`)
-  console.log('')
-})
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log('')
+    console.log('   BARIRA HANDICRAFTS — server')
+    console.log(`   listening · http://localhost:${PORT}`)
+    console.log('')
+  })
+}
+
+export default app
+
