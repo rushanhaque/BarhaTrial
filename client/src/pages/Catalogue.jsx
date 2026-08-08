@@ -3,6 +3,7 @@ import { get } from '../lib/api.js'
 import { fallbackProducts } from '../data/fallback.js'
 import { Reveal, Mask } from '../components/Reveal.jsx'
 import ProductCard from '../components/ProductCard.jsx'
+import LaserFlow from '../components/LaserFlow.jsx'
 import Marquee from '../components/Marquee.jsx'
 import { Grid, Rows } from '../components/Icons.jsx'
 
@@ -42,12 +43,25 @@ export default function Catalogue() {
 
   return (
     <div className="page page-collections">
-      <header className="section pagehead">
-        <div className="container">
-          <Reveal className="pagehead__eyebrow"><span className="eyebrow">The Export Catalogue</span></Reveal>
+      <header className="section pagehead pagehead--laser">
+        <div className="pagehead__laser-container">
+          <LaserFlow
+            color="#00D2FF"
+            horizontalBeamOffset={0.12}
+            verticalBeamOffset={0.0}
+            horizontalSizing={0.85}
+            verticalSizing={2.2}
+            wispDensity={1.2}
+            wispSpeed={15.0}
+            wispIntensity={5.0}
+            fogIntensity={0.55}
+          />
+        </div>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <Reveal className="pagehead__eyebrow"><span className="eyebrow electric-candy-blue">The Export Catalogue</span></Reveal>
           <h1 className="pagehead__title">
             <Mask block i={0}>Premium</Mask>
-            <Mask block i={1}><span className="italic gold">handicrafts</span>.</Mask>
+            <Mask block i={1}><span className="italic electric-candy-blue">handicrafts</span>.</Mask>
           </h1>
           <Reveal as="p" className="lead pagehead__lede" delay={2}>
             Each piece is cast, hammered, and finished by hand in Moradabad. Read them as material —
@@ -84,7 +98,7 @@ export default function Catalogue() {
         <div className={`collections__grid ${view === 'list' ? 'is-list' : ''}`}>
           {shown.map((p, i) => (
             <Reveal key={p.slug} className={`collections__cell ${i % 2 ? 'is-offset' : ''}`} delay={i % 3}>
-              <ProductCard p={p} />
+              <ProductCard p={p} index={i} />
             </Reveal>
           ))}
         </div>

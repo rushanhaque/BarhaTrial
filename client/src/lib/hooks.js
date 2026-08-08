@@ -46,7 +46,7 @@ export function useMagnetic(strength = 0.32, ease = 0.16) {
   const ref = useRef(null)
   useEffect(() => {
     const el = ref.current
-    if (!el || coarse() || reduced()) return
+    if (!el || !strength || coarse() || reduced()) return
     let raf
     let tx = 0
     let ty = 0

@@ -1,0 +1,89 @@
+.laser-flow-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  pointer-events: none;
+}
+
+/* Electric Metallic Candy Blue Catalogue Card Styling & Glow */
+.laser-flow-card {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  background: rgba(10, 16, 26, 0.6);
+  padding: 0.75rem;
+  overflow: visible;
+  /* Allows laser flow light to span outside the tile */
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background-color 0.4s ease;
+}
+
+/* Laser Flow Light spanning from bottom border of tile above to top border of tile below */
+.fcard__laser-top {
+  position: absolute;
+  bottom: calc(100% - 1px);
+  /* Bottom touches top border of lower tile */
+  left: 0;
+  right: 0;
+  height: clamp(10rem, 16vw, 16rem);
+  /* Top reaches up to touch bottom border of tile above */
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.98;
+  transition: opacity 0.3s ease;
+}
+
+.fcard__laser-top .laser-flow-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* The very first left tile (card 0) has no margin-top, so its laser spike tip
+   appears higher than the first right tile. Reduce it by the cell-offset amount. */
+.collections__cell:first-child .fcard__laser-top {
+  height: calc(clamp(12rem, 16vw, 16rem) - clamp(0rem, 8vw, 6rem) - 2rem);
+}
+
+/* Hover Border Glow in Electric Metallic Candy Blue */
+.laser-flow-card:hover {
+  border-color: #00D2FF !important;
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.7),
+    0 0 40px rgba(0, 180, 255, 0.4),
+    inset 0 0 15px rgba(0, 210, 255, 0.3) !important;
+  transform: translateY(-5px);
+  background: rgba(12, 20, 35, 0.85);
+}
+
+.laser-flow-card:hover .fcard__laser-top {
+  opacity: 1;
+}
+
+.laser-flow-card .fcard__link,
+.laser-flow-card .fcard__actions {
+  position: relative;
+  z-index: 2;
+}
+
+/* Electric Metallic Candy Blue Accent Utilities */
+.electric-candy-blue {
+  color: #00D2FF !important;
+  text-shadow: 0 0 12px rgba(0, 210, 255, 0.6), 0 0 24px rgba(0, 180, 255, 0.4);
+}
+
+.pagehead--laser {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.15) 0%, transparent 70%);
+}
+
+.pagehead__laser-container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.8;
+  pointer-events: none;
+}

@@ -97,7 +97,7 @@ export default function CustomOrders() {
             <p className="lead">
               Three questions to define your project requirements. The factory will assess your needs and recommend a base product from our catalogue as a starting point for your bespoke order.
             </p>
-            <MagneticButton onClick={begin} variant="gold" label="Begin Consultation" icon={<Drop />} />
+            <MagneticButton onClick={begin} variant="gold" label="Begin Consultation" icon={<Drop />} strength={0} />
             <span className="atelier__intro-note muted">Direct to manufacture. ± 45 seconds.</span>
           </Reveal>
         )}

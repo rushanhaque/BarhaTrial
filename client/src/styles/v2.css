@@ -382,9 +382,17 @@ html.palette-open { overflow: hidden; }
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   background: var(--tint-2);
-  transition: border-color 0.5s var(--ease-smooth), background-color 0.5s var(--ease-smooth), transform 0.5s var(--ease-spring);
+  transition: border-color 0.4s var(--ease-smooth), background-color 0.4s var(--ease-smooth), transform 0.4s var(--ease-spring), box-shadow 0.4s ease;
 }
-.dpick:hover { border-color: var(--line-strong); transform: translateY(-3px); }
+.dpick:hover {
+  border-color: rgba(0, 210, 255, 0.75) !important;
+  box-shadow:
+    0 0 12px rgba(0, 210, 255, 0.45),
+    0 0 25px rgba(0, 180, 255, 0.25),
+    inset 0 0 10px rgba(0, 210, 255, 0.2) !important;
+  transform: translateY(-3px);
+  background: rgba(12, 20, 35, 0.75);
+}
 .dpick.is-on { border-color: var(--gold); background: var(--tint-1); }
 .dpick__swatch {
   position: relative;
