@@ -10,12 +10,9 @@ const SearchContext = createContext(null)
 export const useSearch = () => useContext(SearchContext)
 
 const PAGES = [
-  { type: 'page', label: 'The Catalogue', to: '/catalogue', hint: 'All products' },
-  { type: 'page', label: 'Heritage', to: '/about', hint: 'Our story' },
-  { type: 'page', label: 'Custom Orders', to: '/custom-orders', hint: 'Bespoke manufacturing' },
-  { type: 'page', label: 'Trade Fairs', to: '/trade-fairs', hint: 'Meet us' },
-  { type: 'page', label: 'The Blog', to: '/blog', hint: 'Editorial' },
-  { type: 'page', label: 'Contact & Showrooms', to: '/contact', hint: 'Visit us' },
+  { type: 'page', label: 'The Collections', to: '/collections', hint: 'All products & series' },
+  { type: 'page', label: 'About Us', to: '/about', hint: 'Our story & heritage' },
+  { type: 'page', label: 'Contact Us', to: '/contact', hint: 'Get in touch' },
 ]
 
 export function SearchProvider({ children }) {

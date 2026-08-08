@@ -8,9 +8,12 @@
    ============================================================ */
 
 :root {
-  /* ---- Typography ---- */
-  --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
-  --font-sans: 'General Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* ---- Typography (Athelas + Moara Pairing) ---- */
+  --font-athelas: 'Athelas', 'Cormorant Garamond', 'Georgia', serif;
+  --font-moara: 'Moara', 'Bebas Neue', 'Oswald', sans-serif;
+  --font-display: var(--font-moara);
+  --font-serif: var(--font-athelas);
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
   --fs-mega: clamp(4.5rem, 18vw, 20rem);
   --fs-hero: clamp(3.2rem, 10vw, 11rem);

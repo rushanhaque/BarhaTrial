@@ -264,8 +264,8 @@ function HomeCatalogueSection({ products }) {
           tileHeight={190}
           gap={24}
           radius={14}
-          tilt={14}
-          turn={-12}
+          tilt={0}
+          turn={0}
           perspective={1200}
           depth={100}
           speed={42}

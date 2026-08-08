@@ -103,7 +103,7 @@ export default function Product() {
   return (
     <div className="page page-fragrance" style={{ '--accent': accent }}>
       <header className="container fragrance__head">
-        <TLink to="/catalogue" className="fragrance__back ulink">← The Catalogue</TLink>
+        <TLink to="/collections" className="fragrance__back ulink">← The Collections</TLink>
         <div className="fragrance__head-row">
           <span className="index-num">{p.index}</span>
           <span className="fragrance__family">{p.family}</span>

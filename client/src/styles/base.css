@@ -75,15 +75,20 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 360;
+  font-weight: 500;
   line-height: var(--lh-tight);
-  letter-spacing: -0.012em;
+  letter-spacing: 0.04em;
   color: var(--bone);
-  font-optical-sizing: auto;
+}
+.serif,
+blockquote,
+cite,
+.italic {
+  font-family: var(--font-athelas);
 }
 h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
-h3 { font-size: var(--fs-h3); font-weight: 420; }
+h3 { font-size: var(--fs-h3); font-weight: 500; }
 
 p { text-wrap: pretty; }
 a {

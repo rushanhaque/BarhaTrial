@@ -14,17 +14,15 @@ const COLS = [
       { label: 'Aurelia Hammered Vase', to: '/product/aurelia-hammered-vase' },
       { label: 'Verona Candle Stand', to: '/product/verona-candle-stand' },
       { label: 'Solstice Wall Art', to: '/product/solstice-wall-art' },
-      { label: 'All Products', to: '/catalogue' },
+      { label: 'All Products', to: '/collections' },
     ],
   },
   {
-    title: 'Heritage',
+    title: 'Navigation',
     links: [
+      { label: 'The Collections', to: '/collections' },
       { label: 'About Us', to: '/about' },
-      { label: 'Custom Orders', to: '/custom-orders' },
-      { label: 'Trade Fairs', to: '/trade-fairs' },
-      { label: 'The Blog', to: '/blog' },
-      { label: 'Contact', to: '/contact' },
+      { label: 'Contact Us', to: '/contact' },
     ],
   },
   {
@@ -124,8 +122,8 @@ export default function Footer() {
           <div className="footer__col footer__col--cta">
             <span className="footer__col-title">Bespoke Production</span>
             <p className="muted">Request a bespoke manufacturing quote for your next collection.</p>
-            <TLink to="/custom-orders" className="btn btn--ghost btn--sm btn--shine">
-              Custom Manufacturing
+            <TLink to="/contact" className="btn btn--ghost btn--sm btn--shine">
+              Contact Sales
               <div className="btn__icon">
                 <ArrowUR />
               </div>

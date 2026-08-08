@@ -17,22 +17,16 @@ import ScrollProgress from './components/ScrollProgress.jsx'
 import BackToTop from './components/BackToTop.jsx'
 
 import Home from './pages/Home.jsx'
-import Catalogue from './pages/Catalogue.jsx'
+import Collections from './pages/Collections.jsx'
 import Product from './pages/Product.jsx'
 import About from './pages/About.jsx'
-import CustomOrders from './pages/CustomOrders.jsx'
-import TradeFairs from './pages/TradeFairs.jsx'
-import Blog from './pages/Blog.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 const SEO = {
   '/': ['Barira Handicrafts — Manufacturer & Exporter', 'Premium metal handicrafts and decor exporter from India.'],
-  '/catalogue': ['Metalcraft Catalogue — Barira Handicrafts', 'Browse our export catalogue of handcrafted brass, copper, and iron products.'],
-  '/about': ['About the Factory — Barira Handicrafts', 'A leading exporter of Indian handicrafts and decorative metalwork.'],
-  '/custom-orders': ['Custom Manufacturing — Barira Handicrafts', 'Submit an inquiry for custom B2B manufacturing.'],
-  '/trade-fairs': ['Trade Fairs — Barira Handicrafts', 'Visit our showcases at global trade fairs.'],
-  '/blog': ['Blog — Barira Handicrafts', 'Insights into metalworking and our manufacturing process.'],
+  '/collections': ['Curated Collections — Barira Handicrafts', 'Explore our curated series of handcrafted brass, cast iron, and decorative metalwork.'],
+  '/about': ['About Us — Barira Handicrafts', 'Our story, heritage factory floor, and master artisans in Moradabad.'],
   '/contact': ['Contact Us — Barira Handicrafts', 'Get in touch with our export team and global offices.'],
 }
 
@@ -78,12 +72,9 @@ export default function App() {
                   <ErrorBoundary key={pathname}>
                     <Routes>
                       <Route path="/" element={<Home entered={entered} />} />
-                      <Route path="/catalogue" element={<Catalogue />} />
+                      <Route path="/collections" element={<Collections />} />
                       <Route path="/product/:slug" element={<Product />} />
                       <Route path="/about" element={<About />} />
-                      <Route path="/custom-orders" element={<CustomOrders />} />
-                      <Route path="/trade-fairs" element={<TradeFairs />} />
-                      <Route path="/blog" element={<Blog />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>

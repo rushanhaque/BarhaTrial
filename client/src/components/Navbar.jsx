@@ -8,12 +8,9 @@ import { Magnetic } from './MagneticButton.jsx'
 import { ArrowUR, Search, Bag } from './Icons.jsx'
 
 const LINKS = [
-  { i: '01', label: 'Heritage', to: '/about' },
-  { i: '02', label: 'The Catalogue', to: '/catalogue' },
-  { i: '03', label: 'Custom Orders', to: '/custom-orders' },
-  { i: '04', label: 'Trade Fairs', to: '/trade-fairs' },
-  { i: '05', label: 'The Blog', to: '/blog' },
-  { i: '06', label: 'Contact', to: '/contact' },
+  { i: '01', label: 'The Collections', to: '/collections' },
+  { i: '02', label: 'About Us', to: '/about' },
+  { i: '03', label: 'Contact Us', to: '/contact' },
 ]
 
 export default function Navbar() {

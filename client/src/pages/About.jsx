@@ -133,7 +133,7 @@ export default function About() {
             </h2>
             <div className="maison__cta-actions">
               <MagneticButton to="/contact" variant="primary" label="Request a visit" />
-              <MagneticButton to="/custom-orders" variant="ghost" label="Custom Manufacturing" />
+              <MagneticButton to="/collections" variant="ghost" label="Explore Collections" />
             </div>
           </Reveal>
         </div>
