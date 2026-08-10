@@ -42,7 +42,7 @@ export default function Footer() {
   const location = useLocation()
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState({ state: 'idle', msg: '' })
-  const isProductPage = location.pathname.startsWith('/product/')
+  const isProductPage = location.pathname.startsWith('/product/') || location.pathname === '/admin'
 
   const subscribe = async (e) => {
     e.preventDefault()

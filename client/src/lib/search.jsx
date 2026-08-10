@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import { get } from './api.js'
 import { useTransition } from './transition.jsx'
 import { useScroll } from './SmoothScroll.jsx'
-import { fallbackProducts } from '../data/fallback.js'
+import { getFallbackProducts } from '../data/fallback.js'
 import { swatchGradient } from './format.js'
 import { Search, ArrowUR, Drop } from '../components/Icons.jsx'
 
@@ -18,7 +18,7 @@ const PAGES = [
 export function SearchProvider({ children }) {
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
-  const [items, setItems] = useState(fallbackProducts)
+  const [items, setItems] = useState(getFallbackProducts)
   const [active, setActive] = useState(0)
   const inputRef = useRef(null)
   const loaded = useRef(false)

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { COLLECTIONS_ITEMS } from '../data/categories.js'
 import { get } from '../lib/api.js'
-import { fallbackProducts } from '../data/fallback.js'
+import { getFallbackProducts } from '../data/fallback.js'
 import { Reveal, Mask } from '../components/Reveal.jsx'
 import ProductCard from '../components/ProductCard.jsx'
 
 export default function Category() {
   const { slug } = useParams()
-  const [products, setProducts] = useState(fallbackProducts)
+  const [products, setProducts] = useState(getFallbackProducts)
 
   const categoryData = COLLECTIONS_ITEMS.find((c) => c.slug === slug)
   const categoryName = categoryData?.name || 'Collection'

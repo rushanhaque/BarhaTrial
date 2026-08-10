@@ -23,6 +23,7 @@ import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import Category from './pages/Category.jsx'
 import NotFound from './pages/NotFound.jsx'
+import Admin from './pages/Admin.jsx'
 
 const SEO = {
   '/': ['Barira Handicrafts — Manufacturer & Exporter', 'Premium metal handicrafts and decor exporter from India.'],
@@ -78,6 +79,7 @@ export default function App() {
                       <Route path="/category/:slug" element={<Category />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
+                      <Route path="/admin" element={<Admin />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </ErrorBoundary>

@@ -18,7 +18,24 @@ async function once(path, opts = {}) {
   return json.data
 }
 
+import { getFallbackProducts } from '../data/fallback.js'
+
 async function request(path, opts = {}) {
+  // --- Admin Persistence Intercept ---
+  // Always serve products from local state (which merges Admin localStorage)
+  // so the site accurately reflects admin edits without a real database.
+  if (path === '/api/products') {
+    return getFallbackProducts()
+  }
+  if (path.startsWith('/api/products/')) {
+    const slug = path.split('/').pop()
+    const all = getFallbackProducts()
+    const found = all.find(p => p.slug === slug)
+    if (found) return found
+    throw new Error('Not found')
+  }
+  // -----------------------------------
+
   const isWrite = opts.method && opts.method !== 'GET'
   const tries = isWrite ? 1 : 9
   let lastErr

@@ -67,8 +67,16 @@ export default function Preloader({ onDone }) {
       <div className="preloader__veil" />
       <div className="preloader__inner">
         <span className="preloader__eyebrow">Handicrafts · Moradabad · Est. MCMLXXXII</span>
-        <div className="preloader__mark" style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
-          <img src={logo} alt="Barha Logo" className="preloader__logo" style={{ maxWidth: '400px', width: '100%', height: 'auto', filter: 'drop-shadow(0 0 16px rgba(0, 191, 255, 0.9))' }} />
+        <div className="preloader__mark" style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0', overflow: 'visible' }}>
+          <img src={logo} alt="Barha Logo" className="preloader__logo" style={{ 
+            maxWidth: '90px', 
+            width: '100%', 
+            height: 'auto', 
+            filter: 'drop-shadow(0 0 1px rgba(122, 159, 176, 1)) drop-shadow(0 0 3px rgba(122, 159, 176, 0.6))', 
+            transform: 'scale(3)',
+            opacity: 0,
+            animation: 'pl-fade 1.5s var(--ease-out-expo) 0.3s forwards'
+          }} />
         </div>
         <span className="preloader__sub">Manufacturer &amp; Exporter</span>
       </div>

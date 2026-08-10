@@ -339,6 +339,8 @@
   border-block: 1px solid var(--line);
   padding-block: clamp(0.1rem, 0.4vw, 0.3rem);
   color: var(--bone);
+  margin-top: var(--section-y);
+  margin-bottom: 0;
 }
 
 /* ====================================================================
@@ -1142,13 +1144,14 @@
 .signature__feature-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--r-md);
-  padding: 0.75rem 1rem;
+  border-radius: var(--r-lg);
+  padding: 1.4rem 1.2rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
-  gap: 0.75rem;
+  gap: 1.5rem;
+  min-height: 110px;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -2811,6 +2814,7 @@
   position: relative;
   height: 300vh;
   background: var(--bg);
+  margin-bottom: var(--section-y-lg);
 }
 
 .materials-hsection__sticky {

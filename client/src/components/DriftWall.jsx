@@ -181,33 +181,8 @@ const DriftWall = ({
     setActiveId(null);
   }, []);
 
-  const handlePointerMove = useCallback(
-    e => {
-      const rect = containerRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      if (parallax > 0 && !reduced) {
-        pointerRef.current = {
-          x: (e.clientX - rect.left) / rect.width - 0.5,
-          y: (e.clientY - rect.top) / rect.height - 0.5
-        };
-      }
-      const hit = document.elementFromPoint(e.clientX, e.clientY);
-      const tile = hit && hit.closest ? hit.closest('[data-tile-id]') : null;
-      if (!tile) return;
-      const id = tile.dataset.tileId;
-      if (id === activeIdRef.current) return;
-      activeIdRef.current = id;
-      hoveredColRef.current = Number(tile.dataset.col);
-      setActiveId(id);
-    },
-    [parallax, reduced]
-  );
-
-  const handlePointerLeaveWall = useCallback(() => {
-    wallHoveredRef.current = false;
-    pointerRef.current = { x: 0, y: 0 };
-    release();
-  }, [release]);
+  const handlePointerMove = useCallback(e => {}, []);
+  const handlePointerLeaveWall = useCallback(() => {}, []);
 
   const cssVars = useMemo(
     () => ({

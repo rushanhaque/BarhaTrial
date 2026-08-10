@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { get } from '../lib/api.js'
-import { fallbackProducts } from '../data/fallback.js'
+import { getFallbackProducts } from '../data/fallback.js'
 import { useParallax, useReveal, useCounter } from '../lib/hooks.js'
 
 import { Reveal, Mask, Words } from '../components/Reveal.jsx'
@@ -16,7 +16,7 @@ import ShinyText from '../components/ShinyText.jsx'
 import TLink from '../components/TLink.jsx'
 import { ArrowUR, ArrowDown, Drop, Star4, Quote } from '../components/Icons.jsx'
 export default function Home({ entered }) {
-  const [products, setProducts] = useState(fallbackProducts)
+  const [products, setProducts] = useState(getFallbackProducts)
 
   useEffect(() => {
     get('/api/products').then(setProducts).catch(() => { })
@@ -55,7 +55,19 @@ export default function Home({ entered }) {
 function Hero({ entered }) {
   return (
     <section className={`hero hero--centered ${entered ? 'is-entered' : ''}`}>
-      <div className="hero__center-wrap" style={{ position: 'relative', zIndex: 1 }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          src="https://res.cloudinary.com/djszwbnxp/video/upload/v1786354702/IMG_0217_mkksta.mp4"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)', pointerEvents: 'none' }} />
+      </div>
+
+      <div className="hero__center-wrap" style={{ position: 'relative', zIndex: 1, marginTop: 'auto', marginBottom: '12vh' }}>
         <h1 className="hero__brand-title">
           Barira Handicrafts
         </h1>
@@ -82,7 +94,7 @@ function Heritage() {
           muted
           playsInline
           poster="/images/brass_vase.png"
-          src="/videos/heritage_bg.mp4"
+          src="/videos/HeritageBG.mp4"
         />
         <div className="heritage__overlay" />
       </div>
@@ -92,7 +104,7 @@ function Heritage() {
           <MaskedHeading
             text="THE HERITAGE"
             mediaType="video"
-            src="/videos/heritage_bg.mp4"
+            src="/videos/HeritageBG.mp4"
             poster="/images/brass_vase.png"
             fillScale={1.35}
             parallax={32}
@@ -131,7 +143,7 @@ function StatBlock({ value, target, prefix = '', suffix = '', label, align = 'le
       <MaskedHeading
         text={valStr}
         mediaType="video"
-        src="/videos/heritage_bg.mp4"
+        src="/videos/HeritageBG.mp4"
         poster="/images/brass_vase.png"
         fillScale={1.3}
         parallax={18}
@@ -193,7 +205,6 @@ function Signature({ product }) {
             <div className="signature__feature-grid">
               {[1, 2, 3, 4].map((i) => (
                 <Reveal as="div" key={i} className="signature__feature-card" delay={i}>
-                  <div className="signature__feature-icon-placeholder"></div>
                   <span>Detail {i}</span>
                 </Reveal>
               ))}
@@ -228,7 +239,7 @@ const WALL_TEXTURES = [
 
 function HomeCatalogueSection({ products }) {
   const wallItems = useMemo(() => {
-    const sourceList = products.length > 0 ? products : fallbackProducts
+    const sourceList = products.length > 0 ? products : getFallbackProducts()
 
     let list = [...sourceList]
     while (list.length < 25) {
