@@ -3,12 +3,14 @@ import { useScroll } from '../lib/SmoothScroll.jsx'
 import { Reveal, Mask } from './Reveal.jsx'
 
 const MATERIALS_CARDS = [
-  { id: 'solid-brass', num: '01', name: 'SOLID BRASS', image: '/images/brass_macro.png' },
-  { id: 'cast-iron', num: '02', name: 'CAST IRON', image: '/images/cast_iron_macro_2.jpg' },
-  { id: 'raw-copper', num: '03', name: 'RAW COPPER', image: '/images/copper_macro.png' },
-  { id: 'hand-hammered', num: '04', name: 'HAND HAMMERED', image: '/images/hammered_macro.jpg' },
-  { id: 'mirror-polish', num: '05', name: 'MIRROR POLISH', image: '/images/polished_macro.jpg' },
-  { id: 'flame-oxidized', num: '06', name: 'FLAME OXIDIZED', image: '/images/oxidized_macro.jpg' }
+  { id: 'brass', num: '01', name: 'BRASS', image: '/images/Brass.jpeg' },
+  { id: 'copper', num: '02', name: 'COPPER', image: '/images/Copper.jpeg' },
+  { id: 'aluminium', num: '03', name: 'ALUMINIUM', image: '/images/Aluminium.jpeg' },
+  { id: 'steel', num: '04', name: 'STEEL', image: '/images/Steel.jpeg' },
+  { id: 'iron', num: '05', name: 'IRON', image: '/images/Iron.jpeg' },
+  { id: 'glass', num: '06', name: 'GLASS', image: '/images/Glass.jpeg' },
+  { id: 'ceramic', num: '07', name: 'CERAMIC', image: '/images/Ceramic.jpeg' },
+  { id: 'wood', num: '08', name: 'WOOD', image: '/images/Wood.jpeg' }
 ]
 
 export default function MaterialsAndFinishes() {

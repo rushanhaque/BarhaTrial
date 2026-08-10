@@ -16,9 +16,8 @@ const SEED = {
     { year: '2025', title: 'Digital Catalogue Launch', text: 'Transitioning to a fully digital B2B ordering and cataloguing system.' },
   ],
   people: [
-    { name: 'Tariq Hussain', role: 'Founder & Chairman', note: 'A third-generation metalworker who transitioned the family business from local markets to global exports.', initials: 'TH' },
-    { name: 'Mustafa Ali', role: 'Master Craftsman, Brass', note: 'Specializes in traditional hand-hammering and sand casting. Over 30 years at the forge.', initials: 'MA' },
-    { name: 'Zaid Hussain', role: 'Director of Finishing', note: 'Pioneered the flame-oxidation and patina techniques used in our premium copper lines.', initials: 'ZH' },
+    { name: 'Haji Javed Hussain', role: 'Founder', note: 'The visionary who established Barira Handicrafts.', initials: 'HJH', image: '/images/Founder.jpeg' },
+    { name: 'Abu Rafay', role: 'Co-founder', note: 'Driving the modern expansion of the export business.', initials: 'AR', image: '/images/Co-Founder.jpeg' },
   ],
 }
 
@@ -111,8 +110,8 @@ export default function About() {
             {factory.people.map((p, i) => (
               <Reveal as="article" className="person" key={p.name} delay={i}>
                 <div className="bezel person__bezel">
-                  <div className="bezel__core person__core">
-                    <span className="person__monogram serif">{p.initials}</span>
+                  <div className="bezel__core person__core" style={p.image ? { backgroundImage: `url(${p.image})`, backgroundSize: 'cover', backgroundPosition: 'center', border: 'none' } : {}}>
+                    {!p.image && <span className="person__monogram serif">{p.initials}</span>}
                   </div>
                 </div>
                 <h3 className="person__name serif">{p.name}</h3>

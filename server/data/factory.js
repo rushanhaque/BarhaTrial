@@ -41,22 +41,18 @@ export const milestones = [
 
 export const people = [
   {
-    name: 'Tariq Hussain',
-    role: 'Founder & Chairman',
-    note: 'A third-generation metalworker who transitioned the family business from local markets to global exports.',
-    initials: 'TH',
+    name: 'Haji Javed Hussain',
+    role: 'Founder',
+    note: 'The visionary who established Barira Handicrafts.',
+    initials: 'HJH',
+    image: '/images/Founder.jpeg'
   },
   {
-    name: 'Mustafa Ali',
-    role: 'Master Craftsman, Brass',
-    note: 'Specializes in traditional hand-hammering and sand casting. Over 30 years at the forge.',
-    initials: 'MA',
-  },
-  {
-    name: 'Zaid Hussain',
-    role: 'Director of Finishing',
-    note: 'Pioneered the flame-oxidation and patina techniques used in our premium copper lines.',
-    initials: 'ZH',
+    name: 'Abu Rafay',
+    role: 'Co-founder',
+    note: 'Driving the modern expansion of the export business.',
+    initials: 'AR',
+    image: '/images/Co-Founder.jpeg'
   },
 ]
 

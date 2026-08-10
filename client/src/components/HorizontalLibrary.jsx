@@ -5,88 +5,7 @@ import Beams from './Beams.jsx'
 import TLink from './TLink.jsx'
 import { ArrowUR, ArrowDown } from './Icons.jsx'
 
-const COLLECTIONS_ITEMS = [
-  {
-    id: 'vases',
-    name: 'Vases & Vessels',
-    tagline: 'Solid Hammered Brass',
-    image: '/images/brass_vase.png',
-    slug: 'aurelia-hammered-vase',
-    gridPos: { row: 1, col: 1 },
-    dx: -90,
-    dy: -90
-  },
-  {
-    id: 'tableware',
-    name: 'Tableware & Trays',
-    tagline: 'Hand-Buffed Finish',
-    image: '/images/brass_tray.png',
-    slug: 'verona-candle-stand',
-    gridPos: { row: 1, col: 2 },
-    dx: 0,
-    dy: -100
-  },
-  {
-    id: 'decor',
-    name: 'Architectural Decor',
-    tagline: 'Flame-Oxidized Patina',
-    image: '/images/candle_stand.png',
-    slug: 'solstice-wall-art',
-    gridPos: { row: 1, col: 3 },
-    dx: 90,
-    dy: -90
-  },
-  {
-    id: 'lighting',
-    name: 'Brass Lighting',
-    tagline: 'Handcrafted Sconces',
-    image: '/images/metal_lantern.png',
-    slug: 'helios-lantern',
-    gridPos: { row: 2, col: 1 },
-    dx: -100,
-    dy: 0
-  },
-  {
-    id: 'furniture',
-    name: 'Cast Iron Furniture',
-    tagline: 'Heavy Foundry Iron',
-    image: '/images/end_table.png',
-    slug: 'regent-end-table',
-    gridPos: { row: 2, col: 3 },
-    dx: 100,
-    dy: 0
-  },
-  {
-    id: 'kitchenware',
-    name: 'Copper Vessels',
-    tagline: 'Raw Copper Craft',
-    image: '/images/copper_kitchenware.png',
-    slug: 'celeste-serving-bowl',
-    gridPos: { row: 3, col: 1 },
-    dx: -90,
-    dy: 90
-  },
-  {
-    id: 'planters',
-    name: 'Garden & Planters',
-    tagline: 'Weathered Vessels',
-    image: '/images/iron_planter.png',
-    slug: 'marbella-planter',
-    gridPos: { row: 3, col: 2 },
-    dx: 0,
-    dy: 100
-  },
-  {
-    id: 'metalwork',
-    name: 'Custom Metalwork',
-    tagline: 'Wholesale & Export',
-    image: '/images/architectural_brass.png',
-    slug: 'zenith-bookends',
-    gridPos: { row: 3, col: 3 },
-    dx: 90,
-    dy: 90
-  }
-]
+import { COLLECTIONS_ITEMS } from '../data/categories.js'
 
 export default function HorizontalLibrary({ items = [] }) {
   const scroll = useScroll()
@@ -166,17 +85,22 @@ export default function HorizontalLibrary({ items = [] }) {
   // p = 1: Hero shrinks down to 1.0 scale (exact normal size of surrounding cards)
   const p = progress
   const heroScale = Math.max(1, 3.0 - p * 2.0)
-  const heroTitleOpacity = Math.max(0, 1 - p * 2.5)
-  const heroBadgeOpacity = Math.min(1, Math.max(0, (p - 0.45) * 2.5))
+  const heroTitleOpacity = Math.max(0, 1 - Math.max(0, (p - 0.85) * 10))
+  const heroBadgeOpacity = Math.min(1, Math.max(0, (p - 0.85) * 10))
 
   const handleHeroClick = (e) => {
-    if (p < 0.5 && sectionRef.current) {
+    if (p < 0.95 && sectionRef.current) {
       e.preventDefault()
       e.stopPropagation()
       const sec = sectionRef.current
       const maxScroll = sec.offsetHeight - window.innerHeight
-      const targetScroll = sec.offsetTop + Math.max(0, maxScroll * 0.52)
-      window.scrollTo({ top: targetScroll, behavior: 'smooth' })
+      const targetScroll = sec.offsetTop + Math.max(0, maxScroll)
+      
+      if (scroll && scroll.scrollTo) {
+        scroll.scrollTo(targetScroll)
+      } else {
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' })
+      }
     }
   }
 
@@ -184,8 +108,15 @@ export default function HorizontalLibrary({ items = [] }) {
     <section className="czoom-section" ref={sectionRef}>
       <div className="czoom-sticky">
 
+        {/* Section Heading (fades in when zoomed out) */}
+        <div className="czoom-head" style={{ opacity: heroBadgeOpacity, pointerEvents: 'none', width: '100%' }}>
+          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', color: 'var(--bone)' }}>
+            Explore Our Collections
+          </h2>
+        </div>
+
         {/* Zoom Matrix Container */}
-        <div className="czoom-container">
+        <div className="czoom-container" style={{ transform: `translateY(${p * 6}vh)` }}>
           <div className="czoom-grid">
             {COLLECTIONS_ITEMS.map((item, idx) => {
               // Calculate staggered entrance for each surrounding card
@@ -201,7 +132,7 @@ export default function HorizontalLibrary({ items = [] }) {
               return (
                 <TLink
                   key={item.id}
-                  to="/collections"
+                  to={`/category/${item.slug}`}
                   className="czoom-card"
                   style={{
                     gridRow: item.gridPos.row,
@@ -231,32 +162,21 @@ export default function HorizontalLibrary({ items = [] }) {
                 transform: `scale(${heroScale})`,
                 zIndex: p < 0.5 ? 12 : 2
               }}
-              data-cursor-label={p < 0.6 ? "Scroll to Expand" : "View All"}
+              data-cursor-label={p < 0.95 ? "Scroll to Expand" : "Explore"}
             >
-              <img src="/images/brass_vase.png" alt="Explore Collections" className="czoom-hero-img" />
+              <img 
+                src="/images/explore_collections_hero.png" 
+                alt="Explore Collections" 
+                className="czoom-hero-img" 
+              />
               <div className="czoom-hero-overlay" />
 
-              {/* Large Initial Title (fades out as card shrinks) */}
-              <div className="czoom-hero-content" style={{ opacity: heroTitleOpacity }}>
+              {/* Title scales down with card, remains visible */}
+              <div className="czoom-hero-content">
                 <h2 className="czoom-hero-title">
                   EXPLORE OUR <br />
                   <span className="italic gold">COLLECTIONS</span>
                 </h2>
-              </div>
-
-              {/* Compact Badge (fades in as card zooms out into grid) */}
-              <div
-                className="czoom-card-meta"
-                style={{
-                  position: 'absolute',
-                  bottom: '1rem',
-                  left: '1rem',
-                  right: '1rem',
-                  opacity: heroBadgeOpacity,
-                  pointerEvents: 'none'
-                }}
-              >
-                <h3 className="czoom-card-name">All Compositions</h3>
               </div>
             </TLink>
           </div>

@@ -68,12 +68,10 @@ export default function Navbar() {
     <>
       <header className={`nav ${scrolled ? 'is-scrolled' : ''} ${hidden ? 'is-hidden' : ''}`}>
         <div className="nav__island">
-          <Magnetic strength={0.2}>
-            <TLink to="/" className="nav__brand" data-cursor-label="Home">
-              <span className="nav__brand-mark">B</span>
-              <span className="nav__brand-word">BARIRA</span>
-            </TLink>
-          </Magnetic>
+          <TLink to="/" className="nav__brand" data-cursor-label="Home">
+            <span className="nav__brand-mark">B</span>
+            <span className="nav__brand-word">BARIRA</span>
+          </TLink>
 
           <nav className="nav__inline">
             {LINKS.slice(0, 4).map((l) => (
@@ -91,16 +89,18 @@ export default function Navbar() {
             <button className="nav__icon" onClick={() => search?.openSearch()} aria-label="Search" data-cursor data-cursor-label="Search">
               <Search />
             </button>
-            <button
-              className="nav__icon nav__bag"
-              onClick={() => wardrobe?.openDrawer('wardrobe')}
-              aria-label={`Your quote list${wardrobe?.cartCount ? `, ${wardrobe.cartCount} items` : ''}`}
-              data-cursor
-              data-cursor-label="Quote List"
-            >
-              <Bag />
-              {wardrobe?.cartCount > 0 && <span className="nav__badge">{wardrobe.cartCount}</span>}
-            </button>
+            {wardrobe?.cartCount > 0 && (
+              <button
+                className="nav__icon nav__bag"
+                onClick={() => wardrobe?.openDrawer('wardrobe')}
+                aria-label={`Your quote list, ${wardrobe.cartCount} items`}
+                data-cursor
+                data-cursor-label="Quote List"
+              >
+                <Bag />
+                <span className="nav__badge">{wardrobe.cartCount}</span>
+              </button>
+            )}
             <button
               className={`nav__burger ${open ? 'is-open' : ''}`}
               onClick={() => setOpen((v) => !v)}

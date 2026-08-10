@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigationType } from 'react-router-dom'
 import Lenis from 'lenis'
 
 const ScrollContext = createContext(null)
@@ -18,6 +18,7 @@ export default function SmoothScroll({ children }) {
   const subs = useRef(new Set())
   const [ctx, setCtx] = useState(null)
   const { pathname } = useLocation()
+  const navType = useNavigationType()
 
   useEffect(() => {
     if (prefersReduced()) {
@@ -72,14 +73,50 @@ export default function SmoothScroll({ children }) {
     }
   }, [])
 
-  // Reset to top on route change (instant — the curtain hides the jump).
+  // Tell the browser not to mess with our manual scroll restoration
   useEffect(() => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true })
-    } else {
-      window.scrollTo(0, 0)
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
     }
-  }, [pathname])
+  }, [])
+
+  // Save scroll position before leaving the current route
+  useEffect(() => {
+    return () => {
+      const currentScroll = lenisRef.current ? lenisRef.current.scroll : window.scrollY;
+      sessionStorage.setItem(`scroll-${pathname}`, currentScroll.toString());
+    };
+  }, [pathname]);
+
+  // Restore scroll on POP or if returning to homepage
+  useEffect(() => {
+    const applyScroll = (target) => {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(target, { immediate: true });
+      } else {
+        window.scrollTo(0, target);
+      }
+    };
+
+    const saved = sessionStorage.getItem(`scroll-${pathname}`);
+    // Restore if we have a saved position AND (it's a back navigation OR we are going to the homepage)
+    const target = (saved && (navType === 'POP' || pathname === '/')) ? Number(saved) : 0;
+    
+    if (target > 0) {
+      // Fire immediately
+      applyScroll(target);
+      // And fire repeatedly for a short window to ensure it sticks as the DOM renders
+      let attempts = 0;
+      const interval = setInterval(() => {
+        applyScroll(target);
+        attempts++;
+        if (attempts >= 5) clearInterval(interval);
+      }, 100);
+      return () => clearInterval(interval);
+    } else {
+      applyScroll(0);
+    }
+  }, [pathname, navType]);
 
   return <ScrollContext.Provider value={ctx}>{children}</ScrollContext.Provider>
 }

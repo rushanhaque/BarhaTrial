@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
 
 import { products, productSummaries, findProduct } from './data/products.js'
-import { journal } from './data/journal.js'
+
 import { offices, milestones, people, factoryStats } from './data/factory.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -52,7 +52,7 @@ app.get('/api/products/:slug', (req, res) => {
   }
   ok(res, { product: p, related })
 })
-app.get('/api/journal', (_req, res) => ok(res, journal))
+
 app.get('/api/factory', (_req, res) => ok(res, { offices, milestones, people, factoryStats }))
 
 // ── B2B Custom Manufacturing Engine ─────────────────────────────────────

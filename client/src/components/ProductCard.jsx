@@ -4,13 +4,11 @@ import TLink from './TLink.jsx'
 import LaserFlow from './LaserFlow.jsx'
 import { useWardrobe } from '../lib/wardrobe.jsx'
 import { useToast } from '../lib/toast.jsx'
-import { useTilt } from '../lib/hooks.js'
 import { ArrowUR, Heart, HeartFill, Bag } from './Icons.jsx'
-
+import GlareHover from './GlareHover.jsx'
 export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false, laserColor = '#3b5f78', index = 0 }) {
   const w = useWardrobe()
   const toast = useToast()
-  const tilt = useTilt(5)
   const wished = w?.isWished(p.slug)
   const summary = {
     slug: p.slug, name: p.name, family: p.family,
@@ -76,15 +74,19 @@ export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false,
         </div>
       )}
       <TLink to={`/product/${p.slug}`} className="fcard__link" data-cursor-label="View">
-        <div className="fcard__tilt" ref={tilt}>
-          <ChromaticPlate chromatic={p.chromatic} ratio={ratio} className="fcard__plate">
+        <GlareHover width="100%" height="100%" background="transparent" borderColor="transparent" borderRadius="var(--r-md)" glareColor="#ffffff" glareOpacity={0.15}>
+          <ChromaticPlate chromatic={p.chromatic} ratio={ratio} className="fcard__plate" style={{ width: '100%', height: '100%' }}>
             <span className="fcard__index">{p.index}</span>
-            {p.signature && <span className="fcard__sig">Signature</span>}
             <span className="fcard__view"><ArrowUR /></span>
             <span className="fcard__family-tag">{p.family}</span>
             <span className="fcard__glare" />
+            <div className="fcard__actions">
+              <button className="fcard__act" onClick={quickAdd} aria-label="Add to quote request" data-cursor>
+                <Bag />
+              </button>
+            </div>
           </ChromaticPlate>
-        </div>
+        </GlareHover>
         <div className="fcard__meta">
           <div className="fcard__line">
             <h3 className="fcard__name serif">{p.name}</h3>
@@ -96,20 +98,6 @@ export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false,
           </div>
         </div>
       </TLink>
-      <div className="fcard__actions">
-        <button
-          className={`fcard__act ${wished ? 'is-wished' : ''}`}
-          onClick={toggleWish}
-          aria-label={wished ? 'Remove from saved' : 'Save'}
-          aria-pressed={!!wished}
-          data-cursor
-        >
-          {wished ? <HeartFill /> : <Heart />}
-        </button>
-        <button className="fcard__act" onClick={quickAdd} aria-label="Add to quote request" data-cursor>
-          <Bag />
-        </button>
-      </div>
     </div>
   )
 }

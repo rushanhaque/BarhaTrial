@@ -8,7 +8,7 @@ import WhyChooseBarira from '../components/WhyChooseBarira.jsx'
 import Marquee from '../components/Marquee.jsx'
 import HorizontalLibrary from '../components/HorizontalLibrary.jsx'
 import ChromaticPlate from '../components/ChromaticPlate.jsx'
-import RecentlyViewed from '../components/RecentlyViewed.jsx'
+
 import DriftWall from '../components/DriftWall.jsx'
 import MaskedHeading from '../components/MaskedHeading.jsx'
 import MaterialsAndFinishes from '../components/MaterialsAndFinishes.jsx'
@@ -42,7 +42,7 @@ export default function Home({ entered }) {
 
       <HomeCatalogueSection products={products} />
 
-      <RecentlyViewed title="Recently viewed items" />
+
 
       <MaterialsAndFinishes />
 
@@ -156,7 +156,7 @@ function Signature({ product }) {
     <section className="section signature">
       <div className="container">
         {/* Section Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.4rem' }}>
           <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)' }}>
             FEATURED PRODUCT
           </h2>
@@ -190,18 +190,14 @@ function Signature({ product }) {
               </Reveal>
             </div>
 
-            <ul className="signature__notes">
-              {[
-                { k: 'Primary Material', v: 'Solid Brass Sheet' },
-                { k: 'Manufacturing', v: 'Hand Hammered' },
-                { k: 'Finish', v: 'Antique Unlacquered' },
-              ].map((row, i) => (
-                <Reveal as="li" key={row.k} className="signature__note" delay={i}>
-                  <span className="signature__note-k">{row.k}</span>
-                  <span className="signature__note-v">{row.v}</span>
+            <div className="signature__feature-grid">
+              {[1, 2, 3, 4].map((i) => (
+                <Reveal as="div" key={i} className="signature__feature-card" delay={i}>
+                  <div className="signature__feature-icon-placeholder"></div>
+                  <span>Detail {i}</span>
                 </Reveal>
               ))}
-            </ul>
+            </div>
 
             <div className="signature__cta">
               <TLink to={`/product/${product.slug}`} className="btn btn--gold btn--shine">
@@ -255,9 +251,9 @@ function HomeCatalogueSection({ products }) {
 
   return (
     <section className="section home-catalogue-section" style={{ paddingTop: '6rem', paddingBottom: '2rem' }}>
-      <div className="container" style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
+      <div className="container" style={{ position: 'relative', zIndex: 10, marginBottom: '2.5rem', textAlign: 'center', pointerEvents: 'none' }}>
         <div>
-          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)' }}>
+          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)', pointerEvents: 'auto' }}>
             OUR BEST SELLERS
           </h2>
         </div>

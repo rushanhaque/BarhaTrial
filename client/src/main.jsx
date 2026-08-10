@@ -8,6 +8,7 @@ import './styles/layout.css'
 import './styles/chrome.css'
 import './styles/pages.css'
 import './styles/v2.css'
+import './styles/collectionsdolly.css'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>

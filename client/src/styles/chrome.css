@@ -370,7 +370,7 @@ html.menu-open {
   height: 2.6rem;
   border-radius: 50%;
   border: 1px solid var(--line-2);
-  display: grid;
+  display: none; /* Hidden on desktop */
   place-items: center;
 }
 
@@ -566,6 +566,10 @@ html.menu-open {
   .nav__inline {
     display: none;
   }
+
+  .nav__burger {
+    display: grid; /* Shown on mobile */
+  }
 }
 
 @media (max-width: 540px) {
@@ -728,7 +732,7 @@ html.menu-open {
   text-align: center;
   white-space: nowrap;
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 7.5vw, 9.2rem);
+  font-size: clamp(2.4rem, 12vw, 14rem);
   font-weight: 300;
   line-height: 0.9;
   letter-spacing: -0.02em;

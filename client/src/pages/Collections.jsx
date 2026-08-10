@@ -1,70 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
-import { get } from '../lib/api.js'
-import { fallbackProducts } from '../data/fallback.js'
+import { useEffect } from 'react'
 import { Reveal, Mask } from '../components/Reveal.jsx'
-import ProductCard from '../components/ProductCard.jsx'
 import Marquee from '../components/Marquee.jsx'
-import DriftWall from '../components/DriftWall.jsx'
 import TLink from '../components/TLink.jsx'
-import { ArrowUR, Star4 } from '../components/Icons.jsx'
-
-const CATEGORIES = [
-  { key: 'all', label: 'All Products', match: () => true },
-  { key: 'vase', label: 'Vases & Vessels', match: (p) => /vase|vessel/i.test(p.family) },
-  { key: 'decor', label: 'Home & Wall Decor', match: (p) => /decor/i.test(p.family) },
-  { key: 'tableware', label: 'Tableware & Trays', match: (p) => /tableware/i.test(p.family) },
-  { key: 'lighting', label: 'Brass Lighting', match: (p) => /lighting/i.test(p.family) },
-  { key: 'furniture', label: 'Cast Furniture', match: (p) => /furniture/i.test(p.family) },
-  { key: 'garden', label: 'Garden & Planters', match: (p) => /garden|planter/i.test(p.family) },
-]
-
-// Real material & foundry imagery interleaved with the products for visual texture.
-const WALL_TEXTURES = [
-  '/images/brass_macro.png', '/images/copper_macro.png', '/images/hammered_macro.jpg',
-  '/images/foundry_pour.png', '/images/foundry_mold.png', '/images/foundry_patina.png',
-  '/images/cast_iron_macro_2.jpg', '/images/oxidized_macro.jpg', '/images/polished_macro.jpg',
-]
+import { ArrowUR } from '../components/Icons.jsx'
+import CollectionsDolly from '../components/CollectionsDolly.jsx'
+import { COLLECTIONS_ITEMS } from '../data/categories.js'
 
 export default function Collections() {
-  const [products, setProducts] = useState(fallbackProducts)
-  const [activeCategory, setActiveCategory] = useState('all')
-  const [viewMode, setViewMode] = useState('grid') // 'grid' | 'wall'
-
-  useEffect(() => {
-    get('/api/products')
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setProducts(data)
-        }
-      })
-      .catch(() => {})
-  }, [])
-
-  const currentCategory = CATEGORIES.find((c) => c.key === activeCategory) || CATEGORIES[0]
-
-  const filteredProducts = useMemo(() => {
-    return products.filter(currentCategory.match)
-  }, [products, currentCategory])
-
-  const wallItems = useMemo(() => {
-    const sourceList = filteredProducts.length > 0 ? filteredProducts : products
-    let list = [...sourceList]
-    while (list.length < 25) {
-      list = [...list, ...sourceList]
-    }
-    return list.map((p, idx) => {
-      const useTexture = idx % 3 === 2
-      const image = useTexture ? WALL_TEXTURES[idx % WALL_TEXTURES.length] : p.image
-      return {
-        image,
-        title: `${p.name} — ${p.family || 'Barira'}`,
-        href: `/product/${p.slug}`,
-        id: `${p.slug}-${idx}`,
-        rawProduct: p
-      }
-    })
-  }, [filteredProducts, products])
-
   return (
     <div className="page page-collections">
       <header className="section pagehead">
@@ -84,102 +26,7 @@ export default function Collections() {
         </div>
       </header>
 
-      {/* Filter and View Mode Toolbar */}
-      <section className="container" style={{ marginBottom: '2.5rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-          {/* Category Tabs */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.key}
-                onClick={() => setActiveCategory(cat.key)}
-                className="btn btn--sm"
-                style={{
-                  background: activeCategory === cat.key ? 'var(--gold)' : 'rgba(255,255,255,0.05)',
-                  color: activeCategory === cat.key ? '#000' : 'var(--bone)',
-                  borderColor: activeCategory === cat.key ? 'var(--gold)' : 'rgba(255,255,255,0.15)',
-                  fontSize: '0.825rem',
-                  letterSpacing: '0.05em',
-                  fontWeight: activeCategory === cat.key ? '600' : '400',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* View Toggle */}
-          <div style={{ display: 'flex', gap: '0.5rem', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '8px' }}>
-            <button
-              onClick={() => setViewMode('grid')}
-              style={{
-                background: viewMode === 'grid' ? 'rgba(255,255,255,0.15)' : 'transparent',
-                color: 'var(--bone)',
-                border: 'none',
-                padding: '6px 14px',
-                borderRadius: '6px',
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Curated Grid
-            </button>
-            <button
-              onClick={() => setViewMode('wall')}
-              style={{
-                background: viewMode === 'wall' ? 'rgba(255,255,255,0.15)' : 'transparent',
-                color: 'var(--bone)',
-                border: 'none',
-                padding: '6px 14px',
-                borderRadius: '6px',
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Interactive Wall
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content Area */}
-      {viewMode === 'grid' ? (
-        <section className="container" style={{ paddingBottom: '5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
-            {filteredProducts.map((product, idx) => (
-              <ProductCard key={product.slug + idx} p={product} index={idx} />
-            ))}
-          </div>
-        </section>
-      ) : (
-        <section className="catalogue-wall-section" style={{ position: 'relative', width: '100%', height: 'calc(120vh - 200px)', minHeight: '800px', background: 'transparent' }}>
-          <DriftWall
-            items={wallItems}
-            columns={5}
-            tileWidth={286}
-            tileHeight={190}
-            gap={24}
-            radius={14}
-            tilt={0}
-            turn={0}
-            perspective={1200}
-            depth={100}
-            speed={42}
-            direction="up"
-            variance={0.45}
-            parallax={0.65}
-            pauseOnHover={false}
-            lift={94}
-            fade={0}
-            dim={1}
-            grayscale={false}
-            overlayColor="transparent"
-          />
-        </section>
-      )}
+      <CollectionsDolly categories={COLLECTIONS_ITEMS} />
 
       {/* ────────────────── Export Catalogue Showcase Section ────────────────── */}
       <section className="section" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '5rem', paddingBottom: '5rem' }}>

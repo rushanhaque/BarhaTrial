@@ -462,7 +462,7 @@ html.palette-open { overflow: hidden; }
 .fcard__link { display: block; }
 .fcard__actions {
   position: absolute;
-  top: 0.9rem;
+  bottom: 0.9rem;
   right: 0.9rem;
   z-index: 3;
   display: flex;

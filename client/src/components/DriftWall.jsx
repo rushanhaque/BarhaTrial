@@ -239,7 +239,7 @@ const DriftWall = ({
       </span>
     );
     const commonProps = {
-      className: `drift-wall__tile${activeId === id ? ' is-active' : ''}`,
+      className: 'drift-wall__tile',
       'data-tile-id': id,
       'data-col': colIndex,
       onFocus: () => activate(id, colIndex),

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useScroll } from '../lib/SmoothScroll.jsx'
 
-const WORD = 'Barira'.split('')
+import logo from '../assets/logo_transparent.png'
+
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export default function Preloader({ onDone }) {
@@ -66,13 +67,9 @@ export default function Preloader({ onDone }) {
       <div className="preloader__veil" />
       <div className="preloader__inner">
         <span className="preloader__eyebrow">Handicrafts · Moradabad · Est. MCMLXXXII</span>
-        <h1 className="preloader__mark">
-          {WORD.map((c, i) => (
-            <span className="preloader__char" key={i} style={{ '--d': `${0.2 + i * 0.07}s` }}>
-              {c}
-            </span>
-          ))}
-        </h1>
+        <div className="preloader__mark" style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }}>
+          <img src={logo} alt="Barha Logo" className="preloader__logo" style={{ maxWidth: '400px', width: '100%', height: 'auto', filter: 'drop-shadow(0 0 16px rgba(0, 191, 255, 0.9))' }} />
+        </div>
         <span className="preloader__sub">Manufacturer &amp; Exporter</span>
       </div>
       <div className="preloader__meter">

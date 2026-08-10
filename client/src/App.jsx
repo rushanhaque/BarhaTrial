@@ -21,6 +21,7 @@ import Collections from './pages/Collections.jsx'
 import Product from './pages/Product.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
+import Category from './pages/Category.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 const SEO = {
@@ -74,6 +75,7 @@ export default function App() {
                       <Route path="/" element={<Home entered={entered} />} />
                       <Route path="/collections" element={<Collections />} />
                       <Route path="/product/:slug" element={<Product />} />
+                      <Route path="/category/:slug" element={<Category />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
                       <Route path="*" element={<NotFound />} />
