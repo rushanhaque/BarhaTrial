@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useScroll } from '../lib/SmoothScroll.jsx'
 
-const WORD = 'Barha'.split('')
+const WORD = 'Barira'.split('')
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export default function Preloader({ onDone }) {
@@ -65,7 +65,7 @@ export default function Preloader({ onDone }) {
     <div className="preloader" data-leaving={leaving} aria-hidden="true">
       <div className="preloader__veil" />
       <div className="preloader__inner">
-        <span className="preloader__eyebrow">Maison de Parfum · Grasse · MMXIV</span>
+        <span className="preloader__eyebrow">Handicrafts · Moradabad · Est. MCMLXXXII</span>
         <h1 className="preloader__mark">
           {WORD.map((c, i) => (
             <span className="preloader__char" key={i} style={{ '--d': `${0.2 + i * 0.07}s` }}>
@@ -73,11 +73,11 @@ export default function Preloader({ onDone }) {
             </span>
           ))}
         </h1>
-        <span className="preloader__sub">The Art of Twilight</span>
+        <span className="preloader__sub">Manufacturer &amp; Exporter</span>
       </div>
       <div className="preloader__meter">
         <span className="preloader__count">{String(count).padStart(3, '0')}</span>
-        <span className="preloader__pct">Entering the maison</span>
+        <span className="preloader__pct">Entering the atelier</span>
       </div>
       <div className="preloader__bar">
         <span style={{ transform: `scaleX(${count / 100})` }} />

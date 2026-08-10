@@ -98,7 +98,7 @@ export default function CartDrawer() {
                     icon={<Bag />}
                     title="Your quote list is empty"
                     text="Products you request a quote for will gather here."
-                    to="/catalogue"
+                    to="/collections"
                     label="Browse the catalogue"
                     onGo={() => w.closeDrawer()}
                   />
@@ -197,7 +197,7 @@ export default function CartDrawer() {
                 icon={<Heart />}
                 title="Nothing saved yet"
                 text="Tap the heart on any product to keep it here."
-                to="/catalogue"
+                to="/collections"
                 label="Browse the catalogue"
                 onGo={() => w.closeDrawer()}
               />

@@ -71,7 +71,7 @@ export default function Navbar() {
           <Magnetic strength={0.2}>
             <TLink to="/" className="nav__brand" data-cursor-label="Home">
               <span className="nav__brand-mark">B</span>
-              <span className="nav__brand-word">BARHA</span>
+              <span className="nav__brand-word">BARIRA</span>
             </TLink>
           </Magnetic>
 

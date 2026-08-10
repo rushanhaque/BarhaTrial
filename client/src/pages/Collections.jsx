@@ -9,15 +9,21 @@ import TLink from '../components/TLink.jsx'
 import { ArrowUR, Star4 } from '../components/Icons.jsx'
 
 const CATEGORIES = [
-  { key: 'all', label: 'All Artifacts', match: () => true },
-  { key: 'vase', label: 'Vases & Vessels', match: (p) => /vase|planter/i.test(p.family) },
-  { key: 'decor', label: 'Architectural Decor', match: (p) => /decor/i.test(p.family) },
-  { key: 'furniture', label: 'Cast Furniture', match: (p) => /furniture/i.test(p.family) },
+  { key: 'all', label: 'All Products', match: () => true },
+  { key: 'vase', label: 'Vases & Vessels', match: (p) => /vase|vessel/i.test(p.family) },
+  { key: 'decor', label: 'Home & Wall Decor', match: (p) => /decor/i.test(p.family) },
   { key: 'tableware', label: 'Tableware & Trays', match: (p) => /tableware/i.test(p.family) },
   { key: 'lighting', label: 'Brass Lighting', match: (p) => /lighting/i.test(p.family) },
+  { key: 'furniture', label: 'Cast Furniture', match: (p) => /furniture/i.test(p.family) },
+  { key: 'garden', label: 'Garden & Planters', match: (p) => /garden|planter/i.test(p.family) },
 ]
 
-const PICSUM_IDS = [1015, 1025, 1039, 1043, 1044, 1050, 1062, 1069, 1074, 1080, 1084, 106, 110, 133, 164, 175, 180, 190, 200, 215]
+// Real material & foundry imagery interleaved with the products for visual texture.
+const WALL_TEXTURES = [
+  '/images/brass_macro.png', '/images/copper_macro.png', '/images/hammered_macro.jpg',
+  '/images/foundry_pour.png', '/images/foundry_mold.png', '/images/foundry_patina.png',
+  '/images/cast_iron_macro_2.jpg', '/images/oxidized_macro.jpg', '/images/polished_macro.jpg',
+]
 
 export default function Collections() {
   const [products, setProducts] = useState(fallbackProducts)
@@ -47,9 +53,10 @@ export default function Collections() {
       list = [...list, ...sourceList]
     }
     return list.map((p, idx) => {
-      const picId = PICSUM_IDS[idx % PICSUM_IDS.length]
+      const useTexture = idx % 3 === 2
+      const image = useTexture ? WALL_TEXTURES[idx % WALL_TEXTURES.length] : p.image
       return {
-        image: `https://picsum.photos/id/${picId}/600/400`,
+        image,
         title: `${p.name} — ${p.family || 'Barira'}`,
         href: `/product/${p.slug}`,
         id: `${p.slug}-${idx}`,

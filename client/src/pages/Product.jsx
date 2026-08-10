@@ -50,7 +50,7 @@ export default function Product() {
         <div className="container fragrance__empty">
           <h1 className="serif">No such product.</h1>
           <p className="muted">The item you seek is not in the catalogue.</p>
-          <MagneticButton to="/catalogue" variant="ghost" label="Return to the catalogue" />
+          <MagneticButton to="/collections" variant="ghost" label="Return to the collections" />
         </div>
       </div>
     )
@@ -83,9 +83,14 @@ export default function Product() {
   const wished = w?.isWished(p.slug)
   const summary = { slug: p.slug, name: p.name, family: p.family, chromatic: p.chromatic, priceUSD: p.priceUSD, index: p.index, tagline: p.tagline }
 
+  // Defensive fallbacks so a partial record never breaks the page.
+  const sizes = Array.isArray(p.sizes) && p.sizes.length ? p.sizes : ['Standard']
+  const specs = p.specs || { moq: p.moq, weight: '—', leadTime: '4–6 weeks' }
+  const materials = p.materials || { primary: [], secondary: [], finish: [] }
+
   const addToWardrobe = () => {
-    w?.addItem({ ...summary, priceUSD: p.priceUSD, size: p.sizes[size], qty })
-    toast?.push(`${p.name} · ${p.sizes[size]} added to quote`, { kicker: 'Quote List' })
+    w?.addItem({ ...summary, priceUSD: p.priceUSD, size: sizes[size], qty })
+    toast?.push(`${p.name} · ${sizes[size]} added to quote`, { kicker: 'Quote List' })
     w?.openDrawer('wardrobe')
   }
   const toggleWish = () => {
@@ -138,7 +143,7 @@ export default function Product() {
               <span className="fragrance__price serif">${p.priceUSD} <span className="muted" style={{ fontSize: '1rem', verticalAlign: 'middle', marginLeft: '8px' }}>(Est. FOB)</span></span>
             </div>
             <div className="fragrance__sizes">
-              {p.sizes.map((s, i) => (
+              {sizes.map((s, i) => (
                 <button key={s} className={`chip ${size === i ? 'is-active' : ''}`} onClick={() => setSize(i)} data-cursor>{s}</button>
               ))}
             </div>
@@ -153,7 +158,7 @@ export default function Product() {
                 <span className="btn__icon"><Bag /></span>
               </button>
             </div>
-            <p className="muted" style={{ fontSize: '0.8rem', textAlign: 'center', marginTop: '0.5rem' }}>Minimum Order Quantity (MOQ): {p.specs.moq}</p>
+            <p className="muted" style={{ fontSize: '0.8rem', textAlign: 'center', marginTop: '0.5rem' }}>Minimum Order Quantity (MOQ): {specs.moq}</p>
             <button className={`fragrance__wish ${wished ? 'is-on' : ''}`} onClick={toggleWish} data-cursor style={{ marginTop: '1rem' }}>
               {wished ? <HeartFill /> : <Heart />}
               <span>{wished ? 'Saved to your list' : 'Save to your list'}</span>
@@ -172,7 +177,7 @@ export default function Product() {
                 <span className="ptier__label">Primary Metals</span>
               </div>
               <div className="ptier__notes">
-                {p.materials.primary.map((n) => (
+                {(materials.primary || []).map((n) => (
                   <span className="ptier__chip" key={n}>{n}</span>
                 ))}
               </div>
@@ -183,7 +188,7 @@ export default function Product() {
                 <span className="ptier__label">Secondary Elements</span>
               </div>
               <div className="ptier__notes">
-                {p.materials.secondary.map((n) => (
+                {(materials.secondary || []).map((n) => (
                   <span className="ptier__chip" key={n}>{n}</span>
                 ))}
               </div>
@@ -194,7 +199,7 @@ export default function Product() {
                 <span className="ptier__label">Final Finish</span>
               </div>
               <div className="ptier__notes">
-                {p.materials.finish.map((n) => (
+                {(materials.finish || []).map((n) => (
                   <span className="ptier__chip" key={n}>{n}</span>
                 ))}
               </div>
@@ -203,12 +208,12 @@ export default function Product() {
 
           <div className="fragrance__spec">
             <span className="eyebrow" style={{ display: 'block', marginBottom: '1.5rem' }}>Manufacturing Specifications</span>
-            <SpecRow k="Master Artisan" v={p.artisan} />
-            <SpecRow k="Year Designed" v={String(p.year)} />
-            <SpecRow k="Unit Weight" v={p.specs.weight} />
-            <SpecRow k="Lead Time" v={p.specs.leadTime} />
-            <SpecRow k="Origin" v={p.origin} />
-            <SpecRow k="Design Character" v={p.character.join(' · ')} />
+            <SpecRow k="Master Artisan" v={p.artisan || '—'} />
+            <SpecRow k="Year Designed" v={String(p.year || '—')} />
+            <SpecRow k="Unit Weight" v={specs.weight} />
+            <SpecRow k="Lead Time" v={specs.leadTime} />
+            <SpecRow k="Origin" v={p.origin || 'Moradabad, India'} />
+            <SpecRow k="Design Character" v={(p.character || []).join(' · ')} />
           </div>
 
           {p.impressions?.length > 0 && (

@@ -1,9 +1,10 @@
-# BARHA — Haute Parfumerie · v2.0
+# Barira Handicrafts — Manufacturer & Exporter · v3.0
 
-A full-stack demonstration website for a **fictional** niche perfume house, built to
-feel like the work of a high-end design studio. Dark editorial luxury with a light
-counterpart: warm noir/bone/gold by night, warm ivory/espresso/gold by day — switchable
-with a **Day ↔ Dusk** toggle (the house *is*, after all, about twilight).
+A full-stack demonstration website for a **fictional** heritage metal-handicrafts
+manufacturer and exporter from Moradabad, India, built to feel like the work of a
+high-end design studio. Dark editorial luxury with a light counterpart: warm
+noir/bone/gold by night, warm ivory/espresso/gold by day — switchable with a
+**Day ↔ Dusk** toggle.
 
 > Everything here is invented — the brand, the people, the scents, the prices.
 > It exists only to demonstrate design and front-end craft. No payment is processed.
@@ -92,12 +93,11 @@ which serves `client/dist`. Hosts that inject `PORT` are honoured automatically.
 
 | Route | |
 |---|---|
-| `/` | Home — hero, horizontal library, signature, philosophy, journal |
-| `/collections` | Filter / sort / grid-list library |
-| `/fragrance/:slug` | Detail — pyramid, wear profile, add-to-wardrobe, related |
-| `/atelier` | The Scent Atelier — 4-step recommendation |
-| `/discovery` | Build-your-own discovery set |
-| `/maison` · `/journal` · `/contact` | Story · editorial · forms + boutiques |
+| `/` | Home — hero, horizontal library, signature product, heritage, best-sellers wall |
+| `/collections` | Filter by category, grid / interactive-wall views, export catalogue |
+| `/product/:slug` | Detail — materials & finish, specs, buyer impressions, add-to-quote, related |
+| `/about` | Story — heritage timeline, master artisans, factory visits |
+| `/contact` | Enquiry & appointment forms + global offices |
 
 API: `GET /api/fragrances[/:slug]`, `/api/journal`, `/api/maison`, `GET /api/health` ·
 `POST /api/scent-finder`, `/api/orders`, `/api/contact`, `/api/appointments`, `/api/newsletter`.

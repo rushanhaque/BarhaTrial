@@ -143,7 +143,7 @@ export default function Footer() {
 
       <div className="container">
         <div className="footer__base">
-          <span className="muted">© MMXXV BARHA — Moradabad, India</span>
+          <span className="muted">© MMXXV Barira Handicrafts — Moradabad, India</span>
           <span className="muted footer__credit">
             A demonstration experience · Crafted with intent
           </span>

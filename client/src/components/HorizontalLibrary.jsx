@@ -148,7 +148,7 @@ export default function HorizontalLibrary({ items = [] }) {
 
         <div className="container czoom-flat-grid">
           {COLLECTIONS_ITEMS.map(col => (
-            <TLink key={col.id} to="/catalogue" className="czoom-flat-card">
+            <TLink key={col.id} to="/collections" className="czoom-flat-card">
               <img src={col.image} alt={col.name} className="czoom-flat-img" />
               <div className="czoom-flat-meta">
                 <h3 className="serif">{col.name}</h3>
@@ -201,7 +201,7 @@ export default function HorizontalLibrary({ items = [] }) {
               return (
                 <TLink
                   key={item.id}
-                  to="/catalogue"
+                  to="/collections"
                   className="czoom-card"
                   style={{
                     gridRow: item.gridPos.row,
@@ -222,7 +222,7 @@ export default function HorizontalLibrary({ items = [] }) {
 
             {/* Central Hero Landscape Card */}
             <TLink
-              to="/catalogue"
+              to="/collections"
               onClick={handleHeroClick}
               className="czoom-hero-card"
               style={{

@@ -14,7 +14,7 @@ export default function RecentlyViewed({ exclude, title = 'Recently viewed' }) {
         </div>
         <div className="recent__strip">
           {items.map((f, i) => (
-            <Reveal as={TLink} to={`/fragrance/${f.slug}`} className="rchip" key={f.slug} delay={i} data-cursor-label="View">
+            <Reveal as={TLink} to={`/product/${f.slug}`} className="rchip" key={f.slug} delay={i} data-cursor-label="View">
               <span className="rchip__swatch" style={{ backgroundImage: swatchGradient(f.chromatic) }} />
               <span className="rchip__info">
                 <span className="rchip__name serif">{f.name}</span>
