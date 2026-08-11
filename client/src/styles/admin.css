@@ -440,7 +440,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 99999;
   padding: 20px;
   overflow-y: auto;
   animation: pmFadeIn 0.2s ease;
@@ -458,8 +458,9 @@
   animation: pmScaleIn 0.22s var(--ease-out-expo);
 }
 .pm-modal--wide { 
-  max-width: 900px; 
-  padding: 1rem 2rem;
+  max-width: 820px; 
+  padding: 0.8rem 1.6rem;
+  zoom: 0.9;
 }
 
 @keyframes pmFadeIn {

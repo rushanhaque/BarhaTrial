@@ -118,33 +118,55 @@ export default function Admin() {
     return () => clearTimeout(t)
   }, [toast])
 
-  // Sync with backend on first load if no products in draft
+  // Sync with backend on load to ensure cross-device consistency
   useEffect(() => {
-    const local = load('products', null)
-    
-    const normalize = p => {
-      if (p.imagePreview && !p.image) p.image = p.imagePreview;
-      delete p.imagePreview;
-      return p;
-    }
-
-    if (!local || local.length === 0) {
-      fetch('/api/products-full')
-        .then(res => res.json())
-        .then(data => {
-          if (data.ok && data.data) {
-            const normalizedData = data.data.map(normalize)
-            setProducts(normalizedData)
-            save('products', normalizedData)
+    fetch('/api/products-full')
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok && data.data) {
+          const normalize = p => {
+            if (p.imagePreview && !p.image) p.image = p.imagePreview;
+            delete p.imagePreview;
+            return p;
           }
-        })
-        .catch(console.error)
-    } else {
-      // If we already have local drafts, normalize them in place to fix any broken images
-      const normalizedLocal = local.map(normalize)
-      setProducts(normalizedLocal)
-      save('products', normalizedLocal)
-    }
+          
+          setProducts(prev => {
+            const local = [...prev];
+            const localMap = {};
+            local.forEach((p, i) => { 
+              // Key by id, fallback to slug, fallback to index
+              const key = p.id || p.slug || i;
+              localMap[key] = { product: p, index: i };
+            });
+            
+            let changed = false;
+            
+            data.data.forEach(serverProduct => {
+              const p = normalize(serverProduct);
+              const key = p.id || p.slug;
+              
+              if (!localMap[key]) {
+                // Product exists on server but not locally (e.g. added from another device)
+                local.push(p);
+                changed = true;
+              } else {
+                // If product exists in both, we prefer the server's boolean flags 
+                // (like isBestSeller, signature) to ensure toggles sync correctly.
+                const idx = localMap[key].index;
+                const localP = local[idx];
+                if (localP.isBestSeller !== p.isBestSeller || localP.signature !== p.signature) {
+                  local[idx] = { ...localP, isBestSeller: p.isBestSeller, signature: p.signature };
+                  changed = true;
+                }
+              }
+            });
+            
+            if (changed) save('products', local);
+            return changed ? local : prev;
+          });
+        }
+      })
+      .catch(console.error)
   }, [])
 
   const handlePublish = () => {
