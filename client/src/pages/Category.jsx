@@ -8,23 +8,22 @@ import ProductCard from '../components/ProductCard.jsx'
 
 export default function Category() {
   const { slug } = useParams()
-  const [products, setProducts] = useState(getFallbackProducts)
+  const [products, setProducts] = useState([])
 
   const categoryData = COLLECTIONS_ITEMS.find((c) => c.slug === slug)
   const categoryName = categoryData?.name || 'Collection'
   const categoryImage = categoryData?.image || '/images/brassware_vessels.png'
 
   useEffect(() => {
-    // In the future, we can filter products by category slug from the API
     get('/api/products')
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          // For now, just show a subset of products to simulate a category page
-          setProducts(data.slice(0, 4))
+        if (Array.isArray(data)) {
+          const matchedProducts = data.filter(p => p.family === categoryName || p.category === categoryName)
+          setProducts(matchedProducts)
         }
       })
       .catch(() => {})
-  }, [slug])
+  }, [slug, categoryName])
 
   return (
     <div className="page page-category">

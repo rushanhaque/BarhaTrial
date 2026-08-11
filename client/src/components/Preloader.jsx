@@ -72,7 +72,7 @@ export default function Preloader({ onDone }) {
             maxWidth: '90px', 
             width: '100%', 
             height: 'auto', 
-            filter: 'drop-shadow(0 0 1px rgba(122, 159, 176, 1)) drop-shadow(0 0 3px rgba(122, 159, 176, 0.6))', 
+            filter: 'drop-shadow(0 0 1px rgba(122, 159, 176, 0.75)) drop-shadow(0 0 3px rgba(122, 159, 176, 0.4))', 
             transform: 'scale(3)',
             opacity: 0,
             animation: 'pl-fade 1.5s var(--ease-out-expo) 0.3s forwards'

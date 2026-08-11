@@ -76,9 +76,14 @@ export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false,
       <TLink to={`/product/${p.slug}`} className="fcard__link" data-cursor-label="View">
         <GlareHover width="100%" height="100%" background="transparent" borderColor="transparent" borderRadius="var(--r-md)" glareColor="#ffffff" glareOpacity={0.15}>
           <ChromaticPlate chromatic={p.chromatic} ratio={ratio} className="fcard__plate" style={{ width: '100%', height: '100%' }}>
+            {p.image && <img src={p.image} alt={p.name} className="fcard__img" />}
             <span className="fcard__index">{p.index}</span>
             <span className="fcard__view"><ArrowUR /></span>
-            <span className="fcard__family-tag">{p.family}</span>
+            <span className="fcard__family-tag">
+              {p.category && p.family && p.category !== p.family ? (
+                <>{p.category} <span style={{ opacity: 0.5 }}>·</span> <span style={{ color: 'var(--bone)' }}>{p.family}</span></>
+              ) : (p.family || p.category)}
+            </span>
             <span className="fcard__glare" />
             <div className="fcard__actions">
               <button className="fcard__act" onClick={quickAdd} aria-label="Add to quote request" data-cursor>

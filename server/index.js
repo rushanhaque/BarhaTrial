@@ -4,6 +4,7 @@ import compression from 'compression'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
+import 'dotenv/config'
 
 import { products, productSummaries, findProduct } from './data/products.js'
 
@@ -17,7 +18,7 @@ app.set('etag', false)
 app.set('x-powered-by', false)
 app.use(compression())
 app.use(cors())
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }))
 
 // Baseline security headers (safe defaults; no CSP on API).
 app.use((_req, res, next) => {
@@ -40,6 +41,7 @@ const isEmail = (v) => typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.tes
 // ── The Metalcraft Catalogue ─────────────────────────────────────────────
 app.get('/api/health', (_req, res) => ok(res, { house: 'Barira Handicrafts', status: 'open', version: '3.0' }))
 app.get('/api/products', (_req, res) => ok(res, productSummaries))
+app.get('/api/products-full', (_req, res) => ok(res, products))
 app.get('/api/products/:slug', (req, res) => {
   const p = findProduct(req.params.slug)
   if (!p) return res.status(404).json({ ok: false, error: 'No such product.' })
@@ -54,6 +56,112 @@ app.get('/api/products/:slug', (req, res) => {
 })
 
 app.get('/api/factory', (_req, res) => ok(res, { offices, milestones, people, factoryStats }))
+
+// ── Admin Engine ────────────────────────────────────────────────────────
+app.post('/api/admin/publish', async (req, res) => {
+  const { products: newProducts } = req.body;
+  if (!newProducts || !Array.isArray(newProducts)) {
+    return res.status(400).json({ ok: false, error: 'Invalid products data' });
+  }
+
+  const token = process.env.GITHUB_TOKEN;
+  const repo = process.env.GITHUB_REPO || 'rushanhaque/BarhaTrial';
+
+  // Process images
+  for (const p of newProducts) {
+    if (p.image && p.image.startsWith('data:image/')) {
+      const isPng = p.image.includes('image/png');
+      const ext = isPng ? 'png' : 'jpeg';
+      const base64Data = p.image.split(',')[1];
+      const filename = `img_${Date.now()}_${Math.floor(Math.random()*1000)}.${ext}`;
+      const imgPath = `/images/${filename}`;
+      
+      if (token) {
+        // Upload to github
+        const url = `https://api.github.com/repos/${repo}/contents/client/public${imgPath}`;
+        await fetch(url, {
+          method: 'PUT',
+          headers: { 'Authorization': `token ${token}`, 'User-Agent': 'Barha-Admin', 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: `Add product image ${filename}`,
+            content: base64Data
+          })
+        });
+      }
+      
+      try {
+        const localPath = path.join(__dirname, '..', 'client', 'public', 'images', filename);
+        fs.writeFileSync(localPath, Buffer.from(base64Data, 'base64'));
+      } catch(e) {}
+      
+      p.image = imgPath;
+    }
+  }
+
+  // 1. Generate the JS file content
+  let jsContent = `// ── Barira Handicrafts — Master Catalogue ───────────────────────────────\n// Each record carries both the lightweight summary fields (used by listing\n// pages) and the full detail fields consumed by the product page.\n\n`;
+  jsContent += `export const products = ${JSON.stringify(newProducts, null, 2)};\n\n`;
+  jsContent += `export const productSummaries = products.map(p => ({\n`;
+  jsContent += `  index: p.index,\n`;
+  jsContent += `  slug: p.slug,\n`;
+  jsContent += `  name: p.name,\n`;
+  jsContent += `  category: p.category,\n`;
+  jsContent += `  family: p.family,\n`;
+  jsContent += `  signature: p.signature,\n`;
+  jsContent += `  isBestSeller: p.isBestSeller || false,\n`;
+  jsContent += `  tagline: p.tagline,\n`;
+  jsContent += `  priceUSD: p.priceUSD,\n`;
+  jsContent += `  moq: p.moq,\n`;
+  jsContent += `  chromatic: p.chromatic,\n`;
+  jsContent += `  image: p.image,\n`;
+  jsContent += `}))\n\n`;
+  jsContent += `export const findProduct = (slug) => products.find(p => p.slug === slug)\n`;
+
+  // 2. Save locally if possible
+  try {
+    const productsPath = path.join(__dirname, 'data', 'products.js');
+    fs.writeFileSync(productsPath, jsContent);
+  } catch (e) {
+    // Ignore error, might be read-only (e.g. Vercel)
+  }
+
+  if (!token) {
+    return ok(res, { message: 'Saved locally. (No GITHUB_TOKEN in .env to push)' });
+  }
+
+  try {
+    // 3. Update GitHub
+    const url = `https://api.github.com/repos/${repo}/contents/server/data/products.js`;
+    const getRes = await fetch(url, {
+      headers: { 'Authorization': `token ${token}`, 'User-Agent': 'Barha-Admin' }
+    });
+    
+    let sha = '';
+    if (getRes.ok) {
+      const getJson = await getRes.json();
+      sha = getJson.sha;
+    }
+
+    const putRes = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'User-Agent': 'Barha-Admin', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Update products catalog via Admin Panel',
+        content: Buffer.from(jsContent).toString('base64'),
+        sha: sha || undefined
+      })
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.text();
+      return res.status(500).json({ ok: false, error: 'GitHub Push Failed: ' + err });
+    }
+
+    ok(res, { message: 'Saved and published to GitHub successfully!' });
+  } catch (e) {
+    return res.status(500).json({ ok: false, error: e.message });
+  }
+})
 
 // ── B2B Custom Manufacturing Engine ─────────────────────────────────────
 app.post('/api/custom-manufacturing', (req, res) => {

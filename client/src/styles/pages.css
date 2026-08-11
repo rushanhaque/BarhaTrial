@@ -889,7 +889,8 @@
   max-height: clamp(200px, 38vh, 360px);
 }
 
-.hcard__img {
+.hcard__img,
+.fcard__img {
   position: absolute;
   top: 0;
   left: 0;
@@ -938,6 +939,7 @@
   text-transform: uppercase;
   letter-spacing: var(--track-wide);
   color: var(--gold);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.6);
 }
 
 .hcard__name {

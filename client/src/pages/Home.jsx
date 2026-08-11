@@ -230,28 +230,25 @@ function Signature({ product }) {
 
 
 /* ──────────────────────── Interactive Catalogue Section ─────────────────────── */
-// Real material & foundry imagery interleaved with the products for visual texture.
-const WALL_TEXTURES = [
-  '/images/brass_macro.png', '/images/copper_macro.png', '/images/hammered_macro.jpg',
-  '/images/foundry_pour.png', '/images/foundry_mold.png', '/images/foundry_patina.png',
-  '/images/cast_iron_macro_2.jpg', '/images/oxidized_macro.jpg', '/images/polished_macro.jpg',
-]
 
 function HomeCatalogueSection({ products }) {
   const wallItems = useMemo(() => {
-    const sourceList = products.length > 0 ? products : getFallbackProducts()
+    // First, filter for Best Sellers. If none exist, fallback to all products.
+    let showcaseProducts = products.filter(p => p.isBestSeller)
+    if (showcaseProducts.length === 0) showcaseProducts = products
+
+    const sourceList = showcaseProducts.length > 0 ? showcaseProducts : getFallbackProducts()
 
     let list = [...sourceList]
-    while (list.length < 25) {
-      list = [...list, ...sourceList]
+    while (list.length < 35) {
+      // Shuffle each new chunk so the grid looks organic and doesn't have obvious repeating rows
+      let shuffledChunk = [...sourceList].sort(() => Math.random() - 0.5)
+      list = [...list, ...shuffledChunk]
     }
 
     return list.map((p, idx) => {
-      // Every third tile shows a material/foundry texture for rhythm; the rest show the product.
-      const useTexture = idx % 3 === 2
-      const image = useTexture ? WALL_TEXTURES[idx % WALL_TEXTURES.length] : p.image
       return {
-        image,
+        image: p.image,
         title: `${p.name} — ${p.family || 'Barira'}`,
         href: `/product/${p.slug}`,
         id: `${p.slug}-${idx}`,

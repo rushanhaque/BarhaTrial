@@ -56,12 +56,12 @@
 
 /* ── Container ────────────────────────────────────────────── */
 .pm-container {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   min-height: calc(100vh - 160px);
   display: flex;
   flex-direction: column;
-  padding: 0 clamp(1.25rem, 4vw, 3rem) 20px;
+  padding: 0 2rem 20px;
 }
 
 /* ── Fixed Top Section ────────────────────────────────────── */
@@ -72,10 +72,10 @@
   z-index: 20;
   background: var(--noir);
   padding-top: 0.6rem;
-  margin-left: calc(-1 * clamp(1.25rem, 4vw, 3rem));
-  margin-right: calc(-1 * clamp(1.25rem, 4vw, 3rem));
-  padding-left: clamp(1.25rem, 4vw, 3rem);
-  padding-right: clamp(1.25rem, 4vw, 3rem);
+  margin-left: -2rem;
+  margin-right: -2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /* ── Header ───────────────────────────────────────────────── */
@@ -457,7 +457,10 @@
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
   animation: pmScaleIn 0.22s var(--ease-out-expo);
 }
-.pm-modal--wide { max-width: 540px; }
+.pm-modal--wide { 
+  max-width: 900px; 
+  padding: 1rem 2rem;
+}
 
 @keyframes pmFadeIn {
   from { opacity: 0; }
@@ -472,8 +475,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.85rem;
-  padding-bottom: 0.65rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--line);
 }
 .pm-modal-head h2 {
@@ -502,6 +505,24 @@
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+}
+
+.pm-form-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+
+.pm-form-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pm-form-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Image upload area */
@@ -639,8 +660,8 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 2px;
-  padding-top: 0.65rem;
+  margin-top: 0px;
+  padding-top: 0.5rem;
   border-top: 1px solid var(--line);
 }
 
@@ -690,7 +711,26 @@
 
   .pm-overlay { padding: 1rem; }
   .pm-modal { padding: 1.5rem 1.25rem 1.75rem; }
+  .pm-modal--wide { padding: 1.5rem 1.25rem 1.75rem; }
+  .pm-form-grid { grid-template-columns: 1fr; gap: 12px; }
 
   .pm-bottom-actions { max-width: 100%; }
   .pm-bottom-actions .pm-btn { padding: 12px 10px; font-size: 0.78rem; }
+}
+
+.pm-card-bs-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--ink);
+  color: #00ccff; /* Candy blue */
+  border: 1px solid #00ccff;
+  font-size: 0.8rem;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
