@@ -272,7 +272,7 @@ html.palette-open { overflow: hidden; }
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-lift);
-  overflow: hidden;
+  overflow: clip;
   transition: opacity 0.5s var(--ease-smooth), transform 0.6s var(--ease-out-expo);
 }
 .palette.is-open .palette__panel { opacity: 1; transform: translate(-50%, 0); }
@@ -738,3 +738,43 @@ html.palette-open { overflow: hidden; }
   animation: shimmer 1.5s infinite;
 }
 @keyframes shimmer { to { transform: translateX(100%); } }
+
+/* ---------------- Mobile / Touch overrides ---------------- */
+@media (pointer: coarse), (max-width: 480px) {
+  /* Hide keyboard shortcut hints — they're irrelevant on touch */
+  .palette__foot,
+  .palette__kbd {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  /* Palette: full-width sheet pinned to top on small screens */
+  .palette__panel {
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(-14px);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    border-top: none;
+    max-height: 85dvh;
+    overflow-y: auto;
+  }
+  .palette.is-open .palette__panel {
+    transform: translateY(0);
+  }
+  /* Prevent iOS auto-zoom on input focus (font-size must be ≥16px) */
+  .palette__input {
+    font-size: 1rem;
+  }
+  .palette__results {
+    max-height: min(55vh, 400px);
+  }
+
+  /* Drawer: ensure full-width */
+  .drawer__panel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+}

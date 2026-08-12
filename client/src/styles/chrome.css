@@ -587,6 +587,35 @@ html.menu-open {
   }
 }
 
+@media (max-width: 480px) {
+  .nav__logo {
+    transform: scale(5) translateY(0.43px);
+    margin-left: 14px;
+  }
+
+  .nav__island {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .nav__icon {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .menu__panel {
+    width: 100%;
+    padding: clamp(5rem, 10vh, 7rem) 1.5rem 2rem;
+  }
+
+  .menu__word {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+
+  .menu__aside {
+    gap: 1.2rem;
+  }
+}
+
 /* ---------------- Footer ---------------- */
 .footer {
   position: relative;

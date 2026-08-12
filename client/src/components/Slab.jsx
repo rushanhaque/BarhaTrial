@@ -193,7 +193,7 @@ const Slab = forwardRef(function Slab(
         <span className="slab-sheen" aria-hidden="true"><span className="slab-sheen-i" /></span>
         {label && (
           <span className="slab-label meta">
-            <span className="sl-i"><span>{label}</span><span aria-hidden="true">{label}</span></span>
+            {label}
           </span>
         )}
         {meta && <span className="slab-tag meta">{meta}</span>}

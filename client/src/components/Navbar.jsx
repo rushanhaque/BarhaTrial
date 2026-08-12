@@ -134,12 +134,13 @@ export default function Navbar() {
 
           <div className="menu__aside">
             <div className="menu__aside-block" style={{ '--i': 0 }}>
-              <span className="eyebrow">Global Offices</span>
-              <p className="menu__cities">Moradabad · New Delhi · Frankfurt · New York</p>
+              <span className="eyebrow">Locations & Factory</span>
+              <p className="menu__cities">Asalatpura (Office) · Pandit Nagla (Factory) · Moradabad 244001</p>
             </div>
             <div className="menu__aside-block" style={{ '--i': 1 }}>
-              <span className="eyebrow">Correspondence</span>
-              <a className="menu__mail ulink" href="mailto:exports@barirahandicrafts.example">exports@barirahandicrafts.example</a>
+              <span className="eyebrow">Direct Contact</span>
+              <a className="menu__mail ulink" href="mailto:Rafay@barha.in">Rafay@barha.in</a>
+              <a className="menu__mail ulink" href="tel:9720330779" style={{ marginTop: '0.25rem', display: 'block' }}>+91 9720330779</a>
               <p className="muted menu__hours">Mon–Sat, 09h–18h (IST)</p>
             </div>
             <div className="menu__aside-block" style={{ '--i': 2 }}>

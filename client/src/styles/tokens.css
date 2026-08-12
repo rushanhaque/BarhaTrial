@@ -178,5 +178,15 @@
   :root {
     --track-label: 0.22em;
     --lh-tight: 1;
+    --section-y: clamp(4rem, 10vh, 8rem);
+    --section-y-lg: clamp(5.5rem, 12vh, 10rem);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --gutter: clamp(1.25rem, 5vw, 2rem);
+    --section-y: clamp(3.5rem, 9vh, 6rem);
+    --section-y-lg: clamp(4.5rem, 10vh, 8rem);
   }
 }

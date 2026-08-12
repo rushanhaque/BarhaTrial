@@ -145,7 +145,7 @@ export default function CartDrawer() {
                 </p>
                 <label className="field">
                   <span className="field__label">Your name</span>
-                  <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder="Tariq Mansoor" required />
+                  <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder="Javed Hussain" required />
                 </label>
                 <label className="field">
                   <span className="field__label">Business email</span>

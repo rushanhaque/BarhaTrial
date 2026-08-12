@@ -27,12 +27,12 @@ const COLS = [
     ],
   },
   {
-    title: 'Global Offices',
+    title: 'Locations',
     links: [
-      { label: 'Moradabad', to: '/contact' },
-      { label: 'New Delhi', to: '/contact' },
-      { label: 'Frankfurt', to: '/contact' },
-      { label: 'New York', to: '/contact' },
+      { label: 'Head Office (Asalatpura)', to: '/contact' },
+      { label: 'Factory (Pandit Nagla)', to: '/contact' },
+      { label: 'Rafay@barha.in', to: '/contact' },
+      { label: '+91 9720330779', to: '/contact' },
     ],
   },
 ]

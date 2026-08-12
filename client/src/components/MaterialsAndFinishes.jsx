@@ -23,6 +23,9 @@ export default function MaterialsAndFinishes() {
     if (!scroll?.subscribe) return
 
     return scroll.subscribe(() => {
+      // On mobile the section is a native scroll-snap row — skip JS translation
+      if (window.innerWidth <= 768) return
+
       const sec = sectionRef.current
       const track = trackRef.current
       if (!sec || !track) return
@@ -37,8 +40,9 @@ export default function MaterialsAndFinishes() {
     })
   }, [scroll])
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
   const maxScroll = trackRef.current ? Math.max(0, trackRef.current.scrollWidth - window.innerWidth + 120) : 0
-  const translateX = progress * maxScroll
+  const translateX = isMobile ? 0 : progress * maxScroll
 
   return (
     <section className="materials-hsection" ref={sectionRef}>
@@ -51,7 +55,8 @@ export default function MaterialsAndFinishes() {
         </div>
 
         {/* Sideways Scrolling Track of 4:5 Photo Cards */}
-        <div className="materials-hsection__viewport">
+        {/* data-lenis-prevent stops Lenis intercepting horizontal scroll on mobile */}
+        <div className="materials-hsection__viewport" data-lenis-prevent>
           <div
             className="materials-hsection__track"
             ref={trackRef}

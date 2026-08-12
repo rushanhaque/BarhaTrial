@@ -28,8 +28,8 @@ const PROOFS = [
     num: '04',
     title: 'Global Export',
     image: '/images/why_barira_04.png',
-    points: ['Global shipping', 'Export documentation', 'Protective packaging', 'Reliable logistics'],
-    stats: 'Shipping to 40+ Countries'
+    points: ['Global shipping to 10+ countries', 'Export documentation', 'Protective packaging', 'Reliable logistics'],
+    stats: 'Working with 10+ Countries'
   },
   {
     num: '05',
@@ -40,10 +40,10 @@ const PROOFS = [
   },
   {
     num: '06',
-    title: 'Since 1982',
+    title: 'Since 1993',
     image: '/images/why_barira_06.png',
-    points: ['Established in 1982', 'Decades of metalworking expertise', 'Traditional techniques & modern production'],
-    stats: 'Over 40 Years of Heritage'
+    points: ['Established in 1993', 'Decades of metalworking expertise', 'Traditional techniques & modern production'],
+    stats: 'Over 30 Years of Heritage'
   }
 ]
 

@@ -5,16 +5,14 @@ import MagneticButton from '../components/MagneticButton.jsx'
 import { ArrowUR } from '../components/Icons.jsx'
 
 const SEED_OFFICES = [
-  { city: 'Moradabad', address: 'Sector 4, Export Zone, UP', detail: 'Headquarters & Primary Manufacturing Facility.', coords: '28.8386° N, 78.7733° E', hours: 'Mon–Sat, 09h – 18h' },
-  { city: 'New Delhi', address: 'Okhla Industrial Area, Phase II', detail: 'Corporate Sales & International Logistics.', coords: '28.5273° N, 77.2785° E', hours: 'Mon–Fri, 10h – 18h' },
-  { city: 'Frankfurt', address: 'Messe Frankfurt Exhibition Grounds', detail: 'Seasonal EU Showroom & Distribution Hub.', coords: '50.1109° N, 8.6821° E', hours: 'By Appointment Only' },
-  { city: 'New York', address: '230 Fifth Avenue', detail: 'Americas B2B Showroom.', coords: '40.7440° N, 73.9877° W', hours: 'Mon–Fri, 09h – 17h' },
+  { city: 'Head Office (Moradabad)', address: 'Near Mina Masjid, Asalatpura, Moradabad 244001, UP, India', detail: 'Corporate Headquarters & Executive Office.', coords: '28.8386° N, 78.7733° E', hours: 'Mon–Sat, 09h – 18h' },
+  { city: 'Factory (Moradabad)', address: 'Qidwai Nagar, Pandit Nagla, Moradabad 244001, UP, India', detail: 'Primary Manufacturing Facility & Workshop.', coords: '28.8386° N, 78.7733° E', hours: 'Mon–Sat, 09h – 18h' },
 ]
 
 export default function Contact() {
   const [mode, setMode] = useState('enquiry') // enquiry | consultation
   const [offices, setOffices] = useState(SEED_OFFICES)
-  const [form, setForm] = useState({ name: '', email: '', city: 'Moradabad', date: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', city: 'Head Office (Moradabad)', date: '', message: '' })
   const [status, setStatus] = useState({ state: 'idle', msg: '' })
 
   useEffect(() => {
@@ -42,7 +40,7 @@ export default function Contact() {
       <header className="section pagehead">
         <div className="container">
           <Reveal className="pagehead__eyebrow">
-            <span className="eyebrow">Contact & Showrooms</span>
+            <span className="eyebrow">Contact & Locations</span>
           </Reveal>
           <h1 className="pagehead__title">
             <Mask block i={0}>Write to</Mask>
@@ -51,7 +49,7 @@ export default function Contact() {
             </Mask>
           </h1>
           <Reveal as="p" className="lead pagehead__lede" delay={2}>
-            For wholesale inquiries, B2B appointments, or questions regarding manufacturing capabilities — our export team replies to every letter, usually within two working days.
+            For wholesale inquiries, B2B appointments, or custom manufacturing quotes — reach out directly to our management team.
           </Reveal>
         </div>
       </header>
@@ -78,15 +76,15 @@ export default function Contact() {
           ) : (
             <form className="contact__form" onSubmit={submit}>
               <Field label="Your name" id="name">
-                <input id="name" value={form.name} onChange={set('name')} placeholder="Tariq Mansoor" required />
+                <input id="name" value={form.name} onChange={set('name')} placeholder="Abu Rafay" required />
               </Field>
               <Field label="Business email" id="email">
-                <input id="email" type="email" value={form.email} onChange={set('email')} placeholder="buyer@example.com" required />
+                <input id="email" type="email" value={form.email} onChange={set('email')} placeholder="Rafay@barha.in" required />
               </Field>
 
               {mode === 'consultation' ? (
                 <div className="contact__pair">
-                  <Field label="Preferred showroom" id="city">
+                  <Field label="Preferred location" id="city">
                     <select id="city" value={form.city} onChange={set('city')}>
                       {offices.map((o) => (
                         <option key={o.city}>{o.city}</option>
@@ -117,7 +115,7 @@ export default function Contact() {
         </div>
 
         <aside className="contact__boutiques">
-          <span className="eyebrow">Global Offices</span>
+          <span className="eyebrow">Direct Contact & Locations</span>
           <div className="contact__boutique-list">
             {offices.map((o, i) => (
               <Reveal as="div" className="boutique" key={o.city} delay={i}>
@@ -131,9 +129,14 @@ export default function Contact() {
               </Reveal>
             ))}
           </div>
-          <a className="contact__mail ulink" href="mailto:exports@barirahandicrafts.example">
-            exports@barirahandicrafts.example <ArrowUR />
-          </a>
+          <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+            <a className="contact__mail ulink" href="mailto:Rafay@barha.in">
+              Rafay@barha.in <ArrowUR />
+            </a>
+            <a className="contact__mail ulink" href="tel:9720330779">
+              +91 9720330779 <ArrowUR />
+            </a>
+          </div>
         </aside>
       </section>
     </div>

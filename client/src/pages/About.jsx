@@ -8,15 +8,14 @@ import { Quote, Star4 } from '../components/Icons.jsx'
 
 const SEED = {
   milestones: [
-    { year: '1982', title: 'The First Furnace', text: 'Barira Handicrafts is established in Moradabad with a single coal-fired brass casting furnace.' },
-    { year: '1995', title: 'Global Export Begins', text: 'The first major container of cast iron and brass decor ships to a wholesaler in the UK.' },
-    { year: '2004', title: 'Expansion to Copper & Aluminum', text: 'New facilities are acquired to support sheet metal spinning and advanced flame oxidation.' },
-    { year: '2012', title: 'State-of-the-Art Plating', text: 'An in-house electroplating and powder coating facility is established to control finish quality.' },
-    { year: '2018', title: 'Sustainable Operations', text: 'Transitioned to 40% solar power and implemented closed-loop water recycling for the plating plant.' },
+    { year: '1993', title: 'The First Furnace', text: 'Barira Handicrafts is established in Moradabad with a single brass casting furnace.' },
+    { year: '2001', title: 'Global Export Begins', text: 'The first major container of cast iron and brass decor ships to international B2B buyers.' },
+    { year: '2010', title: 'Expansion to Copper & Aluminum', text: 'New facilities are acquired to support sheet metal spinning and advanced flame oxidation.' },
+    { year: '2018', title: 'State-of-the-Art Plating', text: 'An in-house electroplating and powder coating facility is established to control finish quality.' },
     { year: '2025', title: 'Digital Catalogue Launch', text: 'Transitioning to a fully digital B2B ordering and cataloguing system.' },
   ],
   people: [
-    { name: 'Haji Javed Hussain', role: 'Founder', note: 'The visionary who established Barira Handicrafts.', initials: 'HJH', image: '/images/Founder.jpeg' },
+    { name: 'Haji Javed Hussain', role: 'Founder', note: 'The visionary who established Barira Handicrafts in 1993.', initials: 'HJH', image: '/images/Founder.jpeg' },
     { name: 'Abu Rafay', role: 'Co-founder', note: 'Driving the modern expansion of the export business.', initials: 'AR', image: '/images/Co-Founder.jpeg' },
   ],
 }
@@ -44,8 +43,7 @@ export default function About() {
             <Mask block i={1}>on <span className="italic gold">heavy metal</span>.</Mask>
           </h1>
           <Reveal as="p" className="lead maison__hero-lede" delay={2}>
-            We are a premier manufacturing facility in the Brass City, forging premium export handicrafts the traditional way — 
-            cast, hammered, and finished by the hands of master artisans.
+            Founded in 1993 in the Brass City of Moradabad, we forge premium export handicrafts for 10+ countries — cast, hammered, and finished by our team of 25+ master artisans.
           </Reveal>
         </div>
       </header>
@@ -69,7 +67,7 @@ export default function About() {
           <div className="maison__timeline-head">
             <span className="eyebrow">Heritage</span>
             <h2 className="serif">
-              Four decades, <span className="italic gold">told in milestones</span>.
+              Over three decades, <span className="italic gold">told in milestones</span>.
             </h2>
           </div>
           <div className="timeline">
@@ -95,7 +93,7 @@ export default function About() {
             <p className="serif maison__quote-text">
               A machine can replicate a shape a thousand times, but only a human hand can give it a soul.
             </p>
-            <cite>— Tariq Hussain, on the factory floor</cite>
+            <cite>— Javed Hussain, on the factory floor</cite>
           </Reveal>
         </div>
       </section>

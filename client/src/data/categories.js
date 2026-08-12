@@ -63,7 +63,7 @@ export const COLLECTIONS_ITEMS = [
     id: 'placeholder1',
     name: 'Coming Soon',
     tagline: 'Collection',
-    image: '/images/brass_tray.png',
+    image: '/images/coming_soon_themed.png',
     slug: 'coming-soon',
     gridPos: { row: 3, col: 2 },
     dx: 0,

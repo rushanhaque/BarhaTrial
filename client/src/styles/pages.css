@@ -838,11 +838,13 @@
 .czoom-flat-section {
   padding-block: 4rem;
 }
+
 .czoom-flat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
+
 .czoom-flat-card {
   position: relative;
   height: 220px;
@@ -855,6 +857,7 @@
   padding: 1.25rem;
   text-decoration: none;
 }
+
 .czoom-flat-img {
   position: absolute;
   inset: 0;
@@ -863,6 +866,7 @@
   object-fit: cover;
   filter: brightness(0.6);
 }
+
 .czoom-flat-meta {
   position: relative;
   z-index: 2;
@@ -1098,24 +1102,24 @@
   text-transform: uppercase;
   letter-spacing: var(--track-wide);
   font-size: var(--fs-xs);
-  margin-top: 0.6rem;
+  margin-top: 0.25rem;
 }
 
 .signature__lede {
-  margin-top: 1.25rem;
+  margin-top: 0.5rem;
   max-width: 48ch;
   line-height: var(--lh-body);
 }
 
 .signature__notes {
-  margin-top: 1.5rem;
+  margin-top: 0.75rem;
   border-top: 1px solid var(--line);
 }
 
 .signature__note {
   display: flex;
   gap: 2rem;
-  padding: 0.9rem 0;
+  padding: 0.5rem 0;
   border-bottom: 1px solid var(--line);
   align-items: baseline;
 }
@@ -1140,20 +1144,20 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-  margin-block: 1.5rem 0.5rem;
+  margin-block: 0.75rem 0.4rem;
 }
 
 .signature__feature-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--r-lg);
-  padding: 1.4rem 1.2rem;
+  padding: 1rem 1.2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 1.5rem;
-  min-height: 110px;
+  gap: 0.8rem;
+  min-height: 80px;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -1194,7 +1198,83 @@
 }
 
 .signature__cta {
-  margin-top: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+/* ---- Signature: mobile — fit everything on one screen ---- */
+@media (max-width: 768px) {
+  .section.signature {
+    padding-block: clamp(2rem, 4vh, 3.5rem);
+  }
+
+  /* Side-by-side: image left (40%), content right (60%) */
+  .signature__grid {
+    grid-template-columns: 40% 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .signature__visual {
+    align-items: center;
+    height: auto;
+  }
+
+  .signature__plate-wrap {
+    max-width: 100%;
+  }
+
+  .signature__img {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--r-md);
+  }
+
+  .signature__name {
+    font-size: clamp(1rem, 3.8vw, 1.35rem);
+  }
+
+  .signature__fam {
+    font-size: 0.6rem;
+    margin-top: 0.15rem;
+  }
+
+  .signature__lede {
+    font-size: var(--fs-sm);
+    margin-top: 0.25rem;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Feature cards: compact 2x2 tiles */
+  .signature__feature-grid {
+    gap: 0.35rem;
+    margin-block: 0.4rem 0.25rem;
+  }
+
+  .signature__feature-card {
+    min-height: 38px;
+    padding: 0.45rem 0.55rem;
+    gap: 0.3rem;
+    border-radius: var(--r-sm);
+  }
+
+  .signature__feature-card span {
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+  }
+
+  .signature__cta {
+    margin-top: 0.4rem;
+  }
+
+  .signature__cta .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.6rem 0.8rem;
+    font-size: var(--fs-xs);
+  }
 }
 
 /* ====================================================================
@@ -2807,7 +2887,85 @@
   .tline {
     grid-template-columns: 4.5rem 1fr;
   }
+
+  /* Alchemy tabs: wrap and reduce gap */
+  .alchemy__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .alchemy__tabs {
+    gap: 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  /* Hero: keep visual below text, centered */
+  .hero__visual {
+    justify-content: center;
+  }
+
+  /* Signature notes: shrink key column */
+  .signature__note-k {
+    min-width: 8rem;
+  }
+
+  /* Materials horizontal sticky: on 768px and below, disable the 300vh 
+     sticky effect entirely — use a swipeable horizontal scroll row instead */
+  .materials-hsection {
+    height: auto !important;
+    margin-bottom: var(--section-y);
+  }
+
+  .materials-hsection__sticky {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    /* Equal spacing above and below */
+    padding-block: clamp(2rem, 5vh, 3.5rem);
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Reset the desktop margin-top that creates the large gap */
+  .materials-hsection__head {
+    margin-top: 0 !important;
+    margin-bottom: 0;
+    padding-block: 0;
+  }
+
+  .materials-hsection__viewport {
+    width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    margin-top: 0;
+    overscroll-behavior-x: contain;
+  }
+
+  .materials-hsection__track {
+    display: flex;
+    flex-wrap: nowrap;
+    will-change: unset;
+    transition: none;
+    transform: none !important;
+    padding-inline: var(--gutter);
+    padding-block: 1.5rem;
+    gap: 1.2rem;
+    width: max-content;
+  }
+
+  .mcard-plate {
+    flex: 0 0 clamp(220px, 72vw, 300px);
+    scroll-snap-align: start;
+  }
 }
+
 
 /* ====================================================================
    HOME · Materials & Finishes Horizontal Sideways Scroll Section
@@ -2868,12 +3026,12 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: box-shadow 0.5s ease, border-color 0.5s ease;
+  transition: box-shadow 0.5s ease;
 }
 
 .mcard-plate:hover {
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 35px rgba(178, 213, 229, 0.35);
-  border-color: rgba(178, 213, 229, 0.6);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Base Photo Layer */
@@ -2909,33 +3067,18 @@
 }
 
 
-/* Precision L-Bracket Corner Frame */
+/* Precision L-Bracket Corner Frame (Disabled) */
 .mcard-plate__frame {
-  position: absolute;
-  inset: 1rem;
-  border-radius: calc(clamp(16px, 1.5vw, 24px) - 0.5rem);
-  pointer-events: none;
-  z-index: 3;
-  opacity: 0;
-  transform: scale(0.94);
-  border: 1px solid rgba(178, 213, 229, 0.6);
-  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mcard-plate:hover .mcard-plate__frame {
-  opacity: 1;
-  transform: scale(1);
+  display: none;
 }
 
 .mcard-plate__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.1) 0%,
-    transparent 45%,
-    rgba(0, 0, 0, 0.85) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      transparent 45%,
+      rgba(0, 0, 0, 0.85) 100%);
   pointer-events: none;
   z-index: 2;
 }
@@ -2992,4 +3135,132 @@
 .mcard-plate:hover .mcard-plate__name--fill {
   clip-path: inset(0 0 0 0);
   letter-spacing: 0.05em;
+}
+
+/* ====================================================================
+   Very small phones (≤480px) — additional overrides
+   ==================================================================== */
+@media (max-width: 480px) {
+
+  /* Hero: text-center, single column, shrink actions */
+  .hero__grid {
+    text-align: center;
+  }
+
+  .hero__eyebrow,
+  .hero__actions {
+    justify-content: center;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__sub {
+    max-width: 100%;
+  }
+
+  .hero__visual {
+    max-width: 300px;
+    margin-inline: auto;
+  }
+
+  /* Page header: reduce top padding on small screens */
+  .pagehead {
+    padding-top: clamp(6rem, 14vh, 9rem);
+  }
+
+  /* Manifesto 4-col stats → 2-col */
+  .manifesto__stats--4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Foundry accordion: let panels auto-size in column mode */
+  .foundry-process__accordion {
+    height: auto;
+    min-height: 0;
+    flex-direction: column;
+    padding: 0 var(--gutter);
+    gap: 0.75rem;
+  }
+
+  .foundry-panel {
+    height: 200px;
+  }
+
+  .foundry-panel.is-active {
+    height: 380px;
+    flex: none;
+  }
+
+  /* Signature notes: stack key-value pairs */
+  .signature__note {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .signature__note-k {
+    min-width: unset;
+  }
+
+  /* Product detail */
+  .fragrance__name {
+    font-size: clamp(2.4rem, 10vw, 4rem);
+  }
+
+  /* Collections grid: single column with less gap */
+  .collections__grid {
+    gap: 2rem;
+  }
+
+  /* Journal rows: minimal layout */
+  .jrow {
+    grid-template-columns: 1.5rem 1fr 1.2rem;
+    gap: 0.8rem;
+    padding: 1.1rem 0;
+  }
+
+  .jrow__index {
+    font-size: 0.65rem;
+  }
+
+  /* Contact page */
+  .contact__tabs {
+    flex-wrap: wrap;
+  }
+
+  /* Atelier band */
+  .atelier-band__inner {
+    border-radius: var(--r-xl);
+    padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 5vw, 2.5rem);
+  }
+
+  /* Timeline: tighten */
+  .timeline {
+    padding-left: 1.25rem;
+  }
+
+  .tline {
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0.75rem;
+  }
+
+  .tline__year {
+    font-size: 1.3rem;
+  }
+
+  /* About / Maison manifest grid */
+  .maison__manifest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* People grid: single column */
+  .maison__people-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .person__bezel {
+    max-width: 100%;
+  }
 }

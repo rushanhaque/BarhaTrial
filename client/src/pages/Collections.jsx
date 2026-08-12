@@ -4,11 +4,13 @@ import Marquee from '../components/Marquee.jsx'
 import TLink from '../components/TLink.jsx'
 import { ArrowUR } from '../components/Icons.jsx'
 import CollectionsDolly from '../components/CollectionsDolly.jsx'
+import ScrollCurve from '../components/ScrollCurve.jsx'
 import { COLLECTIONS_ITEMS } from '../data/categories.js'
 
 export default function Collections() {
   return (
     <div className="page page-collections">
+      <ScrollCurve />
       <header className="section pagehead">
         <div className="container">
           <Reveal className="pagehead__eyebrow">

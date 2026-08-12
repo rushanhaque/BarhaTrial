@@ -43,6 +43,9 @@ export default function SmoothScroll({ children }) {
       wheelMultiplier: 1,
       touchMultiplier: 1.6,
       lerp: 0.1,
+      prevent: (node) =>
+        node.closest('.palette__results') !== null ||
+        node.closest('.materials-hsection__viewport') !== null,
     })
     lenisRef.current = lenis
 

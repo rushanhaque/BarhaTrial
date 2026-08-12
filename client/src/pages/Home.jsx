@@ -122,9 +122,9 @@ function Heritage() {
 
         <div className="heritage__bottom">
           <div className="manifesto__stats manifesto__stats--4col">
-            <StatBlock value="1982" label="HERITAGE ESTABLISHED" align="left" />
-            <StatBlock target={45} prefix="+" label="EXPORT COUNTRIES" align="left" />
-            <StatBlock target={200} prefix="OVER " label="MASTER ARTISANS" align="left" />
+            <StatBlock value="1993" label="HERITAGE ESTABLISHED" align="left" />
+            <StatBlock target={10} suffix="+" label="EXPORT COUNTRIES" align="left" />
+            <StatBlock target={25} suffix="+" label="MASTER ARTISANS" align="left" />
             <StatBlock target={100} suffix="%" label="QUALITY INSPECTED" align="right" />
           </div>
         </div>

@@ -23,8 +23,17 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* Dark overlay to make text readable */
-  box-shadow: inset 0 0 0 2000px rgba(10, 10, 12, 0.7);
+  /* Lighter overall overlay — heavier gradient at bottom for text */
+  box-shadow: inset 0 0 0 2000px rgba(10, 10, 12, 0.45);
+}
+
+/* Bottom gradient so bottom-anchored text stays readable */
+.spec-wall__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 5, 7, 0.92) 0%, rgba(5, 5, 7, 0.55) 38%, transparent 65%);
+  pointer-events: none;
 }
 
 .spec-wall__content {
@@ -155,47 +164,64 @@
 @media (max-width: 960px) {
   .spec-wall__content {
     flex-direction: column;
-    justify-content: center;
-    padding-top: 6rem;
+    justify-content: space-between; /* numbers top, content bottom */
+    padding-top: clamp(4.5rem, 10vh, 6rem);
+    padding-bottom: clamp(2rem, 5vh, 3.5rem);
+    height: 100%;
+    overflow: hidden;
   }
   
   .spec-wall__left {
     flex: none;
     height: auto;
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
     padding-right: 0;
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
     width: 100%;
     align-items: flex-start;
+    padding-top: 0;
+  }
+
+  .spec-wall__title {
+    margin-bottom: 0.75rem;
   }
   
   .spec-wall__nav {
     flex-direction: row;
-    gap: 1rem;
+    gap: 0.9rem;
     overflow-x: auto;
     width: 100%;
-    padding-bottom: 1rem;
+    padding-bottom: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .spec-wall__nav::-webkit-scrollbar {
+    display: none;
   }
   
   .spec-wall__num {
-    font-size: 2rem;
+    font-size: 1.6rem;
+    flex-shrink: 0;
   }
   
   .spec-wall__num.is-active {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
   }
   
   .spec-wall__num-line {
     display: none;
   }
   
+  /* Panel anchored to bottom */
   .spec-wall__right {
     flex: none;
     padding-left: 0;
     width: 100%;
     height: auto;
+    align-items: flex-end;
   }
   
   .spec-wall__panel {
@@ -203,9 +229,44 @@
     top: 0;
     left: 0;
     transform: none;
+    width: 100%;
+    max-width: 100%;
   }
   
   .spec-wall__panel-title {
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 6vw, 2rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .spec-wall__stats {
+    margin-bottom: 0.9rem;
+    font-size: 0.68rem;
+  }
+
+  .spec-wall__points {
+    gap: 0.65rem;
+    font-size: 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .spec-wall__content {
+    padding-top: clamp(4rem, 9vh, 5.5rem);
+    padding-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+
+  .spec-wall__num {
+    font-size: 1.35rem;
+  }
+
+  .spec-wall__panel-title {
+    font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+    margin-bottom: 0.6rem;
+  }
+
+  .spec-wall__points {
+    font-size: 0.92rem;
+    gap: 0.55rem;
+  }
+}
+
