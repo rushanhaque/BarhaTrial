@@ -27,33 +27,29 @@ export default function Category() {
 
   return (
     <div className="page page-category">
-      {/* Hero Section */}
-      <header className="section" style={{ padding: 0, position: 'relative', height: '60vh', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
-          <img src={categoryImage} alt={categoryName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(14,12,11,0.2) 0%, rgba(14,12,11,0.9) 100%)' }} />
+      <header className="category__hero">
+        <div className="category__hero-bg">
+          <img src={categoryImage} alt={categoryName} className="category__hero-img" />
+          <div className="category__hero-overlay" />
         </div>
-        
-        <div className="container" style={{ textAlign: 'center', zIndex: 1, marginTop: '4rem' }}>
+        <div className="container category__hero-content">
           <Reveal className="pagehead__eyebrow">
             <span className="eyebrow gold">Curated Series</span>
           </Reveal>
-          <h1 className="pagehead__title" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', textTransform: 'uppercase' }}>
+          <h1 className="category__hero-title serif">
             <Mask block i={0}>{categoryName}</Mask>
           </h1>
         </div>
       </header>
 
-      {/* Products Grid */}
-      <section className="section" style={{ paddingTop: '5rem', paddingBottom: '8rem' }}>
+      <section className="section category__products">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2.5rem' }}>
+          <div className="category__grid">
             {products.map((product, idx) => (
               <ProductCard key={product.slug + idx} p={product} index={idx} />
             ))}
           </div>
-          
-          <Reveal delay={2} style={{ textAlign: 'center', marginTop: '6rem' }}>
+          <Reveal delay={2} className="category__empty-note">
             <p className="muted">More products for {categoryName} will be added soon.</p>
           </Reveal>
         </div>

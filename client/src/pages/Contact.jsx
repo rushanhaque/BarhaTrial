@@ -129,7 +129,7 @@ export default function Contact() {
               </Reveal>
             ))}
           </div>
-          <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+          <div className="contact__direct-links">
             <a className="contact__mail ulink" href="mailto:Rafay@barha.in">
               Rafay@barha.in <ArrowUR />
             </a>

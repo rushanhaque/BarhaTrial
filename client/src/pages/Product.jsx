@@ -9,7 +9,7 @@ import TLink from '../components/TLink.jsx'
 import ProductCard from '../components/ProductCard.jsx'
 import { useWardrobe } from '../lib/wardrobe.jsx'
 import { useToast } from '../lib/toast.jsx'
-import { Star4, Bag } from '../components/Icons.jsx'
+import { Bag } from '../components/Icons.jsx'
 
 export default function Product() {
   const { slug } = useParams()
@@ -83,19 +83,19 @@ export default function Product() {
 
   return (
     <div className="page page-fragrance" style={{ '--accent': accent }}>
-      <header className="container fragrance__head" style={{ marginBottom: '3rem' }}>
+      <header className="container fragrance__head">
         <TLink to="/collections" className="fragrance__back ulink">← The Collections</TLink>
         <div className="fragrance__head-row">
-          <span className="fragrance__family" style={{ fontSize: '1.2rem', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{p.family}</span>
+          <span className="fragrance__family">{p.family}</span>
         </div>
         <h1 className="fragrance__name">
           <Mask block i={0}>{p.name}</Mask>
         </h1>
       </header>
 
-      <section className="container fragrance__main" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' }}>
+      <section className="container fragrance__main">
         <div className="fragrance__left">
-          <div ref={plateRef} className="fragrance__plate-wrap" style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <div ref={plateRef} className="fragrance__plate-wrap">
             <ChromaticPlate chromatic={p.chromatic} ratio="4 / 5" className="fragrance__plate">
               <span className="fragrance__glare" />
             </ChromaticPlate>
@@ -103,8 +103,8 @@ export default function Product() {
         </div>
 
         <div className="fragrance__right">
-          <div className="fragrance__pyramid" style={{ position: 'sticky', top: '120px' }}>
-            <span className="eyebrow" style={{ marginBottom: '2rem', display: 'block', fontSize: '1.1rem' }}>Materials & Finish</span>
+          <div className="fragrance__pyramid">
+            <span className="eyebrow">Materials & Finish</span>
             
             <Reveal as="div" className="ptier" delay={0}>
               <div className="ptier__head">
@@ -139,12 +139,8 @@ export default function Product() {
               </div>
             </Reveal>
             
-            <div className="fragrance__price-row" style={{ marginTop: '3rem', marginBottom: '1rem' }}>
-              <span className="fragrance__price serif" style={{ fontSize: '2rem' }}>${p.priceUSD} <span className="muted" style={{ fontSize: '1rem', verticalAlign: 'middle', marginLeft: '8px' }}>(Est. FOB)</span></span>
-            </div>
-
-            <button className="btn btn--gold fragrance__add" onClick={addToWardrobe} data-cursor style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.5rem', borderRadius: 'var(--r-md)', background: 'var(--gold)', color: '#000', border: 'none', cursor: 'pointer' }}>
-              <span className="btn__label" style={{ fontWeight: '600' }}>Add to Quote Request</span>
+            <button className="btn btn--gold fragrance__add" onClick={addToWardrobe} data-cursor>
+              <span className="btn__label">Add to Quote Request</span>
               <span className="btn__icon"><Bag /></span>
             </button>
           </div>
@@ -152,13 +148,12 @@ export default function Product() {
       </section>
 
       {data.related?.length > 0 && (
-        <section className="section fragrance__related" style={{ marginTop: '6rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '4rem' }}>
+        <section className="section fragrance__related">
           <div className="container">
-            <div className="fragrance__related-head" style={{ marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Star4 className="fragrance__related-star" style={{ color: 'var(--gold)', width: '2rem', height: '2rem' }} />
-              <h2 className="serif" style={{ fontSize: '2.5rem', margin: 0 }}>Similar Items</h2>
+            <div className="fragrance__related-head">
+              <h2 className="serif">Similar Items</h2>
             </div>
-            <div className="fragrance__related-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
+            <div className="fragrance__related-grid">
               {data.related.map((r, i) => (
                 <Reveal key={r.slug} delay={i}>
                   <ProductCard p={r} />

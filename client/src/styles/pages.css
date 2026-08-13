@@ -1627,6 +1627,8 @@
 
 .fcard__name {
   font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  display: block;
+  margin-bottom: 0.4rem;
 }
 
 .fcard__price {
@@ -1658,10 +1660,73 @@
 }
 
 /* ====================================================================
+   Category page
+   ==================================================================== */
+.category__hero {
+  position: relative;
+  height: 60vh;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category__hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.category__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(14, 12, 11, 0.15) 0%, rgba(14, 12, 11, 0.92) 100%);
+}
+
+.category__hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-top: 5rem;
+}
+
+.category__hero-title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-top: 0.8rem;
+}
+
+.category__products {
+  padding-top: clamp(3.5rem, 7vw, 5rem);
+  padding-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.category__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(2rem, 3vw, 2.5rem);
+}
+
+.category__empty-note {
+  text-align: center;
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+/* ====================================================================
    Fragrance detail
    ==================================================================== */
 .fragrance__head {
   padding-top: clamp(8rem, 16vh, 12rem);
+  padding-bottom: 2.5rem;
 }
 
 .fragrance__back {
@@ -1740,6 +1805,18 @@
   margin-top: 1.8rem;
 }
 
+.fragrance__add {
+  width: 100%;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-radius: var(--r-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .fragrance__price-row {
   display: flex;
   align-items: baseline;
@@ -1771,10 +1848,12 @@
 }
 
 .fragrance__pyramid {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
+  position: sticky;
+  top: 7rem;
 }
 
 .fragrance__pyramid .eyebrow {
+  display: block;
   margin-bottom: 1.6rem;
 }
 
@@ -1891,6 +1970,12 @@
   font-size: var(--fs-sm);
   color: var(--bone);
   text-align: right;
+}
+
+.fragrance__related {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
 }
 
 .fragrance__related-head {
@@ -2752,11 +2837,17 @@
   color: var(--gold);
 }
 
+.contact__direct-links {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .contact__mail {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  margin-top: 2rem;
   font-family: var(--font-display);
   font-size: 1.2rem;
 }

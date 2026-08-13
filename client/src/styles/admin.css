@@ -669,8 +669,13 @@
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 640px) {
   .pm-container { padding: 0 1rem 16px; }
-  .pm-header { padding-top: 1.5rem; }
-  .pm-title { font-size: 2rem; }
+  .pm-header {
+    padding-top: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+  .pm-title { font-size: 1.4rem; }
 
   .pm-grid {
     display: flex;

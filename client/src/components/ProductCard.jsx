@@ -93,10 +93,7 @@ export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false,
           </ChromaticPlate>
         </GlareHover>
         <div className="fcard__meta">
-          <div className="fcard__line">
-            <h3 className="fcard__name serif">{p.name}</h3>
-            <span className="fcard__price">${p.priceUSD}</span>
-          </div>
+          <h3 className="fcard__name serif">{p.name}</h3>
           <div className="fcard__line">
             <span className="fcard__tag muted">{p.tagline}</span>
             <span className="fcard__discover">View Details</span>
