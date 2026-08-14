@@ -6,7 +6,6 @@ import { useSearch } from '../lib/search.jsx'
 import TLink from './TLink.jsx'
 import { Magnetic } from './MagneticButton.jsx'
 import { ArrowUR, Search, Bag } from './Icons.jsx'
-import logo from '../assets/logo_transparent.png'
 
 const LINKS = [
   { i: '01', label: 'The Collections', to: '/collections' },
@@ -70,7 +69,7 @@ export default function Navbar() {
       <header className={`nav ${scrolled ? 'is-scrolled' : ''} ${hidden ? 'is-hidden' : ''}`}>
         <div className="nav__island">
           <TLink to="/" className="nav__brand" data-cursor-label="Home">
-            <img src={logo} alt="Barira Logo" className="nav__logo" />
+            <span className="nav__wordmark">Barha</span>
           </TLink>
 
           <nav className="nav__inline">

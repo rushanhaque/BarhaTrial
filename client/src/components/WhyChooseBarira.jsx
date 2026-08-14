@@ -6,42 +6,42 @@ const PROOFS = [
   {
     num: '01',
     title: 'Direct Manufacturer',
-    image: '/images/why_barira_01.png',
+    image: '/images/DirectManufacturer.jpeg',
     points: ['No intermediaries', 'Factory-direct pricing', 'Full production control'],
     stats: '100% In-House Production'
   },
   {
     num: '02',
     title: 'Pure Materials',
-    image: '/images/why_barira_02.png',
+    image: '/images/purerawmaterial.jpeg',
     points: ['Solid Brass', 'Pure Copper', 'Cast Iron'],
     stats: 'Premium Grade Metals'
   },
   {
     num: '03',
     title: 'Bespoke Production',
-    image: '/images/why_barira_03.png',
+    image: '/images/bespoke production.jpeg',
     points: ['Custom dimensions', 'Custom finishes', 'OEM / private label', 'Prototype development'],
     stats: 'Tailored to Specification'
   },
   {
     num: '04',
     title: 'Global Export',
-    image: '/images/why_barira_04.png',
+    image: '/images/global export.jpeg',
     points: ['Global shipping to 10+ countries', 'Export documentation', 'Protective packaging', 'Reliable logistics'],
     stats: 'Working with 10+ Countries'
   },
   {
     num: '05',
     title: 'Built to Last',
-    image: '/images/why_barira_05.png',
+    image: '/images/Built to last.jpeg',
     points: ['Hand-finished', 'Heavy-gauge construction', 'Durable finishes', 'Made to last for decades'],
     stats: 'Generational Durability'
   },
   {
     num: '06',
     title: 'Since 1993',
-    image: '/images/why_barira_06.png',
+    image: '/images/since 1993.jpeg',
     points: ['Established in 1993', 'Decades of metalworking expertise', 'Traditional techniques & modern production'],
     stats: 'Over 30 Years of Heritage'
   }
@@ -81,7 +81,7 @@ export default function WhyChooseBarira() {
           <motion.div
             key={activeProof.num}
             className="spec-wall__bg"
-            style={{ backgroundImage: `url(${activeProof.image})` }}
+            style={{ backgroundImage: `url("${activeProof.image}")` }}
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
