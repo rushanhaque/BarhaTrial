@@ -161,8 +161,22 @@ const DriftWall = ({
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    rafRef.current = requestAnimationFrame(animate);
+    // Only run the rAF loop while the wall is visible
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!rafRef.current) rafRef.current = requestAnimationFrame(animate)
+        } else {
+          if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null }
+        }
+      },
+      { threshold: 0 }
+    )
+    const root = trackRefs.current[0]?.closest('.drift-wall') ?? document.body
+    io.observe(root)
+
     return () => {
+      io.disconnect()
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
       lastTsRef.current = null;

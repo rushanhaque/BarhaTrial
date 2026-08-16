@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import SmoothScroll from './lib/SmoothScroll.jsx'
 import { TransitionProvider } from './lib/transition.jsx'
@@ -17,13 +17,13 @@ import ScrollProgress from './components/ScrollProgress.jsx'
 import BackToTop from './components/BackToTop.jsx'
 
 import Home from './pages/Home.jsx'
-import Collections from './pages/Collections.jsx'
-import Product from './pages/Product.jsx'
-import About from './pages/About.jsx'
-import Contact from './pages/Contact.jsx'
-import Category from './pages/Category.jsx'
-import NotFound from './pages/NotFound.jsx'
-import Admin from './pages/Admin.jsx'
+const Collections = lazy(() => import('./pages/Collections.jsx'))
+const Product = lazy(() => import('./pages/Product.jsx'))
+const About = lazy(() => import('./pages/About.jsx'))
+const Contact = lazy(() => import('./pages/Contact.jsx'))
+const Category = lazy(() => import('./pages/Category.jsx'))
+const NotFound = lazy(() => import('./pages/NotFound.jsx'))
+const Admin = lazy(() => import('./pages/Admin.jsx'))
 
 const SEO = {
   '/': ['Barira Handicrafts — Manufacturer & Exporter', 'Premium metal handicrafts and decor exporter from India.'],
@@ -72,16 +72,18 @@ export default function App() {
                 <Navbar />
                 <main className="app">
                   <ErrorBoundary key={pathname}>
-                    <Routes>
-                      <Route path="/" element={<Home entered={entered} />} />
-                      <Route path="/collections" element={<Collections />} />
-                      <Route path="/product/:slug" element={<Product />} />
-                      <Route path="/category/:slug" element={<Category />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/admin" element={<Admin />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
+                    <Suspense fallback={null}>
+                      <Routes>
+                        <Route path="/" element={<Home entered={entered} />} />
+                        <Route path="/collections" element={<Collections />} />
+                        <Route path="/product/:slug" element={<Product />} />
+                        <Route path="/category/:slug" element={<Category />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/admin" element={<Admin />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </Suspense>
                   </ErrorBoundary>
                 </main>
                 <Footer />

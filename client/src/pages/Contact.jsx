@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { get, post } from '../lib/api.js'
+import { get } from '../lib/api.js'
 import { Reveal, Mask } from '../components/Reveal.jsx'
 import MagneticButton from '../components/MagneticButton.jsx'
 import { ArrowUR } from '../components/Icons.jsx'
+
+const FORMSPREE = 'https://formspree.io/f/xeajlrkv'
 
 const SEED_OFFICES = [
   { city: 'Head Office (Moradabad)', address: 'Near Mina Masjid, Asalatpura, Moradabad 244001, UP, India', detail: 'Corporate Headquarters & Executive Office.', coords: '28.8386° N, 78.7733° E', hours: 'Mon–Sat, 09h – 18h' },
@@ -25,13 +27,23 @@ export default function Contact() {
     e.preventDefault()
     setStatus({ state: 'loading', msg: '' })
     try {
-      const data =
-        mode === 'enquiry'
-          ? await post('/api/contact', { name: form.name, email: form.email, message: form.message })
-          : await post('/api/appointments', { name: form.name, email: form.email, city: form.city, date: form.date })
-      setStatus({ state: 'done', msg: data.message })
-    } catch (err) {
-      setStatus({ state: 'error', msg: err.message })
+      const payload = mode === 'enquiry'
+        ? { name: form.name, email: form.email, message: form.message, _subject: 'New Enquiry — Barira Handicrafts' }
+        : { name: form.name, email: form.email, location: form.city, date: form.date, _subject: 'Appointment Request — Barira Handicrafts' }
+
+      const res = await fetch(FORMSPREE, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (res.ok) {
+        setStatus({ state: 'done', msg: mode === 'enquiry' ? 'Message received. We will be in touch shortly.' : 'Appointment requested. Our team will confirm your visit.' })
+      } else {
+        const data = await res.json()
+        setStatus({ state: 'error', msg: data?.errors?.[0]?.message || 'Something went wrong. Please try again.' })
+      }
+    } catch {
+      setStatus({ state: 'error', msg: 'Network error. Please try again.' })
     }
   }
 

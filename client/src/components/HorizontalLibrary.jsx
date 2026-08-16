@@ -110,7 +110,7 @@ export default function HorizontalLibrary({ items = [] }) {
 
         {/* Section Heading (fades in when zoomed out) */}
         <div className="czoom-head" style={{ opacity: heroBadgeOpacity, pointerEvents: 'none', width: '100%' }}>
-          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', color: 'var(--bone)' }}>
+          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', color: '#fff' }}>
             Explore Our Collections
           </h2>
         </div>

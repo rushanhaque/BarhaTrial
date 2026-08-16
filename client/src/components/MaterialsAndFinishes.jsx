@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useScroll } from '../lib/SmoothScroll.jsx'
-import { Reveal, Mask } from './Reveal.jsx'
 
 const MATERIALS_CARDS = [
   { id: 'brass', num: '01', name: 'BRASS', image: '/images/Brass.jpeg' },
@@ -17,13 +16,11 @@ export default function MaterialsAndFinishes() {
   const scroll = useScroll()
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
-  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     if (!scroll?.subscribe) return
 
-    return scroll.subscribe(() => {
-      // On mobile the section is a native scroll-snap row — skip JS translation
+    const update = () => {
       if (window.innerWidth <= 768) return
 
       const sec = sectionRef.current
@@ -36,48 +33,33 @@ export default function MaterialsAndFinishes() {
 
       const currentScroll = -rect.top
       const p = Math.max(0, Math.min(1, currentScroll / totalScroll))
-      setProgress(p)
-    })
-  }, [scroll])
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
-  const maxScroll = trackRef.current ? Math.max(0, trackRef.current.scrollWidth - window.innerWidth + 120) : 0
-  const translateX = isMobile ? 0 : progress * maxScroll
+      const maxTranslate = Math.max(0, track.scrollWidth - window.innerWidth + 120)
+      track.style.transform = `translate3d(-${p * maxTranslate}px, 0, 0)`
+    }
+
+    return scroll.subscribe(update)
+  }, [scroll])
 
   return (
     <section className="materials-hsection" ref={sectionRef}>
       <div className="materials-hsection__sticky">
-        {/* Top Floating Header */}
         <div className="container materials-hsection__head" style={{ textAlign: 'center' }}>
           <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2rem, 3.8vw, 3.2rem)' }}>
             MATERIALS & FINISHES
           </h2>
         </div>
 
-        {/* Sideways Scrolling Track of 4:5 Photo Cards */}
-        {/* data-lenis-prevent stops Lenis intercepting horizontal scroll on mobile */}
         <div className="materials-hsection__viewport" data-lenis-prevent>
-          <div
-            className="materials-hsection__track"
-            ref={trackRef}
-            style={{ transform: `translate3d(-${translateX}px, 0, 0)` }}
-          >
+          <div className="materials-hsection__track" ref={trackRef}>
             {MATERIALS_CARDS.map((card) => (
               <div key={card.id} className="mcard-plate">
-                {/* Photo Layer 1 (Base Grayscale / Subtle Darkened Metal) */}
                 <img src={card.image} alt={card.name} className="mcard-plate__img mcard-plate__img--base" />
-
-                {/* Photo Layer 2 (Molten Light Diagonal Wipe Shimmer) */}
                 <div className="mcard-plate__wipe-layer">
                   <img src={card.image} alt="" className="mcard-plate__img mcard-plate__img--vivid" />
                 </div>
-
-                {/* Precision Corner Frame Brackets */}
                 <div className="mcard-plate__frame" />
-
                 <div className="mcard-plate__overlay" />
-
-                {/* Typography Overlay */}
                 <div className="mcard-plate__caption">
                   <span className="mcard-plate__num">{card.num}</span>
                   <div className="mcard-plate__name-wrap">

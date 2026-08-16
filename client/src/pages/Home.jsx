@@ -61,6 +61,7 @@ function Hero({ entered }) {
           loop
           muted
           playsInline
+          poster="https://res.cloudinary.com/djszwbnxp/video/upload/so_0,f_jpg,q_80,w_1200/v1786354702/IMG_0217_mkksta.jpg"
           src="https://res.cloudinary.com/djszwbnxp/video/upload/v1786354702/IMG_0217_mkksta.mp4"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -163,63 +164,60 @@ function StatBlock({ value, target, prefix = '', suffix = '', label, align = 'le
 
 /* ──────────────────────── Signature spotlight ─────────────────────── */
 function Signature({ product }) {
-  const plate = useParallax(-0.05)
+  const plate = useParallax(-0.04)
+  const moq = product.specs?.moq || product.moq || null
   return (
-    <section className="section signature">
-      <div className="container">
-        {/* Section Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '2.4rem' }}>
-          <h2 className="section-heading-unified" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)' }}>
-            FEATURED PRODUCT
+    <section className="sig2">
+      <div className="sig2__inner">
+
+        {/* ── Left: image column ── */}
+        <div className="sig2__visual" ref={plate}>
+          <div className="sig2__img-frame">
+            <img src={product.image} alt={product.name} className="sig2__img" />
+            <span className="sig2__index">{product.index || 'BH·01'}</span>
+          </div>
+        </div>
+
+        {/* ── Right: content column ── */}
+        <div className="sig2__content">
+          <Reveal as="span" className="sig2__eyebrow" delay={0}>
+            Featured Product
+          </Reveal>
+
+          <h2 className="sig2__name">
+            <Mask block i={0}>
+              <ShinyText text={product.name} speed={3} color="var(--bone)" shineColor="#c9a24b" />
+            </Mask>
           </h2>
+
+          <Reveal as="div" className="sig2__rule-wrap" delay={1}>
+            <span className="sig2__rule" />
+            <span className="sig2__fam">{product.family}</span>
+          </Reveal>
+
+          <Reveal as="p" className="sig2__lede" delay={2}>
+            {product.tagline}{product.blurb ? ` — ${product.blurb}` : ''}
+          </Reveal>
+
+          {moq && (
+            <Reveal as="div" className="sig2__pills" delay={3}>
+              <span className="sig2__pill">MOQ · {moq} units</span>
+              <span className="sig2__pill">Factory Direct</span>
+              <span className="sig2__pill">Export Ready</span>
+            </Reveal>
+          )}
+
+          <Reveal as="div" className="sig2__cta" delay={4}>
+            <TLink to={`/product/${product.slug}`} className="btn btn--gold btn--shine">
+              View Product
+              <div className="btn__icon"><ArrowUR /></div>
+            </TLink>
+            <TLink to="/collections" className="sig2__browse">
+              Browse All →
+            </TLink>
+          </Reveal>
         </div>
 
-        <div className="signature__grid">
-          <div className="signature__visual">
-            <div ref={plate} className="signature__plate-wrap">
-              <div style={{ position: 'relative' }}>
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="signature__img"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="signature__body">
-            <div className="signature__body-top">
-              <h3 className="signature__name">
-                <Mask block i={0}>
-                  <ShinyText text={product.name} speed={3} color="var(--bone)" shineColor="#b2d5e5" />
-                </Mask>
-              </h3>
-              <Reveal as="p" className="signature__fam gold" delay={1}>
-                {product.family} · Premium Handicraft
-              </Reveal>
-              <Reveal as="p" className="lead signature__lede" delay={2}>
-                {product.tagline} {product.blurb}
-              </Reveal>
-            </div>
-
-            <div className="signature__feature-grid">
-              {[1, 2, 3, 4].map((i) => (
-                <Reveal as="div" key={i} className="signature__feature-card" delay={i}>
-                  <span>Detail {i}</span>
-                </Reveal>
-              ))}
-            </div>
-
-            <div className="signature__cta">
-              <TLink to={`/product/${product.slug}`} className="btn btn--gold btn--shine">
-                View Details
-                <div className="btn__icon">
-                  <ArrowUR />
-                </div>
-              </TLink>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   )

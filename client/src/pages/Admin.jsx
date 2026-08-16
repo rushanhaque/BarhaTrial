@@ -2,6 +2,7 @@ import { useState, useRef, useMemo, useEffect } from 'react'
 import '../styles/admin.css'
 import { useScroll } from '../lib/SmoothScroll.jsx'
 import { COLLECTIONS_ITEMS } from '../data/categories.js'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 
 // ── Icons ──────────────────────────────────────────────────
 function BoxIcon() {
@@ -100,6 +101,8 @@ export default function Admin() {
 
   const [showAddProduct, setShowAddProduct] = useState(false)
   const [showAddSubcategory, setShowAddSubcategory] = useState(false)
+  const [showSubcategories, setShowSubcategories] = useState(false)
+  const [showBestWorks, setShowBestWorks] = useState(false)
 
   const [productForm, setProductForm] = useState(EMPTY_PRODUCT)
   const [imagePreview, setImagePreview] = useState(null)
@@ -218,6 +221,48 @@ export default function Admin() {
     })
     return Array.from(set)
   }, [productForm.category, products, customSubcategories])
+
+  // All subcategories across all parents, merged from products + custom list
+  const allSubcategories = useMemo(() => {
+    const map = {} // parent -> Set of names
+    products.forEach(p => {
+      if (p.category && p.family && p.family.trim() !== p.category.trim()) {
+        if (!map[p.category]) map[p.category] = new Set()
+        map[p.category].add(p.family.trim())
+      }
+    })
+    customSubcategories.forEach(s => {
+      if (!map[s.parent]) map[s.parent] = new Set()
+      map[s.parent].add(s.name.trim())
+    })
+    return Object.entries(map).map(([parent, names]) => ({
+      parent,
+      names: Array.from(names).sort()
+    })).sort((a, b) => a.parent.localeCompare(b.parent))
+  }, [products, customSubcategories])
+
+  const handleDeleteSubcategory = (parent, name) => {
+    setConfirmDialog({
+      title: 'Delete Subcategory',
+      message: `Delete subcategory "${name}" under "${parent}"? Products using it will have their subcategory cleared.`,
+      confirmText: 'Delete',
+      isDanger: true,
+      onConfirm: () => {
+        // Remove from custom list
+        const updatedCustom = customSubcategories.filter(s => !(s.parent === parent && s.name === name))
+        setCustomSubcategories(updatedCustom)
+        save('custom_subcategories', updatedCustom)
+        // Clear family on products that use this subcategory
+        const updatedProducts = products.map(p =>
+          p.category === parent && p.family === name ? { ...p, family: p.category } : p
+        )
+        setProducts(updatedProducts)
+        save('products', updatedProducts)
+        triggerToast(`Deleted subcategory "${name}"`)
+        setConfirmDialog(null)
+      }
+    })
+  }
 
   const categoryChips = useMemo(() => ['All', ...availableCategories], [availableCategories])
 
@@ -350,6 +395,16 @@ export default function Admin() {
     triggerToast(`Added Subcategory "${name}"`)
   }
 
+  const toggleBestWork = (id) => {
+    const updated = products.map(p =>
+      (p.id || p.index) === id ? { ...p, isBestWork: !p.isBestWork } : p
+    )
+    setProducts(updated)
+    save('products', updated)
+  }
+
+  const bestWorkCount = useMemo(() => products.filter(p => p.isBestWork).length, [products])
+
   const pf = k => e => setProductForm(f => ({
     ...f,
     [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -371,8 +426,11 @@ export default function Admin() {
         {/* Header */}
         <div className="pm-top-section">
           <header className="pm-header">
-            <span className="pm-admin-tag">Barira Handicrafts · Admin /</span>
-            <h1 className="pm-title">Product Management</h1>
+            <div>
+              <span className="pm-admin-tag">Barira Handicrafts · Admin /</span>
+              <h1 className="pm-title">Product Management</h1>
+            </div>
+            <ThemeToggle />
           </header>
 
           {/* Category chips */}
@@ -449,10 +507,22 @@ export default function Admin() {
             <button className="pm-btn pm-btn--outline" onClick={() => setShowAddSubcategory(true)}>
               <span className="pm-plus">+</span> Add Subcategory
             </button>
+            <button className="pm-btn pm-btn--outline" onClick={() => setShowSubcategories(true)}>
+              View Subcategories
+              {allSubcategories.length > 0 && (
+                <span className="pm-chip-count" style={{ marginLeft: '0.4rem' }}>
+                  {allSubcategories.reduce((n, g) => n + g.names.length, 0)}
+                </span>
+              )}
+            </button>
+            <button className="pm-btn pm-btn--outline" onClick={() => setShowBestWorks(true)}>
+              ★ Best Works
+              {bestWorkCount > 0 && (
+                <span className="pm-chip-count" style={{ marginLeft: '0.4rem' }}>{bestWorkCount}</span>
+              )}
+            </button>
             
-            <div style={{ flex: 1 }} />
-            
-            <button 
+            <button
               className="pm-btn pm-btn--primary" 
               style={{ background: 'var(--gold)', color: '#000', borderColor: 'var(--gold)' }} 
               onClick={handlePublish}
@@ -540,6 +610,100 @@ export default function Admin() {
       )}
 
 
+
+      {/* Best Works Modal */}
+      {showBestWorks && (
+        <Modal title="Best Works" onClose={() => setShowBestWorks(false)} wide>
+          <div className="pm-form">
+            <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.4)', marginBottom: '1.2rem' }}>
+              Select products to feature as your best works. Selected items will be highlighted across the site.
+            </p>
+            {products.length === 0 ? (
+              <p style={{ color: 'var(--muted)', fontSize: '0.9rem', textAlign: 'center', padding: '2rem 0' }}>
+                No products yet. Add products first.
+              </p>
+            ) : (
+              <div className="pm-bw-grid">
+                {products.map(p => {
+                  const id = p.id || p.index
+                  const selected = !!p.isBestWork
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      className={`pm-bw-card${selected ? ' pm-bw-card--selected' : ''}`}
+                      onClick={() => toggleBestWork(id)}
+                    >
+                      <div className="pm-bw-img">
+                        {p.image
+                          ? <img src={p.image} alt={p.name} />
+                          : <div className="pm-bw-placeholder"><BoxIcon /></div>
+                        }
+                        {selected && <span className="pm-bw-check">★</span>}
+                      </div>
+                      <div className="pm-bw-meta">
+                        <span className="pm-bw-name">{p.name}</span>
+                        <span className="pm-bw-cat">{p.category}</span>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+            <div className="pm-modal-actions" style={{ marginTop: '1.2rem' }}>
+              <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.35)' }}>
+                {bestWorkCount} product{bestWorkCount !== 1 ? 's' : ''} selected
+              </span>
+              <button type="button" className="pm-btn pm-btn--primary" onClick={() => setShowBestWorks(false)}>Done</button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* View Subcategories Modal */}
+      {showSubcategories && (
+        <Modal title="Subcategories" onClose={() => setShowSubcategories(false)} wide>
+          <div className="pm-form">
+            {allSubcategories.length === 0 ? (
+              <p style={{ color: 'var(--muted)', fontSize: '0.9rem', textAlign: 'center', padding: '2rem 0' }}>
+                No subcategories yet. Add one using the "Add Subcategory" button.
+              </p>
+            ) : (
+              allSubcategories.map(group => (
+                <div key={group.parent} className="pm-subcat-group">
+                  <span className="pm-subcat-group-label">{group.parent}</span>
+                  <div className="pm-subcat-list">
+                    {group.names.map(name => {
+                      const productCount = products.filter(p => p.category === group.parent && p.family === name).length
+                      return (
+                        <div key={name} className="pm-subcat-row">
+                          <span className="pm-subcat-name">{name}</span>
+                          {productCount > 0 && (
+                            <span className="pm-subcat-count">{productCount} product{productCount !== 1 ? 's' : ''}</span>
+                          )}
+                          <button
+                            className="pm-card-btn pm-card-btn--delete"
+                            onClick={() => handleDeleteSubcategory(group.parent, name)}
+                            title="Delete subcategory"
+                          >
+                            <TrashIcon />
+                          </button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))
+            )}
+            <div className="pm-modal-actions" style={{ marginTop: '1rem' }}>
+              <button type="button" className="pm-btn pm-btn--ghost" onClick={() => setShowSubcategories(false)}>Close</button>
+              <button type="button" className="pm-btn pm-btn--outline" onClick={() => { setShowSubcategories(false); setShowAddSubcategory(true) }}>
+                + Add Subcategory
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
 
       {/* Add Subcategory Modal */}
       {showAddSubcategory && (

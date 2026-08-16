@@ -20,7 +20,7 @@ export default function Preloader({ onDone }) {
 
   useEffect(() => {
     document.documentElement.classList.add('is-loading')
-    const DUR = 2050
+    const DUR = 1200
 
     const finish = () => {
       if (finished.current) return
@@ -33,12 +33,12 @@ export default function Preloader({ onDone }) {
         sc?.lenis?.start?.()
         sc?.scrollTo?.(0, { immediate: true })
         onDone?.()
-      }, 1100)
+      }, 600)
     }
 
     if (reduced()) {
       setCount(100)
-      window.setTimeout(finish, 200)
+      window.setTimeout(finish, 80)
       return
     }
 
@@ -50,12 +50,10 @@ export default function Preloader({ onDone }) {
       const p = Math.min(1, (ts - start) / DUR)
       setCount(Math.round(ease(p) * 100))
       if (p < 1) raf = requestAnimationFrame(run)
-      else window.setTimeout(finish, 280)
+      else window.setTimeout(finish, 150)
     }
     raf = requestAnimationFrame(run)
-    // Safety: guarantee completion even if rAF is throttled (e.g. background tab),
-    // so the experience never stalls with scroll locked.
-    const safety = window.setTimeout(finish, DUR + 1600)
+    const safety = window.setTimeout(finish, DUR + 800)
     return () => {
       cancelAnimationFrame(raf)
       window.clearTimeout(safety)

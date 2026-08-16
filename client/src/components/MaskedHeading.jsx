@@ -135,11 +135,21 @@ const MaskedHeading = ({
 
     root.addEventListener('pointermove', onMove);
     root.addEventListener('pointerleave', onLeave);
-    raf = requestAnimationFrame(frame);
+
+    // Only run rAF while visible
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) { if (!raf) raf = requestAnimationFrame(frame) }
+        else { cancelAnimationFrame(raf); raf = 0 }
+      },
+      { threshold: 0 }
+    )
+    io.observe(root)
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
       root.removeEventListener('pointermove', onMove);
       root.removeEventListener('pointerleave', onLeave);
     };

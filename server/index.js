@@ -217,6 +217,15 @@ function hash(str) {
   return h
 }
 
+// ── Product Catalogue — force inline display in browser ───────────────
+app.get('/catalogue.pdf', (_req, res) => {
+  const pdf = path.join(__dirname, '..', 'client', 'public', 'catalogue.pdf')
+  if (!fs.existsSync(pdf)) return res.status(404).send('Not found')
+  res.setHeader('Content-Type', 'application/pdf')
+  res.setHeader('Content-Disposition', 'inline; filename="Barira-Handicrafts-Catalogue.pdf"')
+  res.sendFile(pdf)
+})
+
 // ── SEO: robots + sitemap ─────────────────────────────────────────────
 const baseUrl = (req) => process.env.BASE_URL || `${req.protocol}://${req.get('host')}`
 const ROUTES = ['/', '/catalogue', '/about', '/custom-orders', '/trade-fairs', '/blog', '/contact']

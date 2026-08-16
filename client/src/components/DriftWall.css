@@ -98,8 +98,7 @@
 
 .drift-wall__label-text {
   display: inline-block;
-  background: rgba(10, 10, 16, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 10, 16, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--bone, #f4f0ea);
   font-family: var(--font-sans, system-ui, sans-serif);

@@ -6,6 +6,7 @@ import { useSearch } from '../lib/search.jsx'
 import TLink from './TLink.jsx'
 import { Magnetic } from './MagneticButton.jsx'
 import { ArrowUR, Search, Bag } from './Icons.jsx'
+import ThemeToggle from './ThemeToggle.jsx'
 
 const LINKS = [
   { i: '01', label: 'The Collections', to: '/collections' },
@@ -85,6 +86,7 @@ export default function Navbar() {
           </nav>
 
           <div className="nav__right">
+            <ThemeToggle />
             <button className="nav__icon" onClick={() => search?.openSearch()} aria-label="Search" data-cursor data-cursor-label="Search">
               <Search />
             </button>

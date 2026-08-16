@@ -600,6 +600,7 @@
 .foundry-panel__heading {
   font-size: var(--fs-h4);
   white-space: nowrap;
+  color: #fff;
 }
 
 .foundry-panel__body {
@@ -1042,238 +1043,202 @@
 /* ====================================================================
    HOME · Signature spotlight
    ==================================================================== */
-.section.signature {
-  padding-block: var(--section-y-lg);
+/* ====================================================================
+   HOME · Signature Spotlight (redesigned)
+   ==================================================================== */
+.sig2 {
+  padding-block: clamp(5rem, 10vw, 9rem);
+  position: relative;
+  overflow: hidden;
 }
 
-.signature__grid {
+/* Subtle warm noise vignette behind the section */
+.sig2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 60% 50%, rgba(201, 162, 75, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.sig2__inner {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 5rem);
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(3rem, 6vw, 6rem);
-  align-items: stretch;
+  grid-template-columns: 46% 1fr;
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: center;
 }
 
-.signature__visual {
+/* ── Image column ── */
+.sig2__visual {
+  will-change: transform;
+}
+
+.sig2__img-frame {
+  position: relative;
+  border-radius: clamp(12px, 1.5vw, 20px);
+  overflow: hidden;
+  box-shadow: 0 32px 80px -20px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.sig2__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  transition: transform 6s ease;
+}
+
+.sig2__img-frame:hover .sig2__img {
+  transform: scale(1.03);
+}
+
+/* Product index badge */
+.sig2__index {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.4rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+  padding: 0.3rem 0.75rem;
+}
+
+/* ── Content column ── */
+.sig2__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sig2__eyebrow {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold, #c9a24b);
+  margin-bottom: 1rem;
+}
+
+.sig2__name {
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  line-height: 1.0;
+  margin: 0 0 1.4rem;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.sig2__rule-wrap {
   display: flex;
   align-items: center;
-  height: 100%;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
 }
 
-.signature__plate-wrap {
-  will-change: transform;
-  width: 100%;
-  max-width: 540px;
-}
-
-.signature__img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-lift);
+.sig2__rule {
   display: block;
-}
-
-.signature__body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  padding-block: 0.25rem;
-}
-
-.signature__plate-index {
-  position: absolute;
-  top: 1.4rem;
-  left: 1.5rem;
-  z-index: 2;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.signature__name {
-  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-  margin: 0;
-  line-height: 1.05;
-}
-
-.signature__fam {
-  text-transform: uppercase;
-  letter-spacing: var(--track-wide);
-  font-size: var(--fs-xs);
-  margin-top: 0.25rem;
-}
-
-.signature__lede {
-  margin-top: 0.5rem;
-  max-width: 48ch;
-  line-height: var(--lh-body);
-}
-
-.signature__notes {
-  margin-top: 0.75rem;
-  border-top: 1px solid var(--line);
-}
-
-.signature__note {
-  display: flex;
-  gap: 2rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--line);
-  align-items: baseline;
-}
-
-.signature__note-k {
-  font-size: var(--fs-label);
-  text-transform: uppercase;
-  letter-spacing: var(--track-wide);
-  color: var(--gold);
-  width: max-content;
-  min-width: 11rem;
+  width: 2.5rem;
+  height: 1px;
+  background: var(--gold, #c9a24b);
   flex-shrink: 0;
 }
 
-.signature__note-v {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--bone);
-}
-
-.signature__feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-block: 0.75rem 0.4rem;
-}
-
-.signature__feature-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--r-lg);
-  padding: 1rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.8rem;
-  min-height: 80px;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-}
-
-.signature__feature-card:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
-
-.signature__feature-icon-placeholder {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  transition: background 0.3s ease, transform 0.4s ease;
-}
-
-.signature__feature-card:hover .signature__feature-icon-placeholder {
-  background: var(--gold);
-  transform: scale(1.1);
-}
-
-.signature__feature-card span {
-  color: var(--gray-400);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
+.sig2__fam {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  transition: color 0.3s ease;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.signature__feature-card:hover span {
-  color: var(--bone);
+.sig2__lede {
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 44ch;
+  margin-bottom: 1.8rem;
 }
 
-.signature__cta {
-  margin-top: 0.75rem;
+/* Spec pills */
+.sig2__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
 }
 
-/* ---- Signature: mobile — fit everything on one screen ---- */
+.sig2__pill {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone, #e8dcc8);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 100px;
+  padding: 0.35rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* CTA row */
+.sig2__cta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.sig2__browse {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.sig2__browse:hover {
+  color: var(--bone, #e8dcc8);
+}
+
+/* ── Mobile ── */
 @media (max-width: 768px) {
-  .section.signature {
-    padding-block: clamp(2rem, 4vh, 3.5rem);
+  .sig2 {
+    padding-block: clamp(3rem, 7vw, 5rem);
   }
 
-  /* Side-by-side: image left (40%), content right (60%) */
-  .signature__grid {
-    grid-template-columns: 40% 1fr;
-    gap: 1rem;
-    align-items: center;
+  .sig2__inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .signature__visual {
-    align-items: center;
-    height: auto;
+  .sig2__img {
+    aspect-ratio: 4 / 3;
   }
 
-  .signature__plate-wrap {
-    max-width: 100%;
+  .sig2__name {
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+    margin-bottom: 1rem;
   }
 
-  .signature__img {
-    aspect-ratio: 1 / 1;
-    border-radius: var(--r-md);
+  .sig2__lede {
+    font-size: 0.9rem;
+    margin-bottom: 1.4rem;
   }
 
-  .signature__name {
-    font-size: clamp(1rem, 3.8vw, 1.35rem);
+  .sig2__cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
   }
 
-  .signature__fam {
-    font-size: 0.6rem;
-    margin-top: 0.15rem;
-  }
-
-  .signature__lede {
-    font-size: var(--fs-sm);
-    margin-top: 0.25rem;
-    line-height: 1.25;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Feature cards: compact 2x2 tiles */
-  .signature__feature-grid {
-    gap: 0.35rem;
-    margin-block: 0.4rem 0.25rem;
-  }
-
-  .signature__feature-card {
-    min-height: 38px;
-    padding: 0.45rem 0.55rem;
-    gap: 0.3rem;
-    border-radius: var(--r-sm);
-  }
-
-  .signature__feature-card span {
-    font-size: 0.58rem;
-    letter-spacing: 0.06em;
-  }
-
-  .signature__cta {
-    margin-top: 0.4rem;
-  }
-
-  .signature__cta .btn {
+  .sig2__cta .btn {
     width: 100%;
     justify-content: center;
-    padding: 0.6rem 0.8rem;
-    font-size: var(--fs-xs);
   }
 }
 
@@ -2904,7 +2869,6 @@
   }
 
   .manifesto__row,
-  .signature__grid,
   .alchemy__layout,
   .philosophy__grid,
   .fragrance__main,
@@ -2921,10 +2885,6 @@
   .fragrance__related-grid,
   .maison__people-grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .signature__grid {
     gap: 2.5rem;
   }
 
@@ -2996,10 +2956,6 @@
     justify-content: center;
   }
 
-  /* Signature notes: shrink key column */
-  .signature__note-k {
-    min-width: 8rem;
-  }
 
   /* Materials horizontal sticky: on 768px and below, disable the 300vh 
      sticky effect entirely — use a swipeable horizontal scroll row instead */
@@ -3103,7 +3059,6 @@
   gap: clamp(1.8rem, 3vw, 3rem);
   padding-inline: max(5vw, calc((100vw - var(--container)) / 2 + var(--gutter)));
   will-change: transform;
-  transition: transform 0.1s linear;
 }
 
 /* Perfect 4:5 Ratio Full Photo Metal Card */
@@ -3285,15 +3240,7 @@
     flex: none;
   }
 
-  /* Signature notes: stack key-value pairs */
-  .signature__note {
-    flex-direction: column;
-    gap: 0.4rem;
-  }
 
-  .signature__note-k {
-    min-width: unset;
-  }
 
   /* Product detail */
   .fragrance__name {
@@ -3355,3 +3302,91 @@
     max-width: 100%;
   }
 }
+
+/* ====================================================================
+   THEME SAFETY — text on top of images must never inherit theme color
+   ==================================================================== */
+
+/* Foundry Process — text sits on top of photo panels */
+.foundry-panel__heading,
+.foundry-panel__body p,
+.foundry-panel__num {
+  color: #fff;
+}
+.foundry-panel__num {
+  color: var(--gold);
+}
+
+/* Materials & Finishes cards — caption is absolutely positioned over image */
+.mcard-plate__num,
+.mcard-plate__name--stroke {
+  color: var(--gold);
+}
+.mcard-plate__name {
+  color: #fff;
+}
+
+/* Product cards — text below image is fine (theme-colored), but
+   any text absolutely positioned on the image must stay white */
+.fcard__index,
+.fcard__family-tag {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Sig2 image overlay badge */
+.sig2__index {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Featured Product (Signature) section — content col is NOT on image, skip */
+
+/* DriftWall / catalogue wall item text on dark cards */
+.hcard__name,
+.hcard__family,
+.hcard__tag {
+  color: #fff;
+}
+.hcard__cta {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.hcard:hover .hcard__cta {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Collections page cards */
+.czoom__label {
+  color: #fff;
+}
+
+/* ====================================================================
+   PERFORMANCE — skip layout/paint for large off-screen sections
+   ==================================================================== */
+.manifesto,
+.heritage-section,
+.foundry-process,
+.materials-hsection {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Hero section — dark bg, all text stays white */
+.hero { background: var(--noir, #0e0c0a); }
+.hero__brand-title,
+.hero__title,
+.hero__eyebrow,
+.hero__sub,
+.hero__plate-name,
+.hero__plate-fam,
+.hero__plate-note,
+.hero__plate-sig,
+.hero__scroll { color: #fff; }
+
+/* Collections zoom section — dark bg, heading + card text stays white */
+.czoom-section { background: var(--noir, #020202); }
+.czoom-head h2 { color: #fff; }
+
+/* Cards inside czoom are on dark image tiles */
+.czoom-hero-title,
+.czoom-hero-sub,
+.czoom-hero-content,
+.czoom-card-name { color: #fff; }
