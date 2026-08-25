@@ -82,21 +82,45 @@ app.get('/api/media/:filename', async (req, res) => {
   res.send(buf)
 })
 
+// ── Version endpoint — lets clients poll for deploy changes ───────────────
+app.get('/api/version', (_req, res) => {
+  res.set('Cache-Control', 'no-store, max-age=0')
+  ok(res, { version: getVersion(), buildId: process.env.BUILD_ID || 'dev' })
+})
+
 // ── Admin Engine ───────────────────────────────────────────────────────────
 app.post('/api/admin/publish', async (req, res) => {
+  // Require secret token when ADMIN_PUBLISH_SECRET is configured.
+  const secret = process.env.ADMIN_PUBLISH_SECRET
+  if (secret) {
+    const provided = req.headers['x-admin-secret'] || req.body?.adminSecret
+    if (!provided || provided !== secret) {
+      return res.status(401).json({ ok: false, error: 'Unauthorized. Admin secret required.' })
+    }
+  }
+
   const { products: newProducts } = req.body
   if (!newProducts || !Array.isArray(newProducts)) {
     return res.status(400).json({ ok: false, error: 'Invalid products data' })
   }
 
+  // Validate photo paths — reject traversal attempts.
+  const SAFE_PATH = /^\/api\/media\/img_[a-f0-9]{20}\.(jpg|png|webp|avif|gif)$/
+  for (const p of newProducts) {
+    if (p.image && p.image.startsWith('/') && !p.image.startsWith('/images/') && !SAFE_PATH.test(p.image)) {
+      return res.status(400).json({ ok: false, error: `Invalid image path: ${p.image}` })
+    }
+  }
+
   try {
+    const photoCount = newProducts.filter(p => p.image?.startsWith('data:image/')).length
     // Upload any base64 images; replace inline data with a stable URL.
     for (const p of newProducts) {
       if (p.image && p.image.startsWith('data:image/')) {
         const isPng = p.image.includes('image/png')
         const ext = isPng ? 'png' : 'jpeg'
         const base64Data = p.image.split(',')[1]
-        const filename = `img_${Date.now()}_${Math.floor(Math.random() * 1000)}.${ext}`
+        const filename = `upload.${ext}`
         p.image = await saveMedia(filename, base64Data)
       }
       // Clear preview blob URLs that came from the browser
@@ -104,9 +128,10 @@ app.post('/api/admin/publish', async (req, res) => {
     }
 
     const result = await saveProducts(newProducts)
-    ok(res, result)
+    ok(res, { ...result, photosCommitted: photoCount })
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message })
+    const status = e.message.includes('too large') ? 413 : 500
+    res.status(status).json({ ok: false, error: e.message })
   }
 })
 

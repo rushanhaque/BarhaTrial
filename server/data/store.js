@@ -10,6 +10,7 @@
 
 import path from 'node:path'
 import fs from 'node:fs'
+import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { products as seedProducts } from './products.js'
 
@@ -147,30 +148,51 @@ export async function saveProducts(products) {
   return { published: true, message: 'Published — live on every device.' }
 }
 
-/** Store an uploaded image in the repo. Returns the URL the site should use. */
+/** Store an uploaded image in the repo. Returns the URL the site should use.
+ *  Uses content-addressing (SHA-256 of bytes) so the same photo uploaded
+ *  twice is stored once, and the URL is immutable/cacheable forever.
+ */
 export async function saveMedia(filename, base64Data) {
+  const buf = Buffer.from(base64Data, 'base64')
+  // Content-addressed: first 20 hex chars of SHA-256 + original extension
+  const ext = (filename.split('.').pop() || 'jpg').toLowerCase().replace(/jpeg/, 'jpg')
+  const hash = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 20)
+  const caFilename = `img_${hash}.${ext}`
+
   // Local copy so `npm run dev` shows the image without a round-trip.
   try {
     const dir = path.join(__dirname, '..', '..', 'client', 'public', 'images')
     fs.mkdirSync(dir, { recursive: true })
-    fs.writeFileSync(path.join(dir, filename), Buffer.from(base64Data, 'base64'))
+    const localPath = path.join(dir, caFilename)
+    if (!fs.existsSync(localPath)) fs.writeFileSync(localPath, buf)
   } catch {}
 
-  if (!token()) return `/images/${filename}`
+  if (!token()) return `/images/${caFilename}`
 
-  const res = await fetch(gh(`${MEDIA_DIR}/${filename}`), {
+  // Check if the file already exists in the repo (deduplication).
+  const checkRes = await fetch(`${gh(`${MEDIA_DIR}/${caFilename}`)}?ref=${BRANCH}`, { headers: ghHeaders() })
+  if (checkRes.ok) {
+    // Already committed — return the existing URL.
+    return `/api/media/${caFilename}`
+  }
+
+  const res = await fetch(gh(`${MEDIA_DIR}/${caFilename}`), {
     method: 'PUT',
     headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      message: `Add product image ${filename}`,
+      message: `Add product image ${caFilename}`,
       branch: BRANCH,
       content: base64Data,
     }),
   })
-  if (!res.ok) throw new Error('Image upload failed: ' + (await res.text()))
+  if (!res.ok) {
+    const txt = await res.text()
+    if (res.status === 413) throw new Error('Image too large for GitHub (max ~50 MB base64). Please resize before uploading.')
+    throw new Error('Image upload failed: ' + txt)
+  }
 
   // Served through our own /api/media proxy — available instantly, no deploy.
-  return `/api/media/${filename}`
+  return `/api/media/${caFilename}`
 }
 
 /** Raw bytes for an uploaded image, straight from the repo. */

@@ -138,34 +138,44 @@ export default function Admin() {
   }, [])
 
   const handlePublish = () => {
+    const pendingPhotos = products.filter(p => p.image?.startsWith('data:image/')).length
     setConfirmDialog({
       title: 'Save & Publish',
-      message: 'Are you sure you want to Save & Publish all changes to the live website?',
+      message: pendingPhotos > 0
+        ? `Are you sure? This will commit ${pendingPhotos} new photo${pendingPhotos !== 1 ? 's' : ''} and the updated catalogue to GitHub.`
+        : 'Are you sure you want to Save & Publish all changes to the live website?',
       confirmText: 'Publish',
       onConfirm: async () => {
         setConfirmDialog(null)
         setPublishing(true)
-        triggerToast("Publishing to GitHub... this may take a few seconds.")
+        triggerToast(pendingPhotos > 0
+          ? `Uploading ${pendingPhotos} photo${pendingPhotos !== 1 ? 's' : ''} and publishing…`
+          : "Publishing to GitHub… this may take a few seconds.")
         try {
+          const secret = import.meta.env.VITE_ADMIN_SECRET || ''
           const res = await fetch('/api/admin/publish', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              ...(secret ? { 'x-admin-secret': secret } : {}),
+            },
             body: JSON.stringify({ products })
           })
           const data = await res.json()
-          if (data.ok) {
-            // Wipe any old localStorage keys from the previous architecture
-            // so browsers don't keep showing stale cached data.
+          if (data.ok && data.data?.published !== false) {
             try {
               localStorage.removeItem('barira_admin_products')
               localStorage.removeItem('barira_admin_custom_subcategories')
             } catch {}
-            triggerToast("Published! Live on every device.")
+            const photoMsg = data.data?.photosCommitted > 0 ? ` (${data.data.photosCommitted} photo${data.data.photosCommitted !== 1 ? 's' : ''} committed)` : ''
+            triggerToast(`Published! Live on every device.${photoMsg}`)
+          } else if (data.ok && data.data?.published === false) {
+            triggerToast("Saved locally only. Set GITHUB_TOKEN on Vercel to publish live.")
           } else {
-            triggerToast("Failed: " + data.error)
+            triggerToast("Failed: " + (data.error || 'Unknown error'))
           }
         } catch (e) {
-          triggerToast("Error publishing.")
+          triggerToast("Network error publishing. Check your connection.")
         }
         setPublishing(false)
       }

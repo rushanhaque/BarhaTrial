@@ -12,10 +12,12 @@
     "install:all": "npm install",
     "dev": "concurrently -n SERVER,CLIENT -c magenta,cyan \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
     "build": "npm --prefix client install && npm --prefix client run build",
-    "vercel-build": "npm --prefix client install && npm --prefix client run build",
+    "vercel-build": "node scripts/validate-config.mjs && npm --prefix client install && npm --prefix client run build",
     "start": "npm --prefix server start",
     "preview": "npm --prefix client run preview",
-    "heroku-postbuild": "npm --prefix client install && npm --prefix client run build"
+    "heroku-postbuild": "npm --prefix client install && npm --prefix client run build",
+    "check:config": "node scripts/validate-config.mjs",
+    "check:live": "node scripts/check-live.mjs"
   },
   "engines": {
     "node": ">=18"
