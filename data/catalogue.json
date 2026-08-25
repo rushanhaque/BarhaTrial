@@ -1,0 +1,336 @@
+[
+  {
+    "id": 1787661842426,
+    "name": "Axis Cylinder Holder",
+    "category": "",
+    "family": "",
+    "blurb": "Modern rustic wooden cylinder stands elevated by minimalist black metal stems and flat pillar plates.",
+    "image": "/api/media/img_78dd5c35cf3b4ace6c26.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·10",
+    "slug": "axis-cylinder-holder",
+    "materials": {
+      "primary": [
+        "Wood"
+      ],
+      "secondary": [],
+      "finish": [
+        "Dark Natural"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787661765734,
+    "name": "Solace Cone Holder",
+    "category": "",
+    "family": "",
+    "blurb": "Hand-turned solid wood pillar candle holders featuring sleek, tapered conical bases and a warm natural finish.",
+    "image": "/api/media/img_0b749a900c8c72ab0e03.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·09",
+    "slug": "solace-cone-holder",
+    "materials": {
+      "primary": [
+        "Wood"
+      ],
+      "secondary": [],
+      "finish": [
+        "Dark Natural"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1786437313784,
+    "name": "Flower Pot",
+    "category": "Gardening",
+    "family": "Gardening",
+    "tagline": "ahjhfkjbn ",
+    "blurb": "mmmmm",
+    "story": "",
+    "priceUSD": 100,
+    "moq": 5,
+    "image": "/images/img_1786441880738_534.jpeg",
+    "signature": false,
+    "artisan": "",
+    "origin": "Moradabad, India",
+    "year": 2026,
+    "sizes": [],
+    "character": [],
+    "index": "BH·11",
+    "slug": "flower-pot",
+    "specs": {
+      "moq": 5,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  },
+  {
+    "id": 1,
+    "name": "Aurelia Hammered Vase",
+    "category": "Gardening",
+    "tagline": "Timeless hammered brass.",
+    "description": "A monumental hand-hammered vase raised from a single sheet of solid brass.",
+    "price": 145,
+    "moq": 50,
+    "signature": false,
+    "image": "/images/brass_vase.png",
+    "sizes": [],
+    "character": [],
+    "family": "Gardening",
+    "index": "BH·12",
+    "slug": "aurelia-hammered-vase",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 50,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": false
+  },
+  {
+    "id": 2,
+    "name": "Verona Candle Stand",
+    "category": "Tables",
+    "tagline": "A study in contrasts.",
+    "description": "A sculptural candle stand pairing a blackened iron column with a mirror-polished brass cup.",
+    "price": 85,
+    "moq": 100,
+    "signature": false,
+    "image": "/images/brass_tray.png",
+    "sizes": [],
+    "character": [],
+    "family": "Tables",
+    "index": "BH·12",
+    "slug": "verona-candle-stand",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 100,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  },
+  {
+    "id": 4,
+    "name": "Marbella Planter",
+    "category": "Lighting",
+    "tagline": "Lightweight volume.",
+    "description": "A spun-aluminium planter with generous volume and a durable brushed finish.",
+    "price": 110,
+    "moq": 150,
+    "signature": false,
+    "image": "/images/metal_lantern.png",
+    "sizes": [],
+    "character": [],
+    "family": "Lighting",
+    "index": "BH·12",
+    "slug": "marbella-planter",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 150,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  },
+  {
+    "id": 5,
+    "name": "Regent End Table",
+    "category": "Tables",
+    "tagline": "Industrial heritage.",
+    "description": "A substantial cast-iron end table built for a lifetime of use.",
+    "price": 185,
+    "moq": 10,
+    "signature": false,
+    "image": "/images/end_table.png",
+    "sizes": [],
+    "character": [],
+    "family": "Tables",
+    "index": "BH·12",
+    "slug": "regent-end-table",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 10,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  },
+  {
+    "id": 6,
+    "name": "Celeste Serving Bowl",
+    "category": "Tables",
+    "tagline": "Food-safe elegance.",
+    "description": "A double-walled copper serving bowl with a food-safe tin lining.",
+    "price": 45,
+    "moq": 200,
+    "signature": false,
+    "image": "/images/copper_kitchenware.png",
+    "sizes": [],
+    "character": [],
+    "family": "Tables",
+    "index": "BH·12",
+    "slug": "celeste-serving-bowl",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 200,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  },
+  {
+    "id": 7,
+    "name": "Grey Flower Pot ",
+    "category": "Gardening",
+    "tagline": "",
+    "description": "An architectural brass lantern with hand-pierced panels.",
+    "price": 165,
+    "moq": 80,
+    "signature": false,
+    "image": "/images/iron_planter.png",
+    "sizes": [],
+    "character": [],
+    "family": "Gardening",
+    "index": "BH·12",
+    "slug": "grey-flower-pot",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 80,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  },
+  {
+    "id": 8,
+    "name": "Zenith Bookends",
+    "category": "Coming Soon",
+    "tagline": "Weight and grace.",
+    "description": "A geometric pair of nickel-finished bookends.",
+    "price": 130,
+    "moq": 100,
+    "signature": false,
+    "image": "/images/architectural_brass.png",
+    "sizes": [],
+    "character": [],
+    "family": "Coming Soon",
+    "index": "BH·12",
+    "slug": "zenith-bookends",
+    "priceUSD": 0,
+    "year": 2026,
+    "specs": {
+      "moq": 100,
+      "weight": "",
+      "leadTime": ""
+    },
+    "materials": {
+      "primary": [],
+      "secondary": [],
+      "finish": []
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
+    "isBestSeller": true
+  }
+]
