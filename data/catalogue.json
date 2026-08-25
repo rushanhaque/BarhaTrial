@@ -1,5 +1,239 @@
 [
   {
+    "id": 1787662949709,
+    "name": "Zenith Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Modern matte black cylindrical planter showcased within a striking geometric gold wire stand.",
+    "image": "/api/media/img_ca625b9092ac30ce9fb2.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·16",
+    "slug": "zenith-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662870952,
+    "name": "Aureate Hammered Planter ",
+    "category": "",
+    "family": "",
+    "blurb": "Trio of gleaming gold-finish metal pots featuring a sophisticated all-over textured hammered pattern.",
+    "image": "/api/media/img_44feba802024a6276085.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·15",
+    "slug": "aureate-hammered-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Electro Plating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662769471,
+    "name": "Orbit Stand Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Crisp white cylindrical pot cradled securely inside a bold, minimalist yellow circular metal wire frame.",
+    "image": "/api/media/img_4fb3361d00927188ff91.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·14",
+    "slug": "orbit-stand-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662691412,
+    "name": "Aura Hammered Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Rounded black metal planter featuring a textured hammered finish elevated on three small minimalist feet.",
+    "image": "/api/media/img_d63a18859909360f39af.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·13",
+    "slug": "aura-hammered-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662586032,
+    "name": "Aero Strip Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Bright blue metal hanging planter detailed with crisp white horizontal bands and an over-rail hook.",
+    "image": "/api/media/img_5f7a7d3191e78d800d18.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·12",
+    "slug": "aero-strip-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662506559,
+    "name": "Dotline Ova Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Vibrant yellow metal oval planter accented with clean minimalist white polka dots.",
+    "image": "/api/media/img_b76ef4fa11958aa157d6.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·11",
+    "slug": "dotline-ova-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662425388,
+    "name": "Solace Textured Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Set of two cream-finish metal pots featuring contemporary horizontal grooves and vertical ribbing textures.",
+    "image": "/api/media/img_d3dfe857de500f310757.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·10",
+    "slug": "solace-textured-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662301377,
+    "name": "Linea Trough Planter",
+    "category": "",
+    "family": "",
+    "blurb": "Minimalist rectangular metal planter featuring slender supporting legs and integrated geometric side handles.",
+    "image": "/api/media/img_6dfeb5d10e43ca9eb0ae.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·09",
+    "slug": "linea-trough-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
+    "id": 1787662194947,
+    "name": "Axis Stand Planter",
+    "category": "",
+    "family": "",
+    "blurb": "A sleek, elongated black metal trough planter elevated by a clean geometric open-frame stand.",
+    "image": "/api/media/img_41c3f11a727b2f829376.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·08",
+    "slug": "axis-stand-planter",
+    "materials": {
+      "primary": [
+        "Iron"
+      ],
+      "secondary": [],
+      "finish": [
+        "Powder Coating"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
     "id": 1787661842426,
     "name": "Axis Cylinder Holder",
     "category": "",
@@ -50,78 +284,6 @@
       "to": "#A0A0A0",
       "glow": "#D0D0D0"
     }
-  },
-  {
-    "id": 1786437313784,
-    "name": "Flower Pot",
-    "category": "Gardening",
-    "family": "Gardening",
-    "tagline": "ahjhfkjbn ",
-    "blurb": "mmmmm",
-    "story": "",
-    "priceUSD": 100,
-    "moq": 5,
-    "image": "/images/img_1786441880738_534.jpeg",
-    "signature": false,
-    "artisan": "",
-    "origin": "Moradabad, India",
-    "year": 2026,
-    "sizes": [],
-    "character": [],
-    "index": "BH·11",
-    "slug": "flower-pot",
-    "specs": {
-      "moq": 5,
-      "weight": "",
-      "leadTime": ""
-    },
-    "materials": {
-      "primary": [],
-      "secondary": [],
-      "finish": []
-    },
-    "chromatic": {
-      "from": "#1A1A1A",
-      "via": "#505050",
-      "to": "#A0A0A0",
-      "glow": "#D0D0D0"
-    },
-    "isBestSeller": true
-  },
-  {
-    "id": 1,
-    "name": "Aurelia Hammered Vase",
-    "category": "Gardening",
-    "tagline": "Timeless hammered brass.",
-    "description": "A monumental hand-hammered vase raised from a single sheet of solid brass.",
-    "price": 145,
-    "moq": 50,
-    "signature": false,
-    "image": "/images/brass_vase.png",
-    "sizes": [],
-    "character": [],
-    "family": "Gardening",
-    "index": "BH·12",
-    "slug": "aurelia-hammered-vase",
-    "priceUSD": 0,
-    "year": 2026,
-    "specs": {
-      "moq": 50,
-      "weight": "",
-      "leadTime": ""
-    },
-    "materials": {
-      "primary": [],
-      "secondary": [],
-      "finish": []
-    },
-    "chromatic": {
-      "from": "#1A1A1A",
-      "via": "#505050",
-      "to": "#A0A0A0",
-      "glow": "#D0D0D0"
-    },
-    "isBestSeller": false
   },
   {
     "id": 2,
@@ -247,41 +409,6 @@
     "year": 2026,
     "specs": {
       "moq": 200,
-      "weight": "",
-      "leadTime": ""
-    },
-    "materials": {
-      "primary": [],
-      "secondary": [],
-      "finish": []
-    },
-    "chromatic": {
-      "from": "#1A1A1A",
-      "via": "#505050",
-      "to": "#A0A0A0",
-      "glow": "#D0D0D0"
-    },
-    "isBestSeller": true
-  },
-  {
-    "id": 7,
-    "name": "Grey Flower Pot ",
-    "category": "Gardening",
-    "tagline": "",
-    "description": "An architectural brass lantern with hand-pierced panels.",
-    "price": 165,
-    "moq": 80,
-    "signature": false,
-    "image": "/images/iron_planter.png",
-    "sizes": [],
-    "character": [],
-    "family": "Gardening",
-    "index": "BH·12",
-    "slug": "grey-flower-pot",
-    "priceUSD": 0,
-    "year": 2026,
-    "specs": {
-      "moq": 80,
       "weight": "",
       "leadTime": ""
     },
