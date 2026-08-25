@@ -4,7 +4,7 @@ import { useScroll } from '../lib/SmoothScroll.jsx'
 import { COLLECTIONS_ITEMS } from '../data/categories.js'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 
-// ── Icons ──────────────────────────────────────────────────
+// â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function BoxIcon() {
   return (
     <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
@@ -61,17 +61,14 @@ function PublishIcon() {
   )
 }
 
-// ── Helpers ────────────────────────────────────────────────
-function load(key, fallback) {
-  try { const v = localStorage.getItem('barira_admin_' + key); return v ? JSON.parse(v) : fallback } catch { return fallback }
-}
-function save(key, val) {
-  try { localStorage.setItem('barira_admin_' + key, JSON.stringify(val)) } catch {}
-}
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// localStorage is ONLY used for the in-progress draft (unsaved form data) â€”
+// it is NEVER the source of truth for the catalogue. On mount we always fetch
+// from the server so every device / browser shows the same data.
 
 const EMPTY_PRODUCT = { id: null, name: '', category: '', family: '', blurb: '', image: null, imagePreview: null, isBestSeller: false, materialsPrimary: '', materialsFinish: '' }
 
-// ── Modal ──────────────────────────────────────────────────
+// â”€â”€ Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Modal({ title, onClose, children, wide }) {
   const scroll = useScroll()
   useEffect(() => {
@@ -84,7 +81,7 @@ function Modal({ title, onClose, children, wide }) {
       <div className={`pm-modal${wide ? ' pm-modal--wide' : ''}`} onMouseDown={e => e.stopPropagation()}>
         <div className="pm-modal-head">
           <h2>{title}</h2>
-          <button className="pm-icon-btn" onClick={onClose} aria-label="Close">×</button>
+          <button className="pm-icon-btn" onClick={onClose} aria-label="Close">Ã—</button>
         </div>
         {children}
       </div>
@@ -92,9 +89,11 @@ function Modal({ title, onClose, children, wide }) {
   )
 }
 
-// ── Main Admin ─────────────────────────────────────────────
+// â”€â”€ Main Admin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function Admin() {
-  const [products, setProducts] = useState(() => load('products', []))
+  // Server is the ONLY source of truth. Start empty and load immediately.
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
   const [publishing, setPublishing] = useState(false)
   const [customSubcategories, setCustomSubcategories] = useState([])
   const [activeCategory, setActiveCategory] = useState('All')
@@ -121,55 +120,21 @@ export default function Admin() {
     return () => clearTimeout(t)
   }, [toast])
 
-  // Sync with backend on load to ensure cross-device consistency
+  // Load catalogue from server on mount â€” same data every browser sees.
   useEffect(() => {
-    fetch('/api/products-full')
+    fetch('/api/products-full', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        if (data.ok && data.data) {
-          const normalize = p => {
-            if (p.imagePreview && !p.image) p.image = p.imagePreview;
-            delete p.imagePreview;
-            return p;
-          }
-          
-          setProducts(prev => {
-            const local = [...prev];
-            const localMap = {};
-            local.forEach((p, i) => { 
-              // Key by id, fallback to slug, fallback to index
-              const key = p.id || p.slug || i;
-              localMap[key] = { product: p, index: i };
-            });
-            
-            let changed = false;
-            
-            data.data.forEach(serverProduct => {
-              const p = normalize(serverProduct);
-              const key = p.id || p.slug;
-              
-              if (!localMap[key]) {
-                // Product exists on server but not locally (e.g. added from another device)
-                local.push(p);
-                changed = true;
-              } else {
-                // If product exists in both, we prefer the server's boolean flags 
-                // (like isBestSeller, signature) to ensure toggles sync correctly.
-                const idx = localMap[key].index;
-                const localP = local[idx];
-                if (localP.isBestSeller !== p.isBestSeller || localP.signature !== p.signature) {
-                  local[idx] = { ...localP, isBestSeller: p.isBestSeller, signature: p.signature };
-                  changed = true;
-                }
-              }
-            });
-            
-            if (changed) save('products', local);
-            return changed ? local : prev;
-          });
+        if (data.ok && Array.isArray(data.data)) {
+          setProducts(data.data.map(p => {
+            const copy = { ...p }
+            delete copy.imagePreview
+            return copy
+          }))
         }
       })
       .catch(console.error)
+      .finally(() => setLoading(false))
   }, [])
 
   const handlePublish = () => {
@@ -189,7 +154,13 @@ export default function Admin() {
           })
           const data = await res.json()
           if (data.ok) {
-            triggerToast("Successfully published!")
+            // Wipe any old localStorage keys from the previous architecture
+            // so browsers don't keep showing stale cached data.
+            try {
+              localStorage.removeItem('barira_admin_products')
+              localStorage.removeItem('barira_admin_custom_subcategories')
+            } catch {}
+            triggerToast("Published! Live on every device.")
           } else {
             triggerToast("Failed: " + data.error)
           }
@@ -251,13 +222,12 @@ export default function Admin() {
         // Remove from custom list
         const updatedCustom = customSubcategories.filter(s => !(s.parent === parent && s.name === name))
         setCustomSubcategories(updatedCustom)
-        save('custom_subcategories', updatedCustom)
+        
         // Clear family on products that use this subcategory
         const updatedProducts = products.map(p =>
           p.category === parent && p.family === name ? { ...p, family: p.category } : p
         )
         setProducts(updatedProducts)
-        save('products', updatedProducts)
         triggerToast(`Deleted subcategory "${name}"`)
         setConfirmDialog(null)
       }
@@ -316,7 +286,7 @@ export default function Admin() {
       ...productForm,
       category: trimmedCat,
       family: trimmedFam || trimmedCat,
-      index: productForm.index || `BH·${String(products.length + 1).padStart(2, '0')}`,
+      index: productForm.index || `BHÂ·${String(products.length + 1).padStart(2, '0')}`,
       slug: productForm.slug || productForm.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
       id: productForm.id || Date.now(),
       materials: {
@@ -339,7 +309,7 @@ export default function Admin() {
       updated = [newProd, ...products]
       triggerToast(`Added draft for "${newProd.name}"`)
     }
-    setProducts(updated); save('products', updated)
+    setProducts(updated)
     resetForm(); setShowAddProduct(false)
   }
 
@@ -371,7 +341,7 @@ export default function Admin() {
       isDanger: true,
       onConfirm: () => {
         const updated = products.filter(p => p.id !== id && p.index !== id)
-        setProducts(updated); save('products', updated)
+        setProducts(updated)
         triggerToast(`Deleted draft for "${name}"`)
         setConfirmDialog(null)
       }
@@ -389,7 +359,7 @@ export default function Admin() {
     if (customSubcategories.some(s => s.parent === parent && s.name === name)) return
     
     setCustomSubcategories(prev => [...prev, { parent, name }])
-    save('custom_subcategories', [...customSubcategories, { parent, name }])
+    
     setShowAddSubcategory(false)
     setNewSubcategory({ parent: '', name: '' })
     triggerToast(`Added Subcategory "${name}"`)
@@ -400,7 +370,7 @@ export default function Admin() {
       (p.id || p.index) === id ? { ...p, isBestWork: !p.isBestWork } : p
     )
     setProducts(updated)
-    save('products', updated)
+    
   }
 
   const bestWorkCount = useMemo(() => products.filter(p => p.isBestWork).length, [products])
@@ -427,7 +397,7 @@ export default function Admin() {
         <div className="pm-top-section">
           <header className="pm-header">
             <div>
-              <span className="pm-admin-tag">Barira Handicrafts · Admin /</span>
+              <span className="pm-admin-tag">Barira Handicrafts Â· Admin /</span>
               <h1 className="pm-title">Product Management</h1>
             </div>
             <ThemeToggle />
@@ -460,7 +430,11 @@ export default function Admin() {
         {/* Product Grid */}
         <div style={{ height: '4rem', flexShrink: 0 }} />
         <div className="pm-scrollable-content">
-          {filteredProducts.length === 0 ? (
+          {loading ? (
+            <div className="pm-empty">
+              <p style={{ color: 'var(--gold)', fontSize: '0.9rem' }}>Loading catalogue from server…</p>
+            </div>
+          ) : filteredProducts.length === 0 ? (
             <div className="pm-empty">
               <div className="pm-empty-icon"><BoxIcon /></div>
               <h3>No products found</h3>
@@ -516,7 +490,7 @@ export default function Admin() {
               )}
             </button>
             <button className="pm-btn pm-btn--outline" onClick={() => setShowBestWorks(true)}>
-              ★ Best Works
+              â˜… Best Works
               {bestWorkCount > 0 && (
                 <span className="pm-chip-count" style={{ marginLeft: '0.4rem' }}>{bestWorkCount}</span>
               )}
@@ -575,7 +549,7 @@ export default function Admin() {
                 <div style={{ height: '180px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                   <UploadIcon />
                   <span>Upload Product Photo</span>
-                  <small className="pm-upload-hint">PNG, JPG — up to 10 MB</small>
+                  <small className="pm-upload-hint">PNG, JPG â€” up to 10 MB</small>
                 </div>
               )}
             </label>
@@ -639,7 +613,7 @@ export default function Admin() {
                           ? <img src={p.image} alt={p.name} />
                           : <div className="pm-bw-placeholder"><BoxIcon /></div>
                         }
-                        {selected && <span className="pm-bw-check">★</span>}
+                        {selected && <span className="pm-bw-check">â˜…</span>}
                       </div>
                       <div className="pm-bw-meta">
                         <span className="pm-bw-name">{p.name}</span>

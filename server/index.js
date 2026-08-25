@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
 import 'dotenv/config'
 
-import { products, productSummaries, findProduct } from './data/products.js'
+// ── Single source of truth — reads catalogue from GitHub JSON, short-TTL cache ──
+import { getProducts, getSummaries, findProduct, saveProducts, saveMedia, readMedia, getVersion } from './data/store.js'
 
 import { offices, milestones, people, factoryStats } from './data/factory.js'
 
@@ -38,156 +39,103 @@ app.use('/api', (req, res, next) => {
 const ok = (res, data) => res.json({ ok: true, data })
 const isEmail = (v) => typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 
-// ── The Metalcraft Catalogue ─────────────────────────────────────────────
+// ── The Metalcraft Catalogue — all reads go through the live store ────────
 app.get('/api/health', (_req, res) => ok(res, { house: 'Barira Handicrafts', status: 'open', version: '3.0' }))
-app.get('/api/products', (_req, res) => ok(res, productSummaries))
-app.get('/api/products-full', (_req, res) => ok(res, products))
-app.get('/api/products/:slug', (req, res) => {
-  const p = findProduct(req.params.slug)
-  if (!p) return res.status(404).json({ ok: false, error: 'No such product.' })
-  const related = productSummaries
-    .filter((s) => s.slug !== p.slug && s.family === p.family)
-    .slice(0, 3)
-  // If not enough same family, just pick others
-  if (related.length < 3) {
-      related.push(...productSummaries.filter(s => s.slug !== p.slug && !related.find(r => r.slug === s.slug)).slice(0, 3 - related.length))
-  }
-  ok(res, { product: p, related })
+
+// Catalogue version endpoint — lets the client poll for changes.
+app.get('/api/catalogue-version', (_req, res) => ok(res, { version: getVersion() }))
+
+app.get('/api/products', async (_req, res) => {
+  try { ok(res, await getSummaries()) } catch (e) { res.status(500).json({ ok: false, error: e.message }) }
+})
+
+app.get('/api/products-full', async (_req, res) => {
+  try { ok(res, await getProducts()) } catch (e) { res.status(500).json({ ok: false, error: e.message }) }
+})
+
+app.get('/api/products/:slug', async (req, res) => {
+  try {
+    const p = await findProduct(req.params.slug)
+    if (!p) return res.status(404).json({ ok: false, error: 'No such product.' })
+    const summaries = await getSummaries()
+    const related = summaries.filter((s) => s.slug !== p.slug && s.family === p.family).slice(0, 3)
+    if (related.length < 3) {
+      related.push(...summaries.filter(s => s.slug !== p.slug && !related.find(r => r.slug === s.slug)).slice(0, 3 - related.length))
+    }
+    ok(res, { product: p, related })
+  } catch (e) { res.status(500).json({ ok: false, error: e.message }) }
 })
 
 app.get('/api/factory', (_req, res) => ok(res, { offices, milestones, people, factoryStats }))
 
-// ── Admin Engine ────────────────────────────────────────────────────────
+// ── Media proxy — images uploaded via admin are served from the repo ──────
+// This lets Vercel serverless return images without a redeploy.
+app.get('/api/media/:filename', async (req, res) => {
+  const { filename } = req.params
+  if (!/^[\w.\-]+$/.test(filename)) return res.status(400).send('Bad filename')
+  const buf = await readMedia(filename)
+  if (!buf) return res.status(404).send('Not found')
+  const ext = filename.split('.').pop().toLowerCase()
+  const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg'
+  res.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400')
+  res.set('Content-Type', mime)
+  res.send(buf)
+})
+
+// ── Admin Engine ───────────────────────────────────────────────────────────
 app.post('/api/admin/publish', async (req, res) => {
-  const { products: newProducts } = req.body;
+  const { products: newProducts } = req.body
   if (!newProducts || !Array.isArray(newProducts)) {
-    return res.status(400).json({ ok: false, error: 'Invalid products data' });
+    return res.status(400).json({ ok: false, error: 'Invalid products data' })
   }
 
-  const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO || 'rushanhaque/BarhaTrial';
-
-  // Process images
-  for (const p of newProducts) {
-    if (p.image && p.image.startsWith('data:image/')) {
-      const isPng = p.image.includes('image/png');
-      const ext = isPng ? 'png' : 'jpeg';
-      const base64Data = p.image.split(',')[1];
-      const filename = `img_${Date.now()}_${Math.floor(Math.random()*1000)}.${ext}`;
-      const imgPath = `/images/${filename}`;
-      
-      if (token) {
-        // Upload to github
-        const url = `https://api.github.com/repos/${repo}/contents/client/public${imgPath}`;
-        await fetch(url, {
-          method: 'PUT',
-          headers: { 'Authorization': `token ${token}`, 'User-Agent': 'Barha-Admin', 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: `Add product image ${filename}`,
-            content: base64Data
-          })
-        });
+  try {
+    // Upload any base64 images; replace inline data with a stable URL.
+    for (const p of newProducts) {
+      if (p.image && p.image.startsWith('data:image/')) {
+        const isPng = p.image.includes('image/png')
+        const ext = isPng ? 'png' : 'jpeg'
+        const base64Data = p.image.split(',')[1]
+        const filename = `img_${Date.now()}_${Math.floor(Math.random() * 1000)}.${ext}`
+        p.image = await saveMedia(filename, base64Data)
       }
-      
-      try {
-        const localPath = path.join(__dirname, '..', 'client', 'public', 'images', filename);
-        fs.writeFileSync(localPath, Buffer.from(base64Data, 'base64'));
-      } catch(e) {}
-      
-      p.image = imgPath;
+      // Clear preview blob URLs that came from the browser
+      delete p.imagePreview
     }
-  }
 
-  // 1. Generate the JS file content
-  let jsContent = `// ── Barira Handicrafts — Master Catalogue ───────────────────────────────\n// Each record carries both the lightweight summary fields (used by listing\n// pages) and the full detail fields consumed by the product page.\n\n`;
-  jsContent += `export const products = ${JSON.stringify(newProducts, null, 2)};\n\n`;
-  jsContent += `export const productSummaries = products.map(p => ({\n`;
-  jsContent += `  index: p.index,\n`;
-  jsContent += `  slug: p.slug,\n`;
-  jsContent += `  name: p.name,\n`;
-  jsContent += `  category: p.category,\n`;
-  jsContent += `  family: p.family,\n`;
-  jsContent += `  signature: p.signature,\n`;
-  jsContent += `  isBestSeller: p.isBestSeller || false,\n`;
-  jsContent += `  tagline: p.tagline,\n`;
-  jsContent += `  priceUSD: p.priceUSD,\n`;
-  jsContent += `  moq: p.moq,\n`;
-  jsContent += `  chromatic: p.chromatic,\n`;
-  jsContent += `  image: p.image,\n`;
-  jsContent += `}))\n\n`;
-  jsContent += `export const findProduct = (slug) => products.find(p => p.slug === slug)\n`;
-
-  // 2. Save locally if possible
-  try {
-    const productsPath = path.join(__dirname, 'data', 'products.js');
-    fs.writeFileSync(productsPath, jsContent);
+    const result = await saveProducts(newProducts)
+    ok(res, result)
   } catch (e) {
-    // Ignore error, might be read-only (e.g. Vercel)
-  }
-
-  if (!token) {
-    return ok(res, { message: 'Saved locally. (No GITHUB_TOKEN in .env to push)' });
-  }
-
-  try {
-    // 3. Update GitHub
-    const url = `https://api.github.com/repos/${repo}/contents/server/data/products.js`;
-    const getRes = await fetch(url, {
-      headers: { 'Authorization': `token ${token}`, 'User-Agent': 'Barha-Admin' }
-    });
-    
-    let sha = '';
-    if (getRes.ok) {
-      const getJson = await getRes.json();
-      sha = getJson.sha;
-    }
-
-    const putRes = await fetch(url, {
-      method: 'PUT',
-      headers: { 'Authorization': `token ${token}`, 'User-Agent': 'Barha-Admin', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: 'Update products catalog via Admin Panel',
-        content: Buffer.from(jsContent).toString('base64'),
-        sha: sha || undefined
-      })
-    });
-
-    if (!putRes.ok) {
-      const err = await putRes.text();
-      return res.status(500).json({ ok: false, error: 'GitHub Push Failed: ' + err });
-    }
-
-    ok(res, { message: 'Saved and published to GitHub successfully!' });
-  } catch (e) {
-    return res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: e.message })
   }
 })
 
-// ── B2B Custom Manufacturing Engine ─────────────────────────────────────
-app.post('/api/custom-manufacturing', (req, res) => {
+// ── B2B Custom Manufacturing Engine ────────────────────────────────────────
+app.post('/api/custom-manufacturing', async (req, res) => {
   const { material = '', finish = '', category = '' } = req.body || {}
-  
-  const scores = Object.fromEntries(products.map((p) => [p.slug, 0]))
-  const bump = (slugs, by) => (slugs || []).forEach((s) => { if (scores[s] != null) scores[s] += by })
-  
-  // Very rough heuristic matching for demo purposes
-  products.forEach(p => {
-    if (material && p.materials.primary.join(' ').toLowerCase().includes(material.toLowerCase())) scores[p.slug] += 3;
-    if (finish && p.materials.finish.join(' ').toLowerCase().includes(finish.toLowerCase())) scores[p.slug] += 2;
-    if (category && p.category.toLowerCase().includes(category.toLowerCase())) scores[p.slug] += 3;
-  });
+  try {
+    const products = await getProducts()
+    const summaries = await getSummaries()
+    const scores = Object.fromEntries(products.map((p) => [p.slug, 0]))
 
-  const ranked = [...products].sort((a, b) => scores[b.slug] - scores[a.slug])
-  const top = ranked[0]
-  const alt = ranked.slice(1, 3).map((p) => productSummaries.find((s) => s.slug === p.slug))
-  ok(res, {
-    match: top,
-    alternates: alt,
-    rationale: `Based on your interest in ${material || 'custom metal'}, finished in ${finish || 'our signature style'}, we recommend exploring the ${top.name} as a starting point for your custom order.`,
-  })
+    products.forEach((p) => {
+      if (material && (p.materials?.primary || []).join(' ').toLowerCase().includes(material.toLowerCase())) scores[p.slug] += 3
+      if (finish && (p.materials?.finish || []).join(' ').toLowerCase().includes(finish.toLowerCase())) scores[p.slug] += 2
+      if (category && p.category.toLowerCase().includes(category.toLowerCase())) scores[p.slug] += 3
+    })
+
+    const ranked = [...products].sort((a, b) => scores[b.slug] - scores[a.slug])
+    const top = ranked[0]
+    const alt = ranked.slice(1, 3).map((p) => summaries.find((s) => s.slug === p.slug))
+    ok(res, {
+      match: top,
+      alternates: alt,
+      rationale: `Based on your interest in ${material || 'custom metal'}, finished in ${finish || 'our signature style'}, we recommend exploring the ${top.name} as a starting point for your custom order.`,
+    })
+  } catch (e) { res.status(500).json({ ok: false, error: e.message }) }
 })
 
-// ── Correspondence & orders (demo: validate & echo, persist nothing) ──
+// ── Correspondence & orders (demo: validate & echo, persist nothing) ────
 app.post('/api/newsletter', (req, res) => {
   const { email } = req.body || {}
   if (!isEmail(email)) return res.status(422).json({ ok: false, error: 'A valid email is required.' })
@@ -217,7 +165,7 @@ function hash(str) {
   return h
 }
 
-// ── Product Catalogue — force inline display in browser ───────────────
+// ── Product Catalogue — force inline display in browser ────────────────
 app.get('/catalogue.pdf', (_req, res) => {
   const pdf = path.join(__dirname, '..', 'client', 'public', 'catalogue.pdf')
   if (!fs.existsSync(pdf)) return res.status(404).send('Not found')
@@ -226,15 +174,16 @@ app.get('/catalogue.pdf', (_req, res) => {
   res.sendFile(pdf)
 })
 
-// ── SEO: robots + sitemap ─────────────────────────────────────────────
+// ── SEO: robots + sitemap ─────────────────────────────────────────────────
 const baseUrl = (req) => process.env.BASE_URL || `${req.protocol}://${req.get('host')}`
 const ROUTES = ['/', '/catalogue', '/about', '/custom-orders', '/trade-fairs', '/blog', '/contact']
 
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain').send(`User-agent: *\nAllow: /\nSitemap: ${baseUrl(req)}/sitemap.xml\n`)
 })
-app.get('/sitemap.xml', (req, res) => {
+app.get('/sitemap.xml', async (req, res) => {
   const b = baseUrl(req)
+  const products = await getProducts().catch(() => [])
   const urls = [...ROUTES, ...products.map((p) => `/product/${p.slug}`)]
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
@@ -243,7 +192,7 @@ app.get('/sitemap.xml', (req, res) => {
   res.type('application/xml').send(body)
 })
 
-// ── Serve the built client in production (with per-route SEO meta) ─────
+// ── Serve the built client in production (with per-route SEO meta) ──────
 const dist = path.join(__dirname, '..', 'client', 'dist')
 if (fs.existsSync(dist)) {
   // Hashed assets are immutable; cache hard.
@@ -267,18 +216,18 @@ if (fs.existsSync(dist)) {
     '/blog': ['Blog — Barira Handicrafts', 'Insights into metalworking and our manufacturing process.'],
     '/contact': ['Contact Us — Barira Handicrafts', 'Get in touch with our export team and global offices.'],
   }
-  const metaFor = (p) => {
+  const metaFor = async (p) => {
     if (SEO[p]) return SEO[p]
     const m = p.match(/^\/product\/(.+)$/)
     if (m) {
-      const f = findProduct(decodeURIComponent(m[1]))
+      const f = await findProduct(decodeURIComponent(m[1])).catch(() => null)
       if (f) return [`${f.name} — Barira Handicrafts`, f.blurb]
     }
     return ['Barira Handicrafts', 'Manufacturer & Exporter of Premium Decor']
   }
 
-  app.get('*', (req, res) => {
-    const [title, description] = metaFor(req.path)
+  app.get('*', async (req, res) => {
+    const [title, description] = await metaFor(req.path)
     const html = template
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`)
       .replace(/(<meta name="description" content=")[\s\S]*?(")/, `$1${esc(description)}$2`)
@@ -296,4 +245,3 @@ if (!process.env.VERCEL) {
 }
 
 export default app
-

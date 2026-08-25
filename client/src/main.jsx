@@ -1,3 +1,10 @@
+// Clear legacy localStorage keys from the old architecture where admin data was
+// stored in the browser. The API is now the single source of truth.
+try {
+  localStorage.removeItem('barira_admin_products')
+  localStorage.removeItem('barira_admin_custom_subcategories')
+} catch {}
+
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'

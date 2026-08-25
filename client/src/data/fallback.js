@@ -1,6 +1,7 @@
-// Seed summaries — shown instantly, then hydrated from the API. Also a graceful
-// fallback if the server is unreachable. Shape mirrors server productSummaries.
-const defaultProducts = [
+// Static seed shown while the API loads. Never stored in / read from localStorage.
+// The API (/api/products) is always the source of truth — every device gets
+// the same list the moment Admin publishes.
+export const defaultProducts = [
   { index: 'BH·01', slug: 'aurelia-hammered-vase', name: 'Aurelia Hammered Vase', family: 'Vase', signature: true, tagline: 'Timeless hammered brass.', priceUSD: 145, moq: 50, chromatic: { from: '#2A2015', via: '#735832', to: '#C59A53', glow: '#E6BC6B' }, image: '/images/brass_vase.png' },
   { index: 'BH·02', slug: 'verona-candle-stand', name: 'Verona Candle Stand', family: 'Decor', tagline: 'A study in contrasts.', priceUSD: 85, moq: 100, chromatic: { from: '#111111', via: '#2A2A2A', to: '#B39145', glow: '#D4B260' }, image: '/images/brass_tray.png' },
   { index: 'BH·03', slug: 'solstice-wall-art', name: 'Solstice Wall Art', family: 'Wall Decor', tagline: 'Painted with fire.', priceUSD: 220, moq: 20, chromatic: { from: '#1A0E2A', via: '#381C4F', to: '#A4583A', glow: '#D17C45' }, image: '/images/candle_stand.png' },
@@ -13,25 +14,5 @@ const defaultProducts = [
 ]
 
 export function getFallbackProducts() {
-  try {
-    const stored = localStorage.getItem('barira_admin_products')
-    if (stored) {
-      const adminProds = JSON.parse(stored)
-      return adminProds.map((p, i) => ({
-        index: `BH·${String(i + 1).padStart(2, '0')}`,
-        slug: (p.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
-        name: p.name,
-        family: p.category || 'Collection',
-        signature: !!p.signature,
-        tagline: p.tagline || '',
-        priceUSD: Number(p.price) || 0,
-        moq: Number(p.moq) || 1,
-        chromatic: { from: '#1A1A1A', via: '#505050', to: '#A0A0A0', glow: '#D0D0D0' },
-        image: p.imagePreview || '/images/custom_manufacturing.png'
-      }))
-    }
-  } catch (e) {
-    // Ignore errors
-  }
   return defaultProducts
 }
