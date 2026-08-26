@@ -27,6 +27,17 @@
   --fs-xs: 0.78rem;
   --fs-label: 0.74rem;
 
+  /* Fixed UI-text steps. The fluid sizes above are for display/prose;
+     these are for chrome — labels, captions, meta, buttons, card copy —
+     where a size that reflows with the viewport reads as inconsistent. */
+  --fs-micro: 0.65rem;
+  --fs-md: 0.95rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.15rem;
+  --fs-xl: 1.3rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 1.8rem;
+
   --lh-tight: 1.02;
   --lh-snug: 1.12;
   --lh-body: 1.75;

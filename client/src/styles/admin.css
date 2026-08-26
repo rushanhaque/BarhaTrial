@@ -132,7 +132,7 @@
   text-decoration: none;
 }
 .pm-btn:active { transform: scale(0.96); }
-.pm-plus { font-size: 1rem; line-height: 1; }
+.pm-plus { font-size: var(--fs-base); line-height: 1; }
 
 .pm-btn--primary {
   background: var(--bone);
@@ -194,7 +194,7 @@
   background: var(--noir-2);
   color: var(--bone-soft);
   font-family: var(--font-sans);
-  font-size: 0.76rem;
+  font-size: var(--fs-label);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -256,7 +256,7 @@
 }
 .pm-empty h3 {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: var(--fs-lg);
   color: var(--bone);
   margin: 0 0 6px;
 }
@@ -316,7 +316,7 @@
   left: 8px;
   background: var(--gold);
   color: var(--noir);
-  font-size: 0.62rem;
+  font-size: var(--fs-micro);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -382,7 +382,7 @@
 
 .pm-price {
   font-variant-numeric: tabular-nums;
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   font-weight: 700;
   color: var(--gold);
   background: rgba(178, 213, 229, 0.1);
@@ -394,14 +394,14 @@
 
 .pm-card-meta {
   margin: 0 0 8px;
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   color: var(--bone-soft);
   font-weight: 500;
 }
 
 .pm-card-tagline {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   color: var(--bone-faint);
   line-height: 1.5;
   font-style: italic;
@@ -431,7 +431,7 @@
 }
 .pm-bottom-actions .pm-btn {
   padding: 9px 16px;
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
 }
 
 /* ── Best Works picker ────────────────────────────────────── */
@@ -496,7 +496,7 @@
   position: absolute;
   top: 0.4rem;
   right: 0.5rem;
-  font-size: 1rem;
+  font-size: var(--fs-base);
   color: var(--gold, #c9a24b);
   text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
@@ -509,7 +509,7 @@
 }
 
 .pm-bw-name {
-  font-size: 0.75rem;
+  font-size: var(--fs-label);
   color: var(--bone, #e8dcc8);
   font-weight: 500;
   white-space: nowrap;
@@ -518,7 +518,7 @@
 }
 
 .pm-bw-cat {
-  font-size: 0.62rem;
+  font-size: var(--fs-micro);
   color: rgba(255,255,255,0.35);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -534,7 +534,7 @@
 
 .pm-subcat-group-label {
   display: block;
-  font-size: 0.65rem;
+  font-size: var(--fs-micro);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold, #c9a24b);
@@ -566,12 +566,12 @@
 
 .pm-subcat-name {
   flex: 1;
-  font-size: 0.875rem;
+  font-size: var(--fs-sm);
   color: var(--bone, #e8dcc8);
 }
 
 .pm-subcat-count {
-  font-size: 0.7rem;
+  font-size: var(--fs-label);
   color: rgba(255,255,255,0.35);
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -628,7 +628,7 @@
 }
 .pm-modal-head h2 {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: var(--fs-lg);
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0;
@@ -637,7 +637,7 @@
 .pm-icon-btn {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: var(--fs-2xl);
   line-height: 1;
   color: var(--bone-soft);
   cursor: pointer;
@@ -740,7 +740,7 @@
 }
 
 .pm-field label {
-  font-size: 0.62rem;
+  font-size: var(--fs-micro);
   font-weight: 700;
   color: var(--bone-soft);
   letter-spacing: 0.1em;
@@ -757,7 +757,7 @@
   padding: 0 12px;
   height: 36px;
   font-family: var(--font-sans);
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   font-weight: 400;
   color: var(--bone);
   outline: none;
@@ -821,7 +821,7 @@
     align-items: flex-start;
     gap: var(--space-3xs);
   }
-  .pm-title { font-size: 1.4rem; }
+  .pm-title { font-size: var(--fs-xl); }
 
   .pm-grid {
     display: flex;
@@ -869,7 +869,7 @@
   .pm-bottom-bar { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; padding-left: var(--space-sm); padding-right: var(--space-sm); }
   .pm-bottom-bar::-webkit-scrollbar { display: none; }
   .pm-bottom-actions { max-width: none; flex-shrink: 0; justify-content: flex-start; }
-  .pm-bottom-actions .pm-btn { padding: 12px 14px; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; }
+  .pm-bottom-actions .pm-btn { padding: 12px 14px; font-size: var(--fs-xs); white-space: nowrap; flex-shrink: 0; }
 }
 
 .pm-card-bs-badge {
@@ -879,7 +879,7 @@
   background: var(--ink);
   color: #00ccff; /* Candy blue */
   border: 1px solid #00ccff;
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   padding: 0;
   border-radius: 50%;
   display: flex;
