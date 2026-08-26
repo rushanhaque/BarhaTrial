@@ -8,6 +8,8 @@
   background: var(--noir);
   min-height: calc(100vh - 80px);
   width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   font-family: var(--font-sans);
   color: var(--bone);
   box-sizing: border-box;
@@ -417,6 +419,8 @@
   position: sticky;
   bottom: 0;
   z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pm-bottom-actions {
