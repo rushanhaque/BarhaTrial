@@ -35,7 +35,16 @@ await check('Catalogue version endpoint', `${BASE}/api/catalogue-version`, { sho
 await check('version.json (static)', `${BASE}/version.json`, { showCC: true })
 await check('index.html', `${BASE}/`, { showCC: true })
 await check('admin route', `${BASE}/admin`, { showCC: true })
-await check('Hashed JS asset', `${BASE}/assets/index-*.js`, { expectStatus: 404 }) // just verify the route resolves
+// Legacy image extensions must resolve to their WebP sibling, not to the SPA
+// shell — an HTML body here means the rewrite is missing and old image URLs
+// (bookmarks, search results, un-republished catalogues) render as broken.
+{
+  const r = await fetch(`${BASE}/images/brass_tray.png`, { redirect: 'follow' }).catch(() => null)
+  const ct = r?.headers.get('content-type') || ''
+  const good = !!r?.ok && ct.startsWith('image/')
+  console.log(`  ${good ? '✓' : '✗'} [${r?.status ?? 'ERR'}] Legacy .png → .webp fallback`)
+  if (!good) console.log(`       Expected an image, got Content-Type: ${ct || '(none)'}`)
+}
 await check('robots.txt', `${BASE}/robots.txt`)
 await check('sitemap.xml', `${BASE}/sitemap.xml`)
 await check('Publish endpoint (no auth — expect 401)', `${BASE}/api/admin/publish`, {
@@ -43,6 +52,7 @@ await check('Publish endpoint (no auth — expect 401)', `${BASE}/api/admin/publ
   expectStatus: 401,
 })
 
-console.log('\nNote: If ADMIN_PUBLISH_SECRET is not set, publish endpoint returns 400 (no auth), not 401.')
-console.log('      Set ADMIN_PUBLISH_SECRET in Vercel env vars to enable auth.')
+console.log('\nNote: publish is fail-closed. 401 = secret configured and enforced (correct).')
+console.log('      503 = ADMIN_PUBLISH_SECRET missing while GITHUB_TOKEN is set — publishing')
+console.log('      is disabled until you set the secret in the host env vars.')
 console.log('\nDone.\n')

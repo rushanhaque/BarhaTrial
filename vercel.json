@@ -37,6 +37,14 @@
   ],
   "rewrites": [
     {
+      "source": "/images/(.*)\\.png",
+      "destination": "/images/$1.webp"
+    },
+    {
+      "source": "/images/(.*)\\.jpe?g",
+      "destination": "/images/$1.webp"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     },
