@@ -638,6 +638,34 @@ export default function Admin() {
               <input type="text" value={productForm.name} onChange={pf('name')} placeholder="e.g. Aurelia Hammered Vase" required />
             </div>
 
+            <div className="pm-form-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div className="pm-field">
+                <label>CATEGORY *</label>
+                <select value={productForm.category} onChange={e => setProductForm(f => ({ ...f, category: e.target.value, family: '' }))} required>
+                  <option value="">Select category…</option>
+                  {availableCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+
+              <div className="pm-field">
+                <label>SUBCATEGORY</label>
+                {availableSubcategories.length > 0 ? (
+                  <select value={productForm.family} onChange={pf('family')}>
+                    <option value="">None</option>
+                    {availableSubcategories.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={productForm.family}
+                    onChange={pf('family')}
+                    placeholder={productForm.category ? 'Type to create one' : 'Select category first'}
+                    disabled={!productForm.category}
+                  />
+                )}
+              </div>
+            </div>
+
             <div className="pm-field">
               <label>MATERIAL</label>
               <input type="text" value={productForm.materialsPrimary} onChange={pf('materialsPrimary')} placeholder="e.g. Solid Brass, Copper" />
