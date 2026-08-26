@@ -96,9 +96,10 @@ export default function Product() {
       <section className="container fragrance__main">
         <div className="fragrance__left">
           <div ref={plateRef} className="fragrance__plate-wrap">
-            <ChromaticPlate chromatic={p.chromatic} ratio="4 / 5" className="fragrance__plate">
-              <span className="fragrance__glare" />
-            </ChromaticPlate>
+            {p.image
+              ? <img src={p.image} alt={p.name} className="fragrance__plate" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--r-lg)', display: 'block' }} />
+              : <ChromaticPlate chromatic={p.chromatic} ratio="4 / 5" className="fragrance__plate"><span className="fragrance__glare" /></ChromaticPlate>
+            }
           </div>
         </div>
 
