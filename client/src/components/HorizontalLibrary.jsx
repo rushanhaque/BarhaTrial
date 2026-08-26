@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useScroll } from '../lib/SmoothScroll.jsx'
 import { useMediaQuery } from '../lib/hooks.js'
-import Beams from './Beams.jsx'
 import TLink from './TLink.jsx'
 import { ArrowUR, ArrowDown } from './Icons.jsx'
 
@@ -165,7 +164,7 @@ export default function HorizontalLibrary({ items = [] }) {
               data-cursor-label={p < 0.95 ? "Scroll to Expand" : "Explore"}
             >
               <img 
-                src="/images/explore_collections_hero.png" 
+                src="/images/explore_collections_hero.webp" 
                 alt="Explore Collections" 
                 className="czoom-hero-img" 
               />

@@ -20,7 +20,7 @@ export default function Preloader({ onDone }) {
 
   useEffect(() => {
     document.documentElement.classList.add('is-loading')
-    const DUR = 1200
+    const DUR = 550
 
     const finish = () => {
       if (finished.current) return
@@ -33,12 +33,12 @@ export default function Preloader({ onDone }) {
         sc?.lenis?.start?.()
         sc?.scrollTo?.(0, { immediate: true })
         onDone?.()
-      }, 600)
+      }, 280)
     }
 
     if (reduced()) {
       setCount(100)
-      window.setTimeout(finish, 80)
+      window.setTimeout(finish, 40)
       return
     }
 
@@ -50,10 +50,10 @@ export default function Preloader({ onDone }) {
       const p = Math.min(1, (ts - start) / DUR)
       setCount(Math.round(ease(p) * 100))
       if (p < 1) raf = requestAnimationFrame(run)
-      else window.setTimeout(finish, 150)
+      else window.setTimeout(finish, 80)
     }
     raf = requestAnimationFrame(run)
-    const safety = window.setTimeout(finish, DUR + 800)
+    const safety = window.setTimeout(finish, DUR + 400)
     return () => {
       cancelAnimationFrame(raf)
       window.clearTimeout(safety)

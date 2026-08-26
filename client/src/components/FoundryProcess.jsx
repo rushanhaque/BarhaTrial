@@ -5,31 +5,31 @@ const steps = [
     id: 'mold',
     title: 'The Sand Mold',
     desc: 'Each piece begins as an impression in tightly packed, fine black sand, a technique unchanged for centuries.',
-    image: '/images/foundry_sand_mold.png',
+    image: '/images/foundry_sand_mold.webp',
   },
   {
     id: 'pour',
     title: 'The Pour',
     desc: 'Molten brass, superheated to 1000°C, is poured by hand into the molds, taking on its first raw form.',
-    image: '/images/foundry_pour.png',
+    image: '/images/foundry_pour.webp',
   },
   {
     id: 'hammer',
     title: 'The Forging',
     desc: 'The cooled metal is meticulously hammered and shaped by master artisans to build character and strength.',
-    image: '/images/foundry_forging.png',
+    image: '/images/foundry_forging.webp',
   },
   {
     id: 'polish',
     title: 'The Refinement',
     desc: 'Hours on the buffing wheel reveal the true luster of the metal, finishing the piece to mirror-like perfection.',
-    image: '/images/foundry_refinement.png',
+    image: '/images/foundry_refinement.webp',
   },
   {
     id: 'patina',
     title: 'The Patina',
     desc: 'Specialized techniques and natural oxidation are applied by hand to give each piece its distinct, antique character.',
-    image: '/images/foundry_patina.png',
+    image: '/images/foundry_patina.webp',
   },
 ]
 

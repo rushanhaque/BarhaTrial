@@ -4,6 +4,7 @@ import compression from 'compression'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
+import crypto from 'node:crypto'
 import 'dotenv/config'
 
 // ── Single source of truth — reads catalogue from GitHub JSON, short-TTL cache ──
@@ -83,18 +84,40 @@ app.get('/api/media/:filename', async (req, res) => {
 })
 
 // ── Version endpoint — lets clients poll for deploy changes ───────────────
+// Vercel exposes the deployed commit as VERCEL_GIT_COMMIT_SHA; the client
+// bundle is stamped with `git rev-parse --short HEAD`, so compare the short
+// form. BUILD_ID stays available as an explicit override.
+const BUILD_ID =
+  process.env.BUILD_ID ||
+  (process.env.VERCEL_GIT_COMMIT_SHA ? process.env.VERCEL_GIT_COMMIT_SHA.slice(0, 7) : null) ||
+  'dev'
+
 app.get('/api/version', (_req, res) => {
   res.set('Cache-Control', 'no-store, max-age=0')
-  ok(res, { version: getVersion(), buildId: process.env.BUILD_ID || 'dev' })
+  ok(res, { version: getVersion(), buildId: BUILD_ID })
 })
 
 // ── Admin Engine ───────────────────────────────────────────────────────────
 app.post('/api/admin/publish', async (req, res) => {
-  // Require secret token when ADMIN_PUBLISH_SECRET is configured.
+  // Publishing commits to GitHub, so it must never be callable anonymously.
+  // This check is fail-CLOSED: if no secret is configured but a write-capable
+  // token is present, refuse rather than exposing the repo to the internet.
   const secret = process.env.ADMIN_PUBLISH_SECRET
-  if (secret) {
+  if (!secret) {
+    if (process.env.GITHUB_TOKEN) {
+      console.error('  ! /api/admin/publish blocked: ADMIN_PUBLISH_SECRET is not set.')
+      return res.status(503).json({
+        ok: false,
+        error: 'Publishing is disabled: ADMIN_PUBLISH_SECRET is not configured on the server.',
+      })
+    }
+    // No token either — local dev, nothing can reach GitHub. Allow.
+  } else {
     const provided = req.headers['x-admin-secret'] || req.body?.adminSecret
-    if (!provided || provided !== secret) {
+    const a = Buffer.from(String(provided || ''))
+    const b = Buffer.from(secret)
+    const okAuth = a.length === b.length && crypto.timingSafeEqual(a, b)
+    if (!okAuth) {
       return res.status(401).json({ ok: false, error: 'Unauthorized. Admin secret required.' })
     }
   }
@@ -220,6 +243,16 @@ app.get('/sitemap.xml', async (req, res) => {
 // ── Serve the built client in production (with per-route SEO meta) ──────
 const dist = path.join(__dirname, '..', 'client', 'dist')
 if (fs.existsSync(dist)) {
+  // Static images were converted to WebP. The live catalogue on GitHub still
+  // references the old .png/.jpeg names until an admin republishes, so map a
+  // legacy extension onto its WebP sibling rather than 404ing.
+  app.get(/^\/images\/(.+)\.(png|jpe?g)$/i, (req, res, next) => {
+    const webp = path.join(dist, 'images', `${req.params[0]}.webp`)
+    if (!fs.existsSync(webp)) return next()
+    res.set('Cache-Control', 'public, max-age=31536000, immutable')
+    res.type('image/webp').sendFile(webp)
+  })
+
   // Hashed assets are immutable; cache hard.
   app.use(
     express.static(dist, {

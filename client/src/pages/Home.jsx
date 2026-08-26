@@ -94,7 +94,7 @@ function Heritage() {
           loop
           muted
           playsInline
-          poster="/images/brass_vase.png"
+          poster="/images/brass_vase.webp"
           src="/videos/HeritageBG.mp4"
         />
         <div className="heritage__overlay" />
@@ -106,7 +106,7 @@ function Heritage() {
             text="THE HERITAGE"
             mediaType="video"
             src="/videos/HeritageBG.mp4"
-            poster="/images/brass_vase.png"
+            poster="/images/brass_vase.webp"
             fillScale={1.35}
             parallax={32}
             brightness={1.05}
@@ -143,9 +143,9 @@ function StatBlock({ value, target, prefix = '', suffix = '', label, align = 'le
     <div className={`stat reveal stat--align-${align}`} ref={reveal} style={{ textAlign: align }}>
       <MaskedHeading
         text={valStr}
-        mediaType="video"
-        src="/videos/HeritageBG.mp4"
-        poster="/images/brass_vase.png"
+        mediaType="image"
+        src="/images/brass_vase.webp"
+        poster="/images/brass_vase.webp"
         fillScale={1.3}
         parallax={18}
         brightness={1.05}

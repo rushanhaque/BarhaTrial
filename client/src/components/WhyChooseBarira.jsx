@@ -6,35 +6,35 @@ const PROOFS = [
   {
     num: '01',
     title: 'Direct Manufacturer',
-    image: '/images/DirectManufacturer.jpeg',
+    image: '/images/DirectManufacturer.webp',
     points: ['No intermediaries', 'Factory-direct pricing', 'Full production control'],
     stats: '100% In-House Production'
   },
   {
     num: '02',
     title: 'Pure Materials',
-    image: '/images/purerawmaterial.jpeg',
+    image: '/images/purerawmaterial.webp',
     points: ['Solid Brass', 'Pure Copper', 'Cast Iron'],
     stats: 'Premium Grade Metals'
   },
   {
     num: '03',
     title: 'Bespoke Production',
-    image: '/images/bespoke production.jpeg',
+    image: '/images/bespoke production.webp',
     points: ['Custom dimensions', 'Custom finishes', 'OEM / private label', 'Prototype development'],
     stats: 'Tailored to Specification'
   },
   {
     num: '04',
     title: 'Global Export',
-    image: '/images/global export.jpeg',
+    image: '/images/global export.webp',
     points: ['Global shipping to 10+ countries', 'Export documentation', 'Protective packaging', 'Reliable logistics'],
     stats: 'Working with 10+ Countries'
   },
   {
     num: '05',
     title: 'Built to Last',
-    image: '/images/Built to last.jpeg',
+    image: '/images/Built to last.webp',
     points: ['Hand-finished', 'Heavy-gauge construction', 'Durable finishes', 'Made to last for decades'],
     stats: 'Generational Durability'
   },

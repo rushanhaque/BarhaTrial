@@ -137,6 +137,34 @@ export default function Admin() {
       .finally(() => setLoading(false))
   }, [])
 
+  // Track unpublished local edits. main.jsx reads this flag and suppresses the
+  // new-deploy auto-reload while it is set, so a deploy landing mid-edit can
+  // never discard the admin's unsaved work.
+  const [dirty, setDirty] = useState(false)
+  const markDirty = () => {
+    setDirty(true)
+    try { localStorage.setItem('barira_admin_dirty', '1') } catch {}
+  }
+  const clearDirty = () => {
+    setDirty(false)
+    try { localStorage.removeItem('barira_admin_dirty') } catch {}
+  }
+  // Clear the flag if the admin closes the tab without publishing, otherwise a
+  // stale flag would permanently disable auto-reload on the public site.
+  useEffect(() => {
+    const onUnload = () => { try { localStorage.removeItem('barira_admin_dirty') } catch {} }
+    window.addEventListener('beforeunload', onUnload)
+    return () => { onUnload(); window.removeEventListener('beforeunload', onUnload) }
+  }, [])
+
+  // Warn before losing unpublished changes.
+  useEffect(() => {
+    if (!dirty) return
+    const warn = (e) => { e.preventDefault(); e.returnValue = '' }
+    window.addEventListener('beforeunload', warn)
+    return () => window.removeEventListener('beforeunload', warn)
+  }, [dirty])
+
   const handlePublish = () => {
     const pendingPhotos = products.filter(p => p.image?.startsWith('data:image/')).length
     setConfirmDialog({
@@ -152,15 +180,40 @@ export default function Admin() {
           ? `Uploading ${pendingPhotos} photo${pendingPhotos !== 1 ? 's' : ''} and publishing…`
           : "Publishing to GitHub… this may take a few seconds.")
         try {
-          const secret = import.meta.env.VITE_ADMIN_SECRET || ''
+          // The secret is typed by the admin and kept only in this tab's
+          // sessionStorage. It is deliberately NOT read from import.meta.env —
+          // a Vite env var would be compiled into the public bundle for anyone
+          // to read.
+          let secret = sessionStorage.getItem('barira_admin_secret') || ''
+          if (!secret) {
+            secret = window.prompt('Enter the admin publish secret to continue:') || ''
+            if (!secret) {
+              triggerToast('Publish cancelled — no secret entered.')
+              setPublishing(false)
+              return
+            }
+            sessionStorage.setItem('barira_admin_secret', secret)
+          }
           const res = await fetch('/api/admin/publish', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              ...(secret ? { 'x-admin-secret': secret } : {}),
+              'x-admin-secret': secret,
             },
             body: JSON.stringify({ products })
           })
+          if (res.status === 401) {
+            sessionStorage.removeItem('barira_admin_secret')
+            triggerToast('Wrong admin secret. Press Publish to try again.')
+            setPublishing(false)
+            return
+          }
+          if (res.status === 503) {
+            const d = await res.json().catch(() => ({}))
+            triggerToast(d.error || 'Publishing is disabled on the server.')
+            setPublishing(false)
+            return
+          }
           const data = await res.json()
           if (data.ok && data.data?.published !== false) {
             try {
@@ -168,6 +221,7 @@ export default function Admin() {
               localStorage.removeItem('barira_admin_custom_subcategories')
             } catch {}
             const photoMsg = data.data?.photosCommitted > 0 ? ` (${data.data.photosCommitted} photo${data.data.photosCommitted !== 1 ? 's' : ''} committed)` : ''
+            clearDirty()
             triggerToast(`Published! Live on every device.${photoMsg}`)
           } else if (data.ok && data.data?.published === false) {
             triggerToast("Saved locally only. Set GITHUB_TOKEN on Vercel to publish live.")
@@ -305,7 +359,7 @@ export default function Admin() {
         finish: splitCSV(productForm.materialsFinish),
       },
       chromatic: productForm.chromatic || { from: '#1A1A1A', via: '#505050', to: '#A0A0A0', glow: '#D0D0D0' },
-      image: imagePreview || productForm.image || '/images/custom_manufacturing.png',
+      image: imagePreview || productForm.image || '/images/custom_manufacturing.webp',
       imagePreview: undefined,
       materialsPrimary: undefined,
       materialsFinish: undefined,
@@ -319,7 +373,7 @@ export default function Admin() {
       updated = [newProd, ...products]
       triggerToast(`Added draft for "${newProd.name}"`)
     }
-    setProducts(updated)
+    setProducts(updated); markDirty()
     resetForm(); setShowAddProduct(false)
   }
 
@@ -351,7 +405,7 @@ export default function Admin() {
       isDanger: true,
       onConfirm: () => {
         const updated = products.filter(p => p.id !== id && p.index !== id)
-        setProducts(updated)
+        setProducts(updated); markDirty()
         triggerToast(`Deleted draft for "${name}"`)
         setConfirmDialog(null)
       }
@@ -379,7 +433,7 @@ export default function Admin() {
     const updated = products.map(p =>
       (p.id || p.index) === id ? { ...p, isBestWork: !p.isBestWork } : p
     )
-    setProducts(updated)
+    setProducts(updated); markDirty()
     
   }
 
@@ -506,9 +560,23 @@ export default function Admin() {
               )}
             </button>
             
+            {dirty && (
+              <span
+                className="pm-dirty-badge"
+                title="You have local changes that are not yet on the live site."
+                style={{
+                  alignSelf: 'center', fontSize: '0.75rem', letterSpacing: '0.04em',
+                  color: 'var(--gold)', border: '1px solid var(--gold)',
+                  borderRadius: '999px', padding: '0.25rem 0.7rem', whiteSpace: 'nowrap',
+                }}
+              >
+                ● Unpublished changes
+              </span>
+            )}
+
             <button
-              className="pm-btn pm-btn--primary" 
-              style={{ background: 'var(--gold)', color: '#000', borderColor: 'var(--gold)' }} 
+              className="pm-btn pm-btn--primary"
+              style={{ background: 'var(--gold)', color: '#000', borderColor: 'var(--gold)' }}
               onClick={handlePublish}
               disabled={publishing}
             >

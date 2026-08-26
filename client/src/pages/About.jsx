@@ -16,7 +16,7 @@ const SEED = {
   ],
   people: [
     { name: 'Haji Javed Hussain', role: 'Founder', note: 'The visionary who established Barira Handicrafts in 1993.', initials: 'HJH', image: '/images/Founder.jpeg' },
-    { name: 'Abu Rafay', role: 'Co-founder', note: 'Driving the modern expansion of the export business.', initials: 'AR', image: '/images/Co-Founder.jpeg' },
+    { name: 'Abu Rafay', role: 'Co-founder', note: 'Driving the modern expansion of the export business.', initials: 'AR', image: '/images/Co-Founder.webp' },
   ],
 }
 

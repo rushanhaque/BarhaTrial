@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react'
 import { useScroll } from '../lib/SmoothScroll.jsx'
 
 const MATERIALS_CARDS = [
-  { id: 'brass', num: '01', name: 'BRASS', image: '/images/Brass.jpeg' },
-  { id: 'copper', num: '02', name: 'COPPER', image: '/images/Copper.jpeg' },
-  { id: 'aluminium', num: '03', name: 'ALUMINIUM', image: '/images/Aluminium.jpeg' },
-  { id: 'steel', num: '04', name: 'STEEL', image: '/images/Steel.jpeg' },
-  { id: 'iron', num: '05', name: 'IRON', image: '/images/Iron.jpeg' },
+  { id: 'brass', num: '01', name: 'BRASS', image: '/images/Brass.webp' },
+  { id: 'copper', num: '02', name: 'COPPER', image: '/images/Copper.webp' },
+  { id: 'aluminium', num: '03', name: 'ALUMINIUM', image: '/images/Aluminium.webp' },
+  { id: 'steel', num: '04', name: 'STEEL', image: '/images/Steel.webp' },
+  { id: 'iron', num: '05', name: 'IRON', image: '/images/Iron.webp' },
   { id: 'glass', num: '06', name: 'GLASS', image: '/images/Glass.jpeg' },
-  { id: 'ceramic', num: '07', name: 'CERAMIC', image: '/images/Ceramic.jpeg' },
-  { id: 'wood', num: '08', name: 'WOOD', image: '/images/Wood.jpeg' }
+  { id: 'ceramic', num: '07', name: 'CERAMIC', image: '/images/Ceramic.webp' },
+  { id: 'wood', num: '08', name: 'WOOD', image: '/images/Wood.webp' }
 ]
 
 export default function MaterialsAndFinishes() {

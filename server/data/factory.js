@@ -41,7 +41,7 @@ export const people = [
     role: 'Co-founder',
     note: 'Driving the modern expansion of the export business.',
     initials: 'AR',
-    image: '/images/Co-Founder.jpeg'
+    image: '/images/Co-Founder.webp'
   },
 ]
 

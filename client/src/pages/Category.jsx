@@ -12,7 +12,7 @@ export default function Category() {
 
   const categoryData = COLLECTIONS_ITEMS.find((c) => c.slug === slug)
   const categoryName = categoryData?.name || 'Collection'
-  const categoryImage = categoryData?.image || '/images/brassware_vessels.png'
+  const categoryImage = categoryData?.image || '/images/brassware_vessels.webp'
 
   useEffect(() => {
     get('/api/products')

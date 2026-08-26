@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import ChromaticPlate from './ChromaticPlate.jsx'
 import TLink from './TLink.jsx'
-import LaserFlow from './LaserFlow.jsx'
+// Lazy: pulls in three.js/OGL (~170KB gzip). Only fetched if a caller ever
+// actually turns showLaserFlow on — most pages never do.
+const LaserFlow = lazy(() => import('./LaserFlow.jsx'))
 import { useWardrobe } from '../lib/wardrobe.jsx'
 import { useToast } from '../lib/toast.jsx'
 import { ArrowUR, Heart, HeartFill, Bag } from './Icons.jsx'
@@ -38,19 +40,21 @@ export default function ProductCard({ p, ratio = '4 / 5', showLaserFlow = false,
     <div className={`fcard ${showLaserFlow ? 'laser-flow-card' : ''}`}>
       {showLaserFlow && (
         <div className="fcard__laser-top">
-          <LaserFlow
-            color={laserColor}
-            horizontalBeamOffset={beamX}
-            verticalBeamOffset={-0.48}
-            horizontalSizing={0.85}
-            verticalSizing={4.0}
-            wispDensity={1.5}
-            wispSpeed={20.0}
-            wispIntensity={6.5}
-            fogIntensity={0.65}
-            fogScale={0.35}
-            flowSpeed={flowSpeedValue}
-          />
+          <Suspense fallback={null}>
+            <LaserFlow
+              color={laserColor}
+              horizontalBeamOffset={beamX}
+              verticalBeamOffset={-0.48}
+              horizontalSizing={0.85}
+              verticalSizing={4.0}
+              wispDensity={1.5}
+              wispSpeed={20.0}
+              wispIntensity={6.5}
+              fogIntensity={0.65}
+              fogScale={0.35}
+              flowSpeed={flowSpeedValue}
+            />
+          </Suspense>
         </div>
       )}
       <TLink to={`/product/${p.slug}`} className="fcard__link" data-cursor-label="View">
