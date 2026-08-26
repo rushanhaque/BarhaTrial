@@ -866,8 +866,10 @@
   .pm-modal--wide { padding: 1.5rem 1.25rem 1.75rem; }
   .pm-form-grid { grid-template-columns: 1fr; gap: 12px; }
 
-  .pm-bottom-actions { max-width: 100%; }
-  .pm-bottom-actions .pm-btn { padding: 12px 10px; font-size: 0.78rem; }
+  .pm-bottom-bar { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; padding-left: 1rem; padding-right: 1rem; }
+  .pm-bottom-bar::-webkit-scrollbar { display: none; }
+  .pm-bottom-actions { max-width: none; flex-shrink: 0; justify-content: flex-start; }
+  .pm-bottom-actions .pm-btn { padding: 12px 14px; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; }
 }
 
 .pm-card-bs-badge {
