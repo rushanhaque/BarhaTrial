@@ -97,6 +97,26 @@ app.get('/api/version', (_req, res) => {
   ok(res, { version: getVersion(), buildId: BUILD_ID })
 })
 
+app.get('/api/status', async (_req, res) => {
+  res.set('Cache-Control', 'no-store, max-age=0')
+  let productCount = 0
+  let catalogueOk = false
+  try {
+    const products = await getProducts()
+    productCount = Array.isArray(products) ? products.length : 0
+    catalogueOk = true
+  } catch {}
+  res.json({
+    status: 'ok',
+    buildId: BUILD_ID,
+    version: getVersion(),
+    github: process.env.GITHUB_TOKEN ? 'configured' : 'missing',
+    catalogue: { ok: catalogueOk, products: productCount },
+    uptime: Math.floor(process.uptime()) + 's',
+    timestamp: new Date().toISOString(),
+  })
+})
+
 // ── Admin Engine ───────────────────────────────────────────────────────────
 app.post('/api/admin/publish', async (req, res) => {
   // Auth is handled by Vercel env isolation — GITHUB_TOKEN is never exposed
