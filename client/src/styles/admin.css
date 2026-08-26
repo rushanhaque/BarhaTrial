@@ -40,10 +40,10 @@
   border: 1px solid var(--line);
   border-left: 3px solid var(--gold);
   border-radius: var(--r-md);
-  padding: 13px 20px;
+  padding: var(--space-xs) var(--space-md);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-xs);
   box-shadow: var(--shadow-lift);
   z-index: 1100;
   animation: pmToastSlide 0.3s var(--ease-out-expo);
@@ -63,7 +63,7 @@
   min-height: calc(100vh - 160px);
   display: flex;
   flex-direction: column;
-  padding: 0 2rem 20px;
+  padding: 0 var(--space-xl) var(--space-md);
 }
 
 /* ── Fixed Top Section ────────────────────────────────────── */
@@ -119,11 +119,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--space-2xs);
   font-family: var(--font-sans);
   font-size: var(--fs-sm);
   font-weight: 600;
-  padding: 12px 24px;
+  padding: var(--space-xs) var(--space-lg);
   border-radius: var(--r-pill);
   border: 1px solid transparent;
   cursor: pointer;
@@ -170,14 +170,14 @@
 .pm-chips-bar {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  padding: 6px 0;
+  padding: var(--space-2xs) 0;
   margin-bottom: 0;
 }
 
 .pm-chips {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2xs);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -187,8 +187,8 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 13px;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-xs);
   border-radius: var(--r-pill);
   border: 1px solid var(--line);
   background: var(--noir-2);
@@ -215,7 +215,7 @@
   font-size: 11px;
   font-weight: 700;
   background: rgba(245, 245, 245, 0.12);
-  padding: 1px 6px;
+  padding: 1px var(--space-2xs);
   border-radius: 999px;
 }
 .pm-chip--active .pm-chip-count {
@@ -228,7 +228,7 @@
   flex: 1;
   min-height: 280px;
   padding-top: var(--space-lg);
-  padding-bottom: 16px;
+  padding-bottom: var(--space-sm);
 }
 
 /* ── Empty state ──────────────────────────────────────────── */
@@ -239,7 +239,7 @@
   justify-content: center;
   text-align: center;
   min-height: 280px;
-  padding: 40px 24px;
+  padding: var(--space-2xl) var(--space-lg);
   background: var(--noir-2);
   border: 1.5px dashed var(--line-2);
   border-radius: var(--r-xl);
@@ -252,13 +252,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
+  margin-bottom: var(--space-md);
 }
 .pm-empty h3 {
   font-family: var(--font-display);
   font-size: var(--fs-lg);
   color: var(--bone);
-  margin: 0 0 6px;
+  margin: 0 0 var(--space-2xs);
 }
 .pm-empty p {
   font-size: var(--fs-sm);
@@ -272,7 +272,7 @@
 .pm-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
+  gap: var(--space-md);
 }
 
 .pm-card {
@@ -320,7 +320,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 3px 8px;
+  padding: 3px var(--space-2xs);
   border-radius: var(--r-pill);
 }
 
@@ -330,7 +330,7 @@
   top: 10px;
   right: 10px;
   display: flex;
-  gap: 6px;
+  gap: var(--space-2xs);
   opacity: 0;
   transition: opacity 0.2s ease;
   z-index: 2;
@@ -356,7 +356,7 @@
 .pm-card-btn--delete:hover { color: #e07070; border-color: rgba(220, 100, 100, 0.3); }
 
 .pm-card-body {
-  padding: 14px 16px;
+  padding: var(--space-sm) var(--space-sm);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -366,7 +366,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 6px;
+  gap: var(--space-2xs);
   margin-bottom: 3px;
 }
 
@@ -386,14 +386,14 @@
   font-weight: 700;
   color: var(--gold);
   background: rgba(178, 213, 229, 0.1);
-  padding: 2px 7px;
+  padding: 2px var(--space-2xs);
   border-radius: 6px;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .pm-card-meta {
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-2xs);
   font-size: var(--fs-label);
   color: var(--bone-soft);
   font-weight: 500;
@@ -425,12 +425,12 @@
 
 .pm-bottom-actions {
   display: flex;
-  gap: 10px;
+  gap: var(--space-xs);
   padding: var(--space-2xs) 0;
   justify-content: center;
 }
 .pm-bottom-actions .pm-btn {
-  padding: 9px 16px;
+  padding: var(--space-2xs) var(--space-sm);
   font-size: var(--fs-xs);
 }
 
@@ -587,7 +587,7 @@
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  padding: 20px;
+  padding: var(--space-md);
   overflow-y: auto;
   animation: pmFadeIn 0.2s ease;
 }
@@ -641,7 +641,7 @@
   line-height: 1;
   color: var(--bone-soft);
   cursor: pointer;
-  padding: 2px 8px;
+  padding: 2px var(--space-2xs);
   border-radius: var(--r-sm);
   transition: background 0.15s ease, color 0.15s ease;
 }
@@ -657,19 +657,19 @@
 .pm-form-grid {
   display: grid;
   grid-template-columns: 280px 1fr;
-  gap: 24px;
+  gap: var(--space-lg);
 }
 
 .pm-form-col-left {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-xs);
 }
 
 .pm-form-col-right {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-xs);
 }
 
 /* Image upload area */
@@ -678,10 +678,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--space-2xs);
   border: 1.5px dashed var(--line-2);
   border-radius: var(--r-lg);
-  padding: 14px 16px;
+  padding: var(--space-sm) var(--space-sm);
   cursor: pointer;
   color: var(--gold);
   font-family: var(--font-sans);
@@ -726,7 +726,7 @@
 /* Field row */
 .pm-field-row {
   display: flex;
-  gap: 14px;
+  gap: var(--space-sm);
   width: 100%;
 }
 
@@ -754,7 +754,7 @@
   box-sizing: border-box;
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  padding: 0 12px;
+  padding: 0 var(--space-xs);
   height: 36px;
   font-family: var(--font-sans);
   font-size: var(--fs-xs);
@@ -766,7 +766,7 @@
 }
 .pm-field textarea {
   height: auto;
-  padding: 7px 12px;
+  padding: var(--space-2xs) var(--space-xs);
   resize: vertical;
 }
 .pm-field input:hover,
@@ -786,7 +786,7 @@
 .pm-checkbox-row {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: var(--space-xs);
   cursor: pointer;
   font-size: var(--fs-sm);
   color: var(--bone-dim);
@@ -806,7 +806,7 @@
 .pm-modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--space-xs);
   margin-top: 0px;
   padding-top: var(--space-2xs);
   border-top: 1px solid var(--line);
@@ -814,7 +814,7 @@
 
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .pm-container { padding: 0 1rem 16px; }
+  .pm-container { padding: 0 var(--space-sm) var(--space-sm); }
   .pm-header {
     padding-top: var(--space-lg);
     flex-direction: column;
@@ -826,14 +826,14 @@
   .pm-grid {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-xs);
   }
 
   .pm-card {
     flex-direction: row;
     align-items: center;
-    padding: 10px;
-    gap: 12px;
+    padding: var(--space-xs);
+    gap: var(--space-xs);
     border-radius: var(--r-lg);
   }
 
@@ -852,7 +852,7 @@
     position: static;
     opacity: 1;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--space-3xs);
     margin-left: auto;
     flex-shrink: 0;
   }
@@ -864,12 +864,12 @@
   .pm-overlay { padding: var(--space-sm); }
   .pm-modal { padding: var(--space-lg) var(--space-md) var(--space-lg); }
   .pm-modal--wide { padding: var(--space-lg) var(--space-md) var(--space-lg); }
-  .pm-form-grid { grid-template-columns: 1fr; gap: 12px; }
+  .pm-form-grid { grid-template-columns: 1fr; gap: var(--space-xs); }
 
   .pm-bottom-bar { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; padding-left: var(--space-sm); padding-right: var(--space-sm); }
   .pm-bottom-bar::-webkit-scrollbar { display: none; }
   .pm-bottom-actions { max-width: none; flex-shrink: 0; justify-content: flex-start; }
-  .pm-bottom-actions .pm-btn { padding: 12px 14px; font-size: var(--fs-xs); white-space: nowrap; flex-shrink: 0; }
+  .pm-bottom-actions .pm-btn { padding: var(--space-xs) var(--space-sm); font-size: var(--fs-xs); white-space: nowrap; flex-shrink: 0; }
 }
 
 .pm-card-bs-badge {

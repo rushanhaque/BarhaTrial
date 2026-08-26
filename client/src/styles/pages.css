@@ -849,7 +849,7 @@
 .czoom-flat-card {
   position: relative;
   height: 220px;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -874,7 +874,7 @@
   background: rgba(10, 14, 20, 0.8);
   backdrop-filter: blur(10px);
   padding: var(--space-xs) var(--space-sm);
-  border-radius: 8px;
+  border-radius: var(--r-sm);
 }
 
 .hcard {
@@ -1107,7 +1107,7 @@
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 100px;
+  border-radius: var(--r-pill);
   padding: var(--space-3xs) var(--space-xs);
 }
 
@@ -1180,7 +1180,7 @@
   text-transform: uppercase;
   color: var(--bone, #e8dcc8);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 100px;
+  border-radius: var(--r-pill);
   padding: var(--space-3xs) var(--space-xs);
   background: rgba(255, 255, 255, 0.04);
 }

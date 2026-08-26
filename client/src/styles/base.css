@@ -65,7 +65,7 @@ html.lenis body {
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(var(--gold-deep), #5e4a20);
-  border-radius: 99px;
+  border-radius: var(--r-pill);
   border: 2px solid var(--noir);
 }
 
