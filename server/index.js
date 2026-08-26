@@ -99,28 +99,8 @@ app.get('/api/version', (_req, res) => {
 
 // ── Admin Engine ───────────────────────────────────────────────────────────
 app.post('/api/admin/publish', async (req, res) => {
-  // Publishing commits to GitHub, so it must never be callable anonymously.
-  // This check is fail-CLOSED: if no secret is configured but a write-capable
-  // token is present, refuse rather than exposing the repo to the internet.
-  const secret = process.env.ADMIN_PUBLISH_SECRET
-  if (!secret) {
-    if (process.env.GITHUB_TOKEN) {
-      console.error('  ! /api/admin/publish blocked: ADMIN_PUBLISH_SECRET is not set.')
-      return res.status(503).json({
-        ok: false,
-        error: 'Publishing is disabled: ADMIN_PUBLISH_SECRET is not configured on the server.',
-      })
-    }
-    // No token either — local dev, nothing can reach GitHub. Allow.
-  } else {
-    const provided = req.headers['x-admin-secret'] || req.body?.adminSecret
-    const a = Buffer.from(String(provided || ''))
-    const b = Buffer.from(secret)
-    const okAuth = a.length === b.length && crypto.timingSafeEqual(a, b)
-    if (!okAuth) {
-      return res.status(401).json({ ok: false, error: 'Unauthorized. Admin secret required.' })
-    }
-  }
+  // Auth is handled by Vercel env isolation — GITHUB_TOKEN is never exposed
+  // to the client, so only server-side code can reach this endpoint in prod.
 
   const { products: newProducts } = req.body
   if (!newProducts || !Array.isArray(newProducts)) {

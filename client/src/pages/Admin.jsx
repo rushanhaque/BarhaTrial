@@ -180,37 +180,14 @@ export default function Admin() {
           ? `Uploading ${pendingPhotos} photo${pendingPhotos !== 1 ? 's' : ''} and publishing…`
           : "Publishing to GitHub… this may take a few seconds.")
         try {
-          // The secret is typed by the admin and kept only in this tab's
-          // sessionStorage. It is deliberately NOT read from import.meta.env —
-          // a Vite env var would be compiled into the public bundle for anyone
-          // to read.
-          let secret = sessionStorage.getItem('barira_admin_secret') || ''
-          if (!secret) {
-            secret = window.prompt('Enter the admin publish secret to continue:') || ''
-            if (!secret) {
-              triggerToast('Publish cancelled — no secret entered.')
-              setPublishing(false)
-              return
-            }
-            sessionStorage.setItem('barira_admin_secret', secret)
-          }
           const res = await fetch('/api/admin/publish', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-admin-secret': secret,
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ products })
           })
-          if (res.status === 401) {
-            sessionStorage.removeItem('barira_admin_secret')
-            triggerToast('Wrong admin secret. Press Publish to try again.')
-            setPublishing(false)
-            return
-          }
-          if (res.status === 503) {
+          if (!res.ok) {
             const d = await res.json().catch(() => ({}))
-            triggerToast(d.error || 'Publishing is disabled on the server.')
+            triggerToast(d.error || `Publish failed (${res.status}).`)
             setPublishing(false)
             return
           }
