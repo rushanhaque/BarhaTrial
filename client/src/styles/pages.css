@@ -1743,6 +1743,15 @@
 .fragrance__plate-wrap {
   box-shadow: var(--shadow-lift);
   border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.fragrance__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r-lg);
 }
 
 .fragrance__plate-mark {
@@ -1812,13 +1821,9 @@
   color: var(--bone-2);
 }
 
-.fragrance__pyramid {
-  position: sticky;
-  top: 7rem;
-}
-
 .fragrance__pyramid .eyebrow {
   display: block;
+  line-height: 1;
   margin-bottom: 1.6rem;
 }
 
