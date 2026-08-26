@@ -19,6 +19,7 @@
     "check:config": "node scripts/validate-config.mjs",
     "check:live": "node scripts/check-live.mjs",
     "check:images": "node scripts/check-image-refs.mjs",
+    "test": "node scripts/test-validate-config.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "convert:webp": "node scripts/convert-to-webp.mjs"
   },

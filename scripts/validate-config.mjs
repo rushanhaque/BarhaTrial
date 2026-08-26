@@ -40,6 +40,57 @@ if (existsSync(vFile)) {
     const unknown = Object.keys(v).filter(k => !KNOWN.has(k))
     if (unknown.length) fail(`vercel.json has unknown top-level keys (will silently break deploy): ${unknown.join(', ')}`)
     else pass('vercel.json top-level keys are all known')
+
+    // Route `source` patterns are path-to-regexp, NOT raw regex. An invalid
+    // pattern makes Vercel refuse the deploy outright — no deployment record,
+    // no build log, the site simply never updates. Catch it here instead.
+    //
+    // The trap: regex quantifiers (? + *) applied to a literal character are
+    // rejected, because those characters are path-to-regexp modifiers that
+    // must follow a parameter or group. e.g. "\\.jpe?g" is invalid; use two
+    // separate rules for .jpg and .jpeg.
+    // A "?" or "+" is only legal after a group ")", after a ":param", or as
+    // part of a regex group opener "(?". Anywhere else it is being applied to
+    // a literal character, which Vercel rejects.
+    const badQuantifier = (src) => {
+      for (let i = 0; i < src.length; i++) {
+        const c = src[i]
+        if (c !== '?' && c !== '+') continue
+        if (i > 0 && src[i - 1] === '\\') continue // escaped literal
+        const prev = src[i - 1]
+        if (prev === ')' || prev === '(') continue // group modifier / "(?" opener
+        // walk back over word chars; legal only if we land on a ":" param marker
+        let j = i - 1
+        while (j >= 0 && /[A-Za-z0-9_]/.test(src[j])) j--
+        if (j >= 0 && src[j] === ':' && j < i - 1) continue // :param? / :param+
+        return src[i]
+      }
+      return null
+    }
+    let routeErrors = 0
+    for (const [key, list] of [['rewrites', v.rewrites], ['redirects', v.redirects], ['headers', v.headers]]) {
+      if (!Array.isArray(list)) continue
+      list.forEach((r, i) => {
+        const src = r?.source
+        if (typeof src !== 'string' || !src.startsWith('/')) {
+          fail(`vercel.json ${key}[${i}]: "source" must be a string starting with "/"`)
+          routeErrors++
+          return
+        }
+        const bad = badQuantifier(src)
+        if (bad) {
+          fail(`vercel.json ${key}[${i}]: invalid source pattern ${JSON.stringify(src)} — the "${bad}" quantifier is applied to a literal character, which Vercel rejects (it refuses the whole deploy silently). Split it into separate rules.`)
+          routeErrors++
+        }
+        try {
+          new RegExp(src)
+        } catch (e) {
+          fail(`vercel.json ${key}[${i}]: source ${JSON.stringify(src)} is not parseable — ${e.message}`)
+          routeErrors++
+        }
+      })
+    }
+    if (!routeErrors) pass('vercel.json route source patterns look valid')
   }
 } else {
   pass('vercel.json not found (not a Vercel project)')

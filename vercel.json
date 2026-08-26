@@ -41,7 +41,11 @@
       "destination": "/images/$1.webp"
     },
     {
-      "source": "/images/(.*)\\.jpe?g",
+      "source": "/images/(.*)\\.jpg",
+      "destination": "/images/$1.webp"
+    },
+    {
+      "source": "/images/(.*)\\.jpeg",
       "destination": "/images/$1.webp"
     },
     {
