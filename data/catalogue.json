@@ -1,14 +1,46 @@
 [
   {
+    "id": 1787744709231,
+    "name": "ceucbe",
+    "category": "Gardening",
+    "family": "Gardening",
+    "blurb": "vendivn",
+    "image": "/api/media/img_883a4c0af926828f8fb8.jpg",
+    "isBestSeller": false,
+    "index": "BHÂ·17",
+    "slug": "ceucbe",
+    "materials": {
+      "primary": [
+        "cneucnd"
+      ],
+      "secondary": [],
+      "finish": [
+        "cfneivn"
+      ]
+    },
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    }
+  },
+  {
     "id": 1787662949709,
     "name": "Zenith Planter",
-    "category": "",
-    "family": "",
+    "category": "Gardening",
+    "family": "Planter",
     "blurb": "Modern matte black cylindrical planter showcased within a striking geometric gold wire stand.",
     "image": "/api/media/img_ca625b9092ac30ce9fb2.jpg",
     "isBestSeller": false,
     "index": "BHÂ·16",
     "slug": "zenith-planter",
+    "chromatic": {
+      "from": "#1A1A1A",
+      "via": "#505050",
+      "to": "#A0A0A0",
+      "glow": "#D0D0D0"
+    },
     "materials": {
       "primary": [
         "Iron"
@@ -17,12 +49,6 @@
       "finish": [
         "Powder Coating"
       ]
-    },
-    "chromatic": {
-      "from": "#1A1A1A",
-      "via": "#505050",
-      "to": "#A0A0A0",
-      "glow": "#D0D0D0"
     }
   },
   {
