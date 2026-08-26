@@ -33,6 +33,20 @@
   --track-label: 0.26em;
   --track-wide: 0.15em;
 
+  /* ---- Spacing scale (4px base) ----
+     Every static padding / margin / gap resolves to one of these steps.
+     Responsive spacing keeps using clamp(); section rhythm uses --section-y. */
+  --space-3xs: 0.25rem;  /*  4px */
+  --space-2xs: 0.5rem;   /*  8px */
+  --space-xs:  0.75rem;  /* 12px */
+  --space-sm:  1rem;     /* 16px */
+  --space-md:  1.25rem;  /* 20px */
+  --space-lg:  1.5rem;   /* 24px */
+  --space-xl:  2rem;     /* 32px */
+  --space-2xl: 2.5rem;   /* 40px */
+  --space-3xl: 3rem;     /* 48px */
+  --space-4xl: 4rem;     /* 64px */
+
   /* ---- Airy & Open Spatial Rhythm (Architectural Masterpiece) ---- */
   --gutter: clamp(2rem, 6vw, 6.5rem);
   --container: 1560px;
