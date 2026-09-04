@@ -66,7 +66,7 @@ export default function HorizontalLibrary({ items = [] }) {
 
         <div className="container czoom-flat-grid">
           {COLLECTIONS_ITEMS.map(col => (
-            <TLink key={col.id} to="/collections" className="czoom-flat-card">
+            <TLink key={col.id} to={`/category/${col.slug}`} className="czoom-flat-card">
               <img src={col.image} alt={col.name} className="czoom-flat-img" />
               <div className="czoom-flat-meta">
                 <h3 className="serif">{col.name}</h3>
